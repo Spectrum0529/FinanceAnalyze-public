@@ -1,0 +1,55 @@
+{
+  "source_id": "synthetic-independent-prints-v1",
+  "name": "公开合成 bar + 独立成交打印示例",
+  "provider": "synthetic",
+  "capabilities": [
+    "bars",
+    "ticks",
+    "PIT"
+  ],
+  "assets": [
+    "US_EQUITY"
+  ],
+  "frequencies": [
+    "1Day",
+    "1Min",
+    "tick"
+  ],
+  "fields": [
+    "ticker",
+    "instrument_id",
+    "effective_at",
+    "available_at",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "event_id",
+    "ticker",
+    "instrument_id",
+    "event_at",
+    "available_at",
+    "price",
+    "volume",
+    "trading_status"
+  ],
+  "declared_history": "SYNTHETIC_ONLY",
+  "verified_coverage": [],
+  "license": {
+    "license_id": "synthetic-upload-v1",
+    "evidence": "Locally generated public synthetic upload fixtures; no provider or private data",
+    "use_allowed": [
+      "development",
+      "export"
+    ],
+    "rights_verified": true
+  },
+  "connection": {
+    "endpoint": null,
+    "key_env": null,
+    "secret_env": null,
+    "user_agent_env": null,
+    "feed": null
+  }
+}

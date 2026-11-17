@@ -1,0 +1,164 @@
+/* Finance Analyze V4.3.1 — one-layer research-route reveal.
+   No simultaneous snapshots: the new DOM is live as soon as the route changes.
+   Workbench chrome, audio dock and 3D background remain stable. */
+:root {
+  --fa-route-in: 500ms;
+  --fa-route-ease: cubic-bezier(.18,.78,.25,1);
+  --fa-local-ease: cubic-bezier(.22,.75,.28,1);
+  --fa-line-accent: color-mix(in srgb,var(--orange) 62%, transparent);
+}
+#main.route-revealing { isolation:isolate; }
+/* The restrained sweep indicates navigation without hiding the new content. */
+#main.route-revealing::before {
+  content:"";position:absolute;z-index:4;left:28px;right:28px;top:0;height:2px;
+  pointer-events:none;opacity:0;transform-origin:left center;
+  background:linear-gradient(90deg,transparent,var(--lime) 42%,var(--orange) 75%,transparent);
+  animation:fa-route-sweep var(--fa-route-in) ease-out both;
+}
+@keyframes fa-route-sweep {
+  0% {opacity:0;transform:scaleX(.03)}
+  24% {opacity:.65}
+  74% {opacity:.32;transform:scaleX(1)}
+  100% {opacity:0;transform:scaleX(1)}
+}
+/* Suppress route-entry animation duplication while the parent scene is
+   revealed. Continuous decorative SVG motion stays independent. */
+#main.route-revealing > .page,
+#main.route-revealing > .page > *,
+#main.route-revealing .workspace-page .workspace-intro > *,
+#main.route-revealing .workspace-page .module-card,
+#main.route-revealing .workspace-page .workspace-lower > *,
+#main.route-revealing .workspace-page .activity-row,
+#main.route-revealing .detail-page .view-heading,
+#main.route-revealing .detail-page .workspace-breadcrumb,
+#main.route-revealing .detail-page .panel,
+#main.route-revealing .detail-page .team-step,
+#main.route-revealing .detail-page .role-card,
+#main.route-revealing .detail-page .data-table tbody tr,
+#main.route-revealing .detail-page .results-empty { animation:none!important; }
+/* The heading's notch is only a local accent. No entire panel re-entry. */
+#main.route-revealing .detail-page .panel-header::after {
+  animation:fa-header-accent 500ms 60ms var(--fa-local-ease) both;
+}
+@keyframes fa-header-accent {
+  from {opacity:0;transform:translateX(-6px) scaleX(.65)}
+  70% {opacity:.83;transform:translateX(4px) scaleX(1.04)}
+  to {opacity:.55;transform:none}
+}
+/* More readable and consistent micro-feedback across the application. */
+.is-signed-in .rail-button,
+.is-signed-in .icon-button,
+.is-signed-in .tab,
+.is-signed-in .segmented button,
+.is-signed-in .text-button,
+.is-signed-in .secondary-button,
+.is-signed-in .primary-button {
+  transition-duration: 200ms;
+  transition-timing-function: var(--fa-local-ease);
+}
+.is-signed-in .rail-button.active {
+  animation: fa-rail-select 380ms var(--fa-local-ease) both;
+}
+@keyframes fa-rail-select {
+  from { opacity:.52; transform:translate3d(0,2px,0) scale(.92); }
+  to { opacity:1; transform:none; }
+}
+.is-signed-in .view-heading-actions .secondary-button .icon,
+.is-signed-in .text-button .icon,
+.is-signed-in .module-card-bottom .icon {
+  transition: transform 310ms var(--fa-local-ease);
+}
+.is-signed-in .view-heading-actions .secondary-button:hover .icon,
+.is-signed-in .text-button:hover .icon,
+.is-signed-in .module-card:hover .module-card-bottom .icon {
+  transform: translate3d(3px,0,0);
+}
+.is-signed-in .panel {
+  border-color: var(--line);
+}
+.is-signed-in .field input:not(:disabled),
+.is-signed-in .field select:not(:disabled),
+.is-signed-in .field textarea:not(:disabled) {
+  transition: background-color 180ms ease, border-color 180ms ease, box-shadow 210ms ease;
+}
+.is-signed-in .field input:hover:not(:disabled):not(:focus),
+.is-signed-in .field select:hover:not(:disabled):not(:focus),
+.is-signed-in .field textarea:hover:not(:disabled):not(:focus) {
+  border-color: color-mix(in srgb, var(--ink) 44%, transparent);
+}
+.is-signed-in .field input:focus,
+.is-signed-in .field select:focus,
+.is-signed-in .field textarea:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--lime) 22%, transparent);
+}
+.is-signed-in .panel-header h2,
+.is-signed-in .view-heading h1 {
+  text-wrap: balance;
+}
+.is-signed-in .data-table tbody tr,
+.is-signed-in .activity-row,
+.is-signed-in .result-card {
+  transition: background-color 230ms ease, border-color 230ms ease;
+}
+.is-signed-in .data-table tbody tr:hover,
+.is-signed-in .activity-row:hover {
+  background-color: color-mix(in srgb, var(--lime) 9%, transparent);
+}
+/* Tabs swap their CONTENT instead of the containing panel. */
+#research-panel.fa-tab-fresh > * {
+  animation: fa-tab-content-in 350ms var(--fa-local-ease) both;
+}
+#research-panel.fa-tab-fresh > :nth-child(2) { animation-delay: 35ms; }
+#research-panel.fa-tab-fresh > :nth-child(3) { animation-delay: 55ms; }
+@keyframes fa-tab-content-in {
+  from { opacity:.25; transform:translate3d(0,6px,0); }
+  to { opacity:1; transform:none; }
+}
+/* Result instrument can crossfade locally without moving the form card. */
+.is-signed-in #chart-body:not(.is-chart-swapping) .chart-interaction-hint,
+.is-signed-in .research-outcome {
+  animation-duration: 390ms;
+  animation-timing-function: var(--fa-local-ease);
+}
+/* Update toast exit without sudden visibility cuts. */
+.toast { transition: opacity 250ms ease, transform 350ms var(--fa-local-ease), visibility 350ms; }
+/* Efficient, visual-only hover treatment; do not enlarge hit targets or shift layout. */
+@media(hover:hover) and (pointer:fine) {
+  .is-signed-in .module-card:hover { --lift:-6px; }
+  .is-signed-in .role-card:hover { border-color:color-mix(in srgb,var(--ink) 72%,transparent); }
+}
+/* Accessibility and low-end settings own the final state. */
+html.fa-reduced-motion { scroll-behavior:auto !important; }
+body.motion-paused #main, body.motion-paused #research-panel > *, body.motion-paused .page, body.motion-paused .page > * { animation:none !important; }
+body.motion-paused.is-signed-in .detail-page .panel-header::after { animation:none !important; }
+@media(prefers-reduced-motion:reduce) {
+  #main.route-revealing::before {animation:none!important;}
+  #main.route-revealing .detail-page .panel-header::after,
+  #research-panel.fa-tab-fresh > * { animation:none !important; }
+}
+/* Avoid running continuous decorative effects in off-screen research cards.
+   IntersectionObserver manages this class. It does not hide contents. */
+body.is-signed-in .motion-offscreen,
+body.is-signed-in .motion-offscreen *,
+body.is-signed-in .motion-offscreen::before,
+body.is-signed-in .motion-offscreen::after,
+body.is-signed-in .motion-offscreen *::before,
+body.is-signed-in .motion-offscreen *::after {
+  animation-play-state: paused !important;
+}
+/* Login micro-feedback remains quieter than the full brand opening and strong
+   error alarm. This does not alter the terminal's fixed sculptural pose. */
+.auth-screen .auth-key-row {
+  transition: border-color 210ms ease, box-shadow 260ms var(--fa-local-ease);
+}
+.auth-screen .auth-key-row:focus-within {
+  border-color: color-mix(in srgb,var(--auth-lime) 65%,var(--auth-ink));
+  box-shadow: 0 0 0 3px rgba(189,220,123,.11);
+}
+.auth-screen #login-submit b {
+  transition: transform 220ms var(--fa-local-ease), color 220ms ease;
+}
+.auth-screen #login-submit:active:not(:disabled) b { transform: translateX(4px); }
+@media(prefers-reduced-motion:reduce) {
+  .auth-screen .auth-key-row, .auth-screen #login-submit b { transition:none !important; }
+}

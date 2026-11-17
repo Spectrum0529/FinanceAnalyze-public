@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "version": "split-access-public-1",
+  "source_protocol_sha256": "f77b5b49f6368d42999ba052ebf5bf15a29ba4c9fd12118b54217350e5c82b09",
+  "actual_coverage": null,
+  "actual_windows": {
+    "T": null,
+    "V": null,
+    "E": null,
+    "C": null,
+    "D": null,
+    "H": null
+  },
+  "illustrative_only": true,
+  "illustrative_windows": {
+    "T": [
+      "2007-01-01",
+      "2017-12-31"
+    ],
+    "V": [
+      "2018-01-01",
+      "2021-12-31"
+    ],
+    "E": [
+      "2022-01-01",
+      "2022-12-31"
+    ],
+    "C": [
+      "2023-01-01",
+      "2023-12-31"
+    ],
+    "D": [
+      "2024-01-01",
+      "2024-12-31"
+    ],
+    "H": [
+      "2025-01-01",
+      "2026-09-30"
+    ]
+  },
+  "roles": {
+    "T": {
+      "purpose": "base_model_training",
+      "status": "development",
+      "reader": "developer"
+    },
+    "V": {
+      "purpose": "rolling_hyperparameter_selection",
+      "status": "development",
+      "reader": "developer"
+    },
+    "E": {
+      "purpose": "ensemble_fitting_only",
+      "status": "development",
+      "reader": "developer"
+    },
+    "C": {
+      "purpose": "out_of_sample_calibration_only",
+      "status": "development",
+      "reader": "developer"
+    },
+    "D": {
+      "purpose": "policy_and_integration_selection",
+      "status": "development",
+      "reader": "developer"
+    },
+    "H": {
+      "purpose": "candidate_historical_check",
+      "status": "candidate_not_certified_untouched",
+      "reader": "locked_evaluator_or_explorer"
+    }
+  },
+  "split_unit": "all_stocks_on_same_prediction_date",
+  "purge": "exclude training_labels whose closed_information_interval overlaps heldout interval; use actual maturity for unresolved labels",
+  "embargo": "forward_only no_future_training; choose_extra_gap_from_development_dependency_analysis then freeze; no universal_day_count",
+  "oof_generation": "E C D may use predeclared rolling base-model recipe; each scored label unseen at prediction; ensemble only E and calibration only C; final model never uses in-sample fitted scores as calibration examples",
+  "prospective": {
+    "start_session": null,
+    "start_rule": "first_full_NY_session_after_release_lock_and_all_gates",
+    "length_sessions": 252,
+    "primary_arm": "frozen_parameters_online_asof_features",
+    "secondary_arm": "predeclared_prequential_monthly_updates",
+    "labels_after_window_end": "wait_until_all_horizons_mature_or_report_censoring"
+  },
+  "arms": {
+    "frozen_primary": {
+      "model": false,
+      "transforms": false,
+      "ensemble": false,
+      "calibration": false,
+      "policy": false,
+      "public_asof_features": true,
+      "test_label_feedback_to_training": false
+    },
+    "prequential_secondary": {
+      "model": "monthly_first_session_before_cutoff",
+      "training_labels": "only_mature_before_fit_started_at",
+      "hyperparameters": "frozen",
+      "ensemble_weights": "frozen",
+      "calibration": "monthly_last_252_sessions_of_prequential_mature_predictions",
+      "allowed_use_of_test_mature_labels": true,
+      "human_adaptation": false,
+      "must_score_separately": true
+    }
+  },
+  "primary_horizon": 5,
+  "evaluation_baseline": {
+    "primary_date_metric": "mean_date(mean_security(correct_binary_up))",
+    "raw_counts_required": true,
+    "zero_returns_separately_reported": true,
+    "coverage_denominators": [
+      "universe_eligible",
+      "data_valid",
+      "forecast_published",
+      "label_mature",
+      "scorable",
+      "selected_for_trade",
+      "orders_sent",
+      "filled"
+    ],
+    "pairing": "same_date_security_horizon_reference_information_costs",
+    "uncertainty": "paired_date_block_bootstrap_keep_full_cross_section; length_from_development_dependence",
+    "bootstrap_replicates": 2000,
+    "multiple_testing": "development max_statistic_or_Holm; one_locked_primary_final_comparison",
+    "effective_n": "estimate_on_date_aggregated_paired_loss; no_N_stocks_times_T_independence",
+    "selective_accuracy": "accuracy_and_coverage_and_baseline_on_identical_mask",
+    "gate_alpha": 0.05,
+    "gate_rules": [
+      "lower_confidence_bound_delta_accuracy>0 versus strongest_frozen_causal_baseline",
+      "Brier improvement with valid calibration and no predeclared material subgroup harm",
+      "economic_gate separately requires net_utility_lower_bound_above_passive_and_cost_uncertainty",
+      "operational_and_licensing_gates_all_pass"
+    ],
+    "risk_tolerance_inputs_pending": [
+      "max_drawdown",
+      "daily_loss_limit",
+      "single_name_limit",
+      "sector_limit",
+      "model_error_noninferiority_margin"
+    ],
+    "sample_size": "choose using development long_run_variance and material effect; 252 dates not assurance of sufficient_power"
+  },
+  "required_release_gates": [
+    "S02.06",
+    "S03.06",
+    "S06.05",
+    "S08.06",
+    "S10.01",
+    "S11.01"
+  ],
+  "final_comparison": null,
+  "final_evaluation_design": null,
+  "access": {
+    "development_mounts": [
+      "public_samples",
+      "development"
+    ],
+    "protected_reads_enabled": false,
+    "fixed_label_feedback": false,
+    "roll_label_feedback": "predeclared_recipe_only_mature_before_fit_started_at",
+    "historical_after_view_and_adapt": "exploration_requires_new_independent_window",
+    "protocol_revision_resets_exposure": false
+  },
+  "owners": {
+    "actual_coverage_and_splits": "data_rights_and_coverage_review",
+    "final_comparison_and_evaluation": "independent_evaluation_review",
+    "prospective_release": "prospective_release_review",
+    "H_exposure_history": "operator_record_and_independent_review"
+  }
+}

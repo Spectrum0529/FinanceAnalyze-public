@@ -1,0 +1,130 @@
+{
+  "scope": "Corresponding sources for identified LGPL/MPL portions and key native packages; third-party licenses remain applicable. This is not the final installer bill of materials.",
+  "packages": [
+    {
+      "name": "certifi",
+      "version": "2026.10.23",
+      "source": {
+        "url": "https://files.pythonhosted.org/packages/fd/11/b524cbd9bbdaca58608e4cf4053fd463417549e1959fa8d3aa18319f9555/certifi-2026.10.23.tar.gz",
+        "hash": "sha256:a9895e6e2758b371e0545e321a3a8fd1fcfd9829ada8824a936dfb16aaaf36cd",
+        "size": 136225,
+        "upload-time": "2026-10-23T11:36:16.478Z"
+      }
+    },
+    {
+      "name": "cryptography",
+      "version": "50.0.2",
+      "source": {
+        "url": "https://files.pythonhosted.org/packages/9d/af/182eb91b0df3fe75c4d9f26fe70684569566745f6ba7e5c9c73a862c5252/cryptography-50.0.2.tar.gz",
+        "hash": "sha256:7b46165bb56eb4704e2eaaf86f3c940d19154535d9b0ca7d6d590b04060e00d5",
+        "size": 880623,
+        "upload-time": "2026-09-30T15:30:04.884Z"
+      },
+      "rust_notices": "CRYPTOGRAPHY-50.0.2-RUST-NOTICES.txt",
+      "rust_source_and_wheel_provenance": "CRYPTOGRAPHY-50.0.2-RUST-SOURCES.json"
+    },
+    {
+      "name": "orjson",
+      "version": "3.13.0",
+      "source": {
+        "url": "https://files.pythonhosted.org/packages/f2/72/380b97dc45bd162d23afe5194721ef678d9eac7cfaa549fe2873f7f0a518/orjson-3.13.0.tar.gz",
+        "hash": "sha256:d1de5eb04485110c5da4c657e49168995d55e076b1ce60f1a042e254f4186c4f",
+        "size": 2732604,
+        "upload-time": "2026-10-07T14:09:25.719Z"
+      }
+    },
+    {
+      "name": "psycopg",
+      "version": "3.3.9",
+      "source": {
+        "url": "https://files.pythonhosted.org/packages/b4/74/ff710399dfa9fe9b546c2f5a05ea2f9b9d1dc2145c0b59e53a3fa2013679/psycopg-3.3.9.tar.gz",
+        "hash": "sha256:87c1d85c3e0e88e811d3c0b3808f947bd967c6faf34af6cd86fd021f77793d6c",
+        "size": 171122,
+        "upload-time": "2026-11-12T09:04:06.548Z"
+      }
+    },
+    {
+      "name": "tqdm",
+      "version": "4.70.1",
+      "source": {
+        "url": "https://files.pythonhosted.org/packages/0d/ea/b2a5bd54b28a324dae8211928b2d730b6547500342c7e6c6dea08bd0a485/tqdm-4.70.1.tar.gz",
+        "hash": "sha256:cefd0eca11b2a37a3aee776544d4f4ae913f02688135b5556b8788dfa474afc4",
+        "size": 171846,
+        "upload-time": "2026-09-11T07:25:16.601Z"
+      }
+    },
+    {
+      "name": "psycopg-binary",
+      "version": "3.3.9",
+      "source": {
+        "url": "https://github.com/psycopg/psycopg/archive/refs/tags/3.3.9.tar.gz",
+        "hash": "sha256:d22836c3db05a20f19755d21188746c9289bc439abb14d8b103241b47c57f017",
+        "size": 798795
+      },
+      "build_instructions": "https://github.com/psycopg/psycopg/blob/3.3.9/.github/workflows/packages-bin.yml",
+      "notes": "Includes psycopg_c and tools/ci/copy_to_binary.py. Windows libpq and OpenSSL versions must be read from the shipped wheel; the upstream workflow does not fully pin the vcpkg native binaries."
+    }
+  ],
+  "native_source_references": [
+    {
+      "name": "python-build-standalone",
+      "version": "20260924",
+      "python": "3.12.14",
+      "source": "https://github.com/astral-sh/python-build-standalone/tree/20260924",
+      "notice_archive": {
+        "url": "https://github.com/astral-sh/python-build-standalone/releases/download/20260924/cpython-3.12.14%2B20260924-x86_64-pc-windows-msvc-pgo-full.tar.zst",
+        "sha256": "af130d6f2c314fc48f425726a03b8f80bb878cc139b3ae624bb050b42140d8d4",
+        "bytes": 43790219
+      },
+      "notices": "python-build-standalone-20260924/"
+    },
+    {
+      "name": "PostgreSQL",
+      "version": "18.4",
+      "source": "https://github.com/postgres/postgres/tree/REL_18_4",
+      "notice": "PostgreSQL-18.4-LICENSE.txt"
+    },
+    {
+      "name": "OpenSSL",
+      "version": "3.6.5",
+      "source": "https://github.com/openssl/openssl/tree/openssl-3.6.5",
+      "consumer": "psycopg-binary 3.3.9 Windows x64",
+      "notice": "OpenSSL-3.6.5-LICENSE.txt"
+    },
+    {
+      "name": "OpenSSL",
+      "version": "4.0.3",
+      "source": "https://github.com/openssl/openssl/tree/openssl-4.0.3",
+      "consumer": "cryptography 50.0.2 Windows x64",
+      "notice": "OpenSSL-4.0.3-LICENSE.txt"
+    },
+    {
+      "name": "MiniRacer",
+      "version": "0.14.1",
+      "source": "https://github.com/bpcreech/PyMiniRacer/tree/v0.14.1",
+      "native_version": "V8 14.4.258.23",
+      "v8_source": "https://chromium.googlesource.com/v8/v8/+/refs/tags/14.4.258.23/",
+      "dependency_sources": "https://chromium.googlesource.com/v8/v8/+/refs/tags/14.4.258.23/DEPS",
+      "icu_source": "https://chromium.googlesource.com/chromium/deps/icu/+/a86a32e67b8d1384b33f8fa48c83a6079b86f8cd/",
+      "notices": "v8-14.4.258.23/"
+    },
+    {
+      "name": "curl-impersonate",
+      "version": "2.3.1",
+      "consumer": "curl_cffi 0.17.0 Windows x64",
+      "source": "https://github.com/lexiforest/curl-impersonate/tree/v2.3.1",
+      "dependency_sources": "https://github.com/lexiforest/curl-impersonate/blob/v2.3.1/CMakeLists.txt",
+      "notices": "curl-impersonate-2.3.1/",
+      "native_dll_sha256": "ae864b926b0a86bfa3b18a664407a1abb71c31a30c317d938f8c88537d044e45"
+    },
+    {
+      "name": "sqlite-vec",
+      "version": "0.1.9",
+      "source": "https://github.com/asg017/sqlite-vec/tree/v0.1.9",
+      "notices": [
+        "sqlite-vec-0.1.9-LICENSE-MIT.txt",
+        "sqlite-vec-0.1.9-LICENSE-APACHE.txt"
+      ]
+    }
+  ]
+}

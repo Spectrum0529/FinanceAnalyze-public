@@ -1,0 +1,18 @@
+{
+  "fields": {
+    "ticker": "ticker",
+    "instrument_id": "instrument_id",
+    "effective_at": "effective_at",
+    "available_at": "available_at",
+    "open": "open",
+    "high": "high",
+    "low": "low",
+    "close": "close",
+    "volume": "volume"
+  },
+  "price_unit": "USD_per_share",
+  "volume_unit": "shares",
+  "timezone": "UTC",
+  "frequency": "1Min",
+  "adjustment": "raw"
+}

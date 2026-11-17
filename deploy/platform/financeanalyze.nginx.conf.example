@@ -1,0 +1,92 @@
+# Include inside http {} on a compatible existing nginx edge.
+# Placeholders intentionally require a real name and certificate files.
+# Direct Internet → nginx → one private IPv4 loopback ASGI process.
+# Requires nginx >= 1.19.4 with TLS and limit_req; choose a maintained release.
+# No HTTP listener, Real IP module overrides, proxy_protocol, CDN or second hop.
+
+map $uri $finance_api_ip {
+    default "";
+    ~^/api(?:/|$) $binary_remote_addr;
+}
+
+map $uri $finance_auth_ip {
+    default "";
+    ~^/api/v1/auth/(?:login|recover|reauthenticate|password)/?$ $binary_remote_addr;
+}
+
+limit_req_zone $finance_api_ip zone=finance_api:10m rate=10r/s;
+limit_req_zone $finance_auth_ip zone=finance_auth:10m rate=6r/m;
+
+server {
+    listen 443 ssl default_server;
+    server_name _;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_reject_handshake on;
+    access_log off;
+    error_log logs/finance-hosted.error.log crit;
+    return 421;
+}
+
+server {
+    listen 443 ssl;
+    server_name finance.example.invalid;
+    ssl_certificate /REPLACE-WITH-PRIVATE-CONFIG-PATH/fullchain.pem;
+    ssl_certificate_key /REPLACE-WITH-PRIVATE-CONFIG-PATH/privkey.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+
+    # Check the original authority before copying it upstream.
+    if ($http_host != finance.example.invalid) { return 421; }
+    if ($ssl_server_name != finance.example.invalid) { return 421; }
+
+    access_log off;
+    error_log logs/finance-hosted.error.log crit;
+    client_max_body_size 2m;
+    client_body_timeout 15s;
+    limit_req_status 429;
+    limit_req zone=finance_api burst=40 nodelay;
+    limit_req zone=finance_auth burst=5 nodelay;
+
+    add_header Strict-Transport-Security "max-age=300" always;
+    add_header X-Content-Type-Options nosniff always;
+    add_header Referrer-Policy no-referrer always;
+    add_header Content-Security-Policy "frame-ancestors 'none'; base-uri 'self'; object-src 'none'" always;
+
+    # Match the normalized path, including slash suffixes. The app also rejects
+    # these on its decoded ASGI path before dispatch.
+    location ~* ^/(?:docs|redoc|openapi\.json|api/v1/(?:health|docs|redoc|openapi\.json|auth/(?:initialize|local-session|recover/local)|operations/(?:health|backups|diagnostics|mcp-connection)))(?:/|$) {
+        return 404;
+    }
+
+    location ~* ^/api/v1/operations/provider-credentials(?:/|$) {
+        if ($request_method !~ ^(?:GET|HEAD|OPTIONS)$) { return 404; }
+        proxy_pass http://127.0.0.1:8000;
+    }
+
+    # Authentication/CSRF uses the browser's original Origin, Cookie, and
+    # X-CSRF-Token. Never synthesize an Origin for a missing or foreign value.
+    proxy_http_version 1.1;
+    proxy_set_header Connection "";
+    proxy_set_header Upgrade "";
+    proxy_set_header Host $http_host;
+    proxy_set_header X-Forwarded-Proto https;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header Forwarded "";
+    proxy_set_header X-Forwarded-Host "";
+    proxy_set_header X-Forwarded-Port "";
+    proxy_set_header X-Forwarded-Prefix "";
+    proxy_set_header X-Forwarded-Ssl "";
+    proxy_set_header X-Forwarded-Server "";
+    proxy_set_header X-Real-IP "";
+    proxy_set_header X-Original-URL "";
+    proxy_set_header X-Rewrite-URL "";
+    proxy_hide_header X-Content-Type-Options;
+    proxy_hide_header Referrer-Policy;
+    proxy_connect_timeout 5s;
+    proxy_read_timeout 60s;
+    proxy_next_upstream off;
+    proxy_cache off;
+
+    location / {
+        proxy_pass http://127.0.0.1:8000/;
+    }
+}

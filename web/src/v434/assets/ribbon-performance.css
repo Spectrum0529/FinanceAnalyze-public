@@ -1,0 +1,73 @@
+/* FinanceAnalyze V4.3.4 — compositor camera and direct-GPU sculpture layers.
+   A route changes only this wrapper's transform/opacity. The 272 cuboids
+   continue their independent geometry simulation without repainting to move
+   the entire image across the screen. */
+.ambient .fa-ribbon-layer {
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  transform-origin:50% 50%;
+  opacity:var(--fa-ribbon-alpha,1);
+  transition:
+    transform 1290ms cubic-bezier(.19,.72,.18,1),
+    opacity 905ms cubic-bezier(.2,.65,.24,1);
+  contain:layout style;
+}
+.ambient .fa-ribbon-layer canvas {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  filter:none;
+  opacity:1;
+}
+.ambient .fa-ribbon-layer .fa-ribbon-gpu { z-index:2; }
+.ambient .fa-ribbon-layer .fa-ribbon-gpu[hidden] { display:none; }
+/* The filter is applied to one composited presentation layer, never to two
+   individually animated full-screen canvases. */
+body[data-theme=dark] .ambient .fa-ribbon-layer {
+  filter:invert(1) hue-rotate(140deg);
+  opacity:calc(var(--fa-ribbon-alpha,1) * .48);
+}
+body[data-theme=dark] .ambient .fa-ribbon-layer canvas {
+  filter:none;
+  opacity:1;
+}
+body.motion-paused .ambient .fa-ribbon-layer,
+html.fa-reduced-motion .ambient .fa-ribbon-layer {
+  transition:none !important;
+  will-change:auto;
+}
+@media (prefers-reduced-motion:reduce) {
+  .ambient .fa-ribbon-layer {transition:none!important;will-change:auto;}
+}
+/* Move the texture's element instead of animating background-position,
+   which repaints the full grid on nearly every frame. Overscan hides edges. */
+.ambient .kinetic-grid {
+  inset:-92px;
+  --fa-grid-period:90px;
+  animation:fa-grid-composite-travel 47.6s linear infinite;
+}
+@keyframes fa-grid-composite-travel {
+  to {transform:translate3d(var(--fa-grid-period),var(--fa-grid-period),0);}
+}
+
+/* Ambient texture remains subtle behind real forms. Only the original
+   transform-driven grain of the workspace needs to move. */
+body.is-signed-in .ambient .kinetic-aura,
+body.is-signed-in:not([data-route="workspace"]) .ambient .kinetic-grid {
+  animation: none;
+}
+@media (max-width:850px) {
+  .ambient .kinetic-grid { --fa-grid-period:64px; }
+}
+@media (max-width:690px) {
+  /* Small screens already have moving sculpture and UI. Skip large masked
+     texture animation to preserve time for input and touch scrolling. */
+  .ambient .kinetic-grid { animation:none; }
+  .ambient .fa-ribbon-layer {
+    transition-duration:1010ms,695ms;
+  }
+}

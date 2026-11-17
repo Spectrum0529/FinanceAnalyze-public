@@ -1,0 +1,17 @@
+* text=auto
+*.md text eol=lf
+*.toml text eol=lf
+*.json text eol=lf
+*.lock text eol=lf
+*.parquet binary
+*.whl binary
+/src/** -text
+/configs/** -text
+/resources/** -text
+/tools/platform_ops/** -text
+/web/src/** -text
+/web/public/** -text
+/web/index.html -text
+/web/dist/** -text
+/workers/** -text
+/FinanceAnalyze.exe binary

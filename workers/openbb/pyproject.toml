@@ -1,0 +1,13 @@
+[project]
+name = "financeanalyze-openbb-provider-runtime"
+version = "0.1.0"
+requires-python = "==3.12.14"
+dependencies = [
+  "openbb-core==2.0.1",
+  "openbb-cboe==2.0.0",
+  "openbb-nasdaq==2.0.0",
+  "tzdata==2026.5",
+]
+
+[tool.uv]
+package = false

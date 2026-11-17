@@ -1,0 +1,37 @@
+{
+  "akshare": {
+    "version": "1.19.3+guard1",
+    "artifact_sha256": "67b3545b568815ca751d49a6d91dd4b268f36ce6dca0b0250c8d94e9ab0f203c",
+    "modules": {
+      "akshare/__init__.py": "45c0fb03abf34f01c067d0ca16f03665cea5f7820790a7440b7d3adc1af96aba",
+      "akshare/stock_feature/stock_hist_em.py": "d2a4c09d55d9362c8c7e58ec82f78d198cf6d2c2daf004033eef42ded915050d",
+      "akshare/stock/stock_info.py": "d3288903d1e8ce7796e051bfbe651cb15aad0b29d4043277b04984f3cec72892"
+    }
+  },
+  "tushare": {
+    "version": "1.4.29",
+    "artifact_sha256": "82554af953ea5ac3d8771d42330493181031c7e68dccce03a491c7356e9ba4b2",
+    "modules": {
+      "tushare/__init__.py": "c3b46d1ae9bf8e2633300768bb933e925da121c6a24c8b02e637751c53dc5b6c",
+      "tushare/pro/client.py": "42323c7e7acff1b0ffce0fe5232452b70cc276c17a3f449f7f43544fd82edd3f"
+    }
+  },
+  "openbb-nasdaq": {
+    "version": "2.0.0",
+    "artifact_sha256": "e1a990b90509d69b92ad64adf7db62284f41455c7632f2b69e6b827d9669ea76",
+    "modules": {
+      "openbb_nasdaq/__init__.py": "6f9bd472534c8ffd6a528abc17d4195a339fcc500b217a0966a9403661af2309",
+      "openbb_nasdaq/models/equity_historical.py": "1f227afdef04c80144e1f1db89a47b90df4bea9774df61912b58225e64af5e07",
+      "openbb_nasdaq/utils/helpers.py": "a565b5eb27893061d639752be1014f5b532d4a795855ee75244e961ae4b5760a",
+      "openbb_nasdaq/utils/constants.py": "917999d017d17cab8b501cd81badd0363df47e24b509db7bba964ea58a3a7e78"
+    }
+  },
+  "openbb-core": {
+    "version": "2.0.1",
+    "artifact_sha256": "4f5aa21ba00cbf194423f154a58f60ee413599531cf1c4abfe5ef3275a516f64",
+    "modules": {
+      "openbb_core/provider/abstract/fetcher.py": "bde211053a842828b3bba21ed0c53fc82fa0b1d0af946bc96d7342c81f00efa3",
+      "openbb_core/provider/standard_models/equity_historical.py": "743c8d76a6006f8db49253e3d025c6ac4f2b43d87631af28baa9d3ba955a4865"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+[project]
+name = "finance-autonomous-executor"
+version = "0.1.0"
+requires-python = "==3.12.*"
+dependencies = [
+  "rdagent==1.0.0",
+  "pyqlib @ https://github.com/microsoft/qlib/archive/54355232463878d2eebb91fe0ee5fa7fa1f5976c.tar.gz",
+  "docker>=7.1,<8",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["fa_research_executor"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+# The pinned archive has no .git SCM metadata. Preserve its release version.
+[tool.uv.extra-build-variables]
+pyqlib = { SETUPTOOLS_SCM_PRETEND_VERSION_FOR_PYQLIB = "0.9.8" }

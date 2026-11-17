@@ -1,0 +1,301 @@
+/* V4 / KINETIC RESEARCH OS. Route motion stays separate from local task feedback. */
+:root {
+  --paper: #e8e7e1; --surface: #f5f4ef; --surface-solid: #f2f1eb;
+  --ink: #191d17; --muted: #767a70; --lime: #d4fa7e; --orange: #d98c37;
+}
+.is-signed-in .masthead { animation: v3-header-in .85s var(--ease) both; }
+.is-signed-in .rail-button.active { animation: v3-nav-in .5s var(--ease) both; }
+.is-signed-in .rail-button.active::after { animation: v3-indicator 2.7s ease-in-out infinite; }
+.is-signed-in .workspace-intro > :first-child { animation: v3-heading-in .9s var(--ease) both; }
+.is-signed-in .workspace-greeting { animation: v3-heading-in .9s .15s var(--ease) backwards; }
+.is-signed-in .module-grid { perspective: 1200px; }
+.is-signed-in .module-card {
+  --lift: 0px; --tilt-x: 0deg; --tilt-y: 0deg;
+  isolation: isolate;
+  transform: perspective(850px) translateY(var(--lift)) rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
+  animation: v3-card-in 1s var(--ease) backwards;
+  animation-delay: calc(.12s + var(--motion-index, 0) * .12s);
+  transition: transform .18s ease-out, background .4s, color .4s, box-shadow .4s, border-color .4s;
+}
+.is-signed-in .module-card:hover, .is-signed-in .module-card:focus-visible {
+  --lift: -8px; border-color: var(--ink);
+  box-shadow: 0 24px 35px -20px rgba(18,29,8,.42), 0 5px 12px -8px rgba(18,29,8,.2);
+  z-index: 2;
+}
+.module-card::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(circle at var(--pointer-x, 50%) var(--pointer-y, 35%), rgba(212,250,126,.2), transparent 56%);
+  opacity: 0; z-index: -1; transition: opacity .4s;
+}
+.module-card:hover::before, .module-card:focus-visible::before { opacity: 1; }
+.module-card-art { isolation: isolate; }
+.module-card-art::before {
+  content: ''; position: absolute; right: -16px; top: 17%; width: 103px; height: 103px;
+  border: 1px dotted currentColor; border-radius: 50%; opacity: .13;
+  transform: rotateX(60deg) rotate(-30deg); animation: v3-card-orbit 16.67s linear infinite;
+  pointer-events: none; z-index: -1;
+}
+.module-card-art::after {
+  content: ''; position: absolute; height: 1px; left: -3px; right: -3px; top: 75%;
+  background: linear-gradient(90deg, transparent, var(--orange) 50%, transparent); opacity: 0;
+  animation: v3-art-scan 7.14s calc(var(--motion-index, 0) * -.7s) ease-in-out infinite;
+  pointer-events: none;
+}
+.module-card .module-letter { transition: color .4s, transform .6s var(--ease), text-shadow .5s; transform: translateZ(12px); }
+.module-card:hover .module-letter { transform: translate(4px,-3px); text-shadow: -3px 4px 0 rgba(212,250,126,.08); }
+.module-card-top span:last-child { transition: transform .4s var(--ease); }
+.module-card:hover .module-card-top span:last-child { transform: translate(3px,-3px) rotate(10deg); }
+.module-card .module-glyph { overflow: visible; transform-origin: center; }
+.module-card[data-route="module-a"] .module-glyph-frame { animation: v3-glyph-float 6.19s ease-in-out infinite; }
+.module-card[data-route="module-a"] .module-glyph > path:first-child { stroke-dasharray: 390 50; animation: v3-trace-flow 8.33s linear infinite; }
+.module-card[data-route="module-a"] .module-glyph circle { transform-box: fill-box; transform-origin: center; animation: v3-node-breathe 2.86s ease-in-out infinite; }
+.module-card[data-route="module-b"] .module-glyph-frame { animation: v3-orbit-turn 20.24s linear infinite; }
+.module-card[data-route="module-b"] .module-glyph circle:nth-child(2) { transform-box: fill-box; transform-origin: center; animation: v3-node-breathe 4.76s ease-in-out infinite; }
+.module-card[data-route="module-c"] .module-glyph-frame { animation: v3-stack-float 6.67s ease-in-out infinite; }
+.module-card[data-route="module-c"] .module-glyph path:first-child { animation: v3-stack-layer 6.67s ease-in-out infinite; }
+.module-card[data-route="module-d"] .module-glyph-frame { animation: v3-report-float 6.67s ease-in-out infinite; }
+.module-card[data-route="module-d"] .module-glyph path:nth-child(2) { stroke-dasharray: 170 35; --trace-offset: -205px; animation: v3-trace-flow 7.14s linear infinite; }
+.module-card:hover .module-glyph { color: var(--lime); }
+.workspace-caption { position: relative; }
+.workspace-caption::after {
+  content: ''; position: absolute; bottom: -10px; left: 0; width: 100%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--muted), transparent); transform-origin: left;
+  opacity: .22; animation: v3-caption-flow 8s ease-in-out infinite; pointer-events: none;
+}
+.is-signed-in .workspace-lower > * { animation: v3-panel-in .8s .45s var(--ease) backwards; }
+.environment-panel { position: relative; isolation: isolate; overflow: hidden; }
+.environment-panel::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at 90% 60%, rgba(212,250,126,.13), transparent 65%);
+  opacity: calc(.25 + var(--audio-pulse, 0) * .75); z-index: -1;
+}
+.env-graphic i { transform-origin: bottom; animation: v3-environment-bars 2.2s calc(var(--motion-index, 0) * -.19s) ease-in-out infinite; }
+.activity-row { animation: v3-row-in .6s calc(var(--motion-index, 0) * .07s + .2s) var(--ease) backwards; }
+.activity-type { transition: transform .4s var(--ease), background .4s; }
+.activity-row:hover .activity-type { transform: rotate(-8deg); background: var(--lime); color: var(--lime-ink); }
+
+/* Keep the detail shell mounted and readable during runs and local updates.
+   This also cancels the generic .page / .page > * entry in style.css. Only a
+   genuine route change may introduce the heading and panels. */
+.is-signed-in .detail-page,
+.is-signed-in .detail-page > * { animation: none; opacity: 1; transform: none; }
+.is-signed-in .detail-page .panel {
+  position: relative; animation: none; opacity: 1; transform: none;
+  transition: border-color .3s, box-shadow .3s, background-color .3s;
+}
+.is-signed-in .detail-page .view-heading,
+.is-signed-in .detail-page .view-letter { animation: none; opacity: 1; transform: none; }
+body.is-signed-in.is-transitioning .detail-page .view-heading,
+body.is-signed-in.is-transitioning .detail-page .panel { animation: v4-route-part .35s var(--ease) backwards; }
+body.is-signed-in.is-transitioning .detail-page .panel:nth-child(2) { animation-delay: .04s; }
+
+/* A run changes the instrument on the right, never the position or opacity of
+   the configuration panel. New chart children receive a small local reveal. */
+#chart-body[data-chart-state] { opacity: 1; transform: none; }
+#chart-body[data-chart-state] > * { animation: none; }
+.is-signed-in .detail-page .panel.panel-working {
+  border-color: rgba(139,162,89,.55);
+  box-shadow: inset 0 0 0 1px rgba(155,182,107,.08), 0 0 20px -15px rgba(139,169,81,.24);
+}
+.is-signed-in form[data-run-state="running"] .primary-button {
+  opacity: .88; transform: none;
+  box-shadow: inset 0 -2px 0 rgba(212,250,126,.55);
+}
+.is-signed-in form[data-run-state="running"] .primary-button::after {
+  transform: translateX(0); opacity: .45;
+}
+.research-outcome {
+  margin-top: 20px; padding: 16px; border: 1px solid var(--line);
+  background: rgba(165,190,112,.075); animation: v4-content-in .3s var(--ease) backwards;
+}
+.research-outcome h3 { font-size: 12px; line-height: 1.6; }
+.research-outcome p { margin-top: 6px; font-size: 10px; line-height: 1.8; color: var(--muted); }
+.research-outcome .text-button { margin-top: 9px; }
+
+.panel-header { position: relative; }
+.panel-header::after {
+  content: ''; position: absolute; bottom: -1px; left: 0; width: 36px; height: 2px;
+  background: var(--orange); opacity: .55; transform-origin: left;
+  animation: v3-header-marker 6s ease-in-out infinite; pointer-events: none;
+}
+.is-signed-in .primary-button { position: relative; overflow: hidden; }
+.is-signed-in .primary-button::after {
+  content: ''; position: absolute; inset: -40% -50%;
+  background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,.14) 50%, transparent 65%);
+  transform: translateX(-75%); transition: transform .75s var(--ease); pointer-events: none;
+}
+.is-signed-in .primary-button:hover::after { transform: translateX(75%); }
+.is-signed-in .primary-button:not(:disabled):active, .is-signed-in .secondary-button:not(:disabled):active { transform: translateY(1px) scale(.985); }
+.is-signed-in .field input:focus, .is-signed-in .field select:focus, .is-signed-in .field textarea:focus { box-shadow: 3px 3px 0 rgba(153,175,109,.13); }
+.is-signed-in .empty-chart-art { animation: v3-chart-hover 5.8s ease-in-out infinite; }
+.is-signed-in .empty-chart-art path:nth-child(2) { stroke-dasharray: 220 50; --trace-offset: -270px; animation: v3-trace-flow 8s linear infinite; }
+.is-signed-in .chart-empty::before { animation: v3-grid-breathe 5s ease-in-out infinite; }
+.is-signed-in .performance-chart .series-line { stroke-dasharray: var(--series-length, 1400); stroke-dashoffset: var(--series-length, 1400); animation: v3-draw-line 1.65s .1s var(--ease) forwards; }
+.is-signed-in .performance-chart > circle { animation: v3-chart-dot 3s 1.5s ease-in-out infinite; }
+.summary-metrics strong { font-variant-numeric: tabular-nums; position: relative; }
+.summary-metrics > div { animation: none; opacity: 1; transform: none; }
+.motion-metric-final { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden !important; clip: rect(0,0,0,0) !important; white-space: nowrap !important; border: 0 !important; }
+.summary-metrics .motion-counter-value { display: inline; color: inherit; font: inherit; letter-spacing: inherit; margin: 0; }
+.motion-processing .chart-panel { box-shadow: inset 0 0 55px -28px rgba(137,177,66,.22); }
+.panel-working .panel-header::after, .motion-processing .chart-panel .panel-header::after { background: var(--lime); animation: v4-processing-marker 1.8s ease-in-out infinite; }
+.motion-processing .run-bar::after { background: linear-gradient(90deg, var(--ink), var(--lime)); }
+/* The right-hand instrument uses one short outgoing/incoming transition.
+   The configuration panel stays mounted and never participates in this motion. */
+#chart-body.is-chart-swapping { pointer-events: none; will-change: opacity, transform; }
+.chart-inspector {
+  position: relative; display: flex; align-items: center; min-width: 0; min-height: 215px;
+  flex: 1; margin: 7px 0 12px; isolation: isolate; touch-action: pan-y;
+  outline: none;
+}
+.chart-inspector:focus-visible { outline: 1px solid var(--muted); outline-offset: 5px; }
+.chart-inspector .performance-chart { width: 100%; height: auto; flex: none; margin: 0; display: block; }
+.chart-hit-area { cursor: crosshair; pointer-events: all; }
+.chart-probe { opacity: 0; pointer-events: none; transition: opacity .12s ease; }
+.chart-crosshair-x, .chart-crosshair-y { stroke: var(--muted); stroke-width: .7; stroke-dasharray: 3 4; }
+.chart-crosshair-y { opacity: .55; }
+.chart-marker-strategy { fill: var(--surface-solid); stroke: var(--ink); stroke-width: 1.8; }
+.chart-marker-benchmark { fill: var(--surface-solid); stroke: var(--orange); stroke-width: 1.5; }
+.chart-inspector[data-chart-inspecting="true"] .chart-probe { opacity: 1; }
+.is-signed-in .chart-inspector[data-chart-inspected="true"] .series-line { animation: none; stroke-dashoffset: 0; }
+.chart-tooltip {
+  position: absolute; z-index: 4; width: 238px; max-width: calc(100% - 12px);
+  left: 8px; top: 8px; padding: 13px 14px; pointer-events: none;
+  background: var(--surface-solid); color: var(--ink); border: 1px solid var(--line);
+  border-top: 2px solid var(--lime); box-shadow: 0 8px 22px rgba(8,16,3,.14);
+  opacity: 0; visibility: hidden; transform: translateY(3px);
+  transition: opacity .1s ease, transform .14s ease, visibility .1s;
+  font-variant-numeric: tabular-nums;
+}
+.chart-inspector[data-chart-inspecting="true"] .chart-tooltip { opacity: 1; visibility: visible; transform: none; }
+.chart-tooltip-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid var(--line); }
+.chart-tooltip-heading strong { font: 11px var(--mono); letter-spacing: .3px; }
+.chart-tooltip-heading > span { font: 8px var(--mono); color: var(--muted); }
+.chart-tooltip-row { display: grid; grid-template-columns: 1fr auto auto; align-items: center; column-gap: 9px; margin-top: 8px; font-size: 9px; }
+.chart-tooltip-row > span { display: flex; align-items: center; gap: 6px; color: var(--muted); white-space: nowrap; }
+.chart-tooltip-row i { width: 5px; height: 5px; background: var(--ink); flex-shrink: 0; }
+.chart-tooltip-row i.benchmark { background: var(--orange); }
+.chart-tooltip-row strong { font: 10px var(--mono); }
+.chart-tooltip-row small { font: 8px var(--mono); color: var(--muted); }
+.chart-tooltip-asset { display: flex; justify-content: space-between; align-items: center; gap: 8px; border-top: 1px solid var(--line); padding-top: 10px; margin-top: 11px; }
+.chart-tooltip-asset span { font-size: 8px; color: var(--muted); }
+.chart-tooltip-asset strong { font: 9px var(--mono); }
+.chart-interaction-hint { margin: 0 0 5px; font-size: 8px; letter-spacing: .25px; line-height: 1.7; color: var(--muted); }
+.chart-announcement { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (max-width: 690px) {
+  .chart-inspector { min-height: 185px; }
+  .chart-tooltip { width: 218px; padding: 11px 12px; }
+  .chart-tooltip-row { column-gap: 6px; }
+  .chart-interaction-hint { font-size: 7px; }
+}
+
+/* Research steps update in place: waiting -> active -> done. */
+.team-step { animation: none; opacity: 1; transform: none; transition: background-color .3s, border-color .3s; }
+.team-step .step-number {
+  position: relative; animation: none; transform: none;
+  transition: background-color .3s, border-color .3s, color .3s, box-shadow .3s;
+}
+.team-step .step-number::after {
+  content: ''; position: absolute; inset: -4px; border: 1px solid rgba(145,172,86,.3);
+  opacity: 0; pointer-events: none; transition: opacity .3s;
+}
+.team-step .step-indicator { animation: none; transition: background-color .3s, opacity .3s, box-shadow .3s; }
+.team-step[data-step-state="waiting"] .step-indicator { opacity: .4; box-shadow: none; }
+.team-step[data-step-state="active"] .step-number {
+  border-color: rgba(145,172,86,.75); background: rgba(169,196,112,.13);
+  animation: v4-step-glow 1.5s ease-in-out infinite;
+}
+.team-step[data-step-state="active"] .step-number::after { opacity: 1; }
+.team-step[data-step-state="active"] .step-indicator { background: #91ac56; opacity: 1; box-shadow: 0 0 7px rgba(145,172,86,.48); animation: v3-indicator 1.5s ease-in-out infinite; }
+.team-step[data-step-state="done"] .step-number { background: var(--lime); border-color: transparent; color: var(--lime-ink); }
+.team-step[data-step-state="done"] .step-indicator { background: #91ac56; opacity: 1; box-shadow: 0 0 4px rgba(145,172,86,.2); }
+body.is-signed-in.is-transitioning .team-step { animation: v4-content-in .3s calc(var(--motion-index, 0) * .035s) var(--ease) backwards; }
+.is-signed-in .role-card { position: relative; overflow: hidden; transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)); transition: transform .18s ease-out, border-color .3s, box-shadow .3s; animation: none; }
+body.is-signed-in.is-transitioning .role-card { animation: v4-route-part .35s calc(var(--motion-index, 0) * .02s) var(--ease) backwards; }
+.role-card::before { content: ''; position: absolute; right: 17px; top: 21px; width: 4px; height: 4px; background: var(--orange); opacity: .6; animation: v3-indicator 3.4s calc(var(--motion-index, 0) * -.21s) ease-in-out infinite; }
+.role-card::after { content: ''; position: absolute; bottom: 0; left: 0; height: 2px; width: 100%; background: linear-gradient(90deg, transparent, var(--orange), transparent); transform: translateX(-105%); animation: v3-role-signal 7s calc(var(--motion-index, 0) * -.28s) ease-in-out infinite; pointer-events: none; }
+.role-card:hover { border-color: var(--ink); box-shadow: 0 12px 25px -20px rgba(18,29,8,.35); }
+.connection-icon .icon { animation: v3-glyph-float 5s ease-in-out infinite; }
+.is-signed-in .data-table tbody tr { animation: none; opacity: 1; transform: none; transition: background .25s; }
+body.is-signed-in.is-transitioning .data-table tbody tr { animation: v4-content-in .3s calc(var(--motion-index, 0) * .025s) var(--ease) backwards; }
+.is-signed-in .data-table tbody tr:hover { background: rgba(158,177,114,.1); }
+.is-signed-in .data-icon { transition: transform .45s var(--ease), border-color .4s, background .4s; }
+.is-signed-in .data-table tr:hover .data-icon { transform: translateY(-2px) rotate(-6deg); border-color: var(--ink); background: var(--lime); color: var(--lime-ink); }
+.is-signed-in .data-table .badge-dot::before { animation: v3-indicator 4.4s ease-in-out infinite; }
+.is-signed-in .info-panel .icon { animation: v3-info-float 6s ease-in-out infinite; }
+.is-signed-in .info-panel:nth-child(2) .icon { animation-delay: -3s; }
+.is-signed-in .empty-orbit::before { border-style: dashed; animation: v3-orbit-turn 20s linear infinite; }
+.is-signed-in .empty-orbit::after { transform-origin: -20px 29px; animation: v3-orbit-turn 9s linear infinite; }
+.is-signed-in .empty-orbit .icon { animation: v3-glyph-float 5.8s ease-in-out infinite; }
+.is-signed-in .results-empty { animation: none; opacity: 1; transform: none; }
+body.is-signed-in.is-transitioning .results-empty { animation: v4-route-part .35s var(--ease) backwards; }
+.is-signed-in .report-section { animation: v4-content-in .3s var(--ease) backwards; }
+.is-signed-in .report-section:nth-of-type(2) { animation-delay: .03s; }
+.is-signed-in .report-section:nth-of-type(3) { animation-delay: .06s; }
+.is-signed-in .report-section:nth-of-type(4) { animation-delay: .09s; }
+.motion-spark-layer { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 45; }
+.motion-click-ring { position: absolute; width: 15px; height: 15px; border: 1px solid var(--orange); border-radius: 50%; opacity: 0; animation: v3-click-ring .65s ease-out forwards; }
+
+@keyframes v4-route-part { from { opacity: .78; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes v4-content-in { from { opacity: .82; transform: translateY(3px); } to { opacity: 1; transform: none; } }
+@keyframes v4-processing-marker { 0%,100% { transform: translateX(0) scaleX(1); opacity: .45; } 50% { transform: translateX(24px) scaleX(1.35); opacity: .8; } }
+@keyframes v4-step-glow { 0%,100% { box-shadow: 0 0 0 0 rgba(141,174,84,0); } 50% { box-shadow: 0 0 0 4px rgba(141,174,84,.08); } }
+
+@keyframes v3-header-in { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: none; } }
+@keyframes v3-heading-in { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+@keyframes v3-nav-in { from { opacity: .4; transform: scale(.75); } to { opacity: 1; transform: scale(1); } }
+@keyframes v3-card-in { from { opacity: 0; transform: perspective(900px) translateY(48px) rotateX(11deg) rotateY(-5deg); } to { opacity: 1; transform: perspective(900px) translateY(0) rotateX(0deg) rotateY(0deg); } }
+@keyframes v3-card-orbit { from { transform: rotateX(60deg) rotate(0deg); } to { transform: rotateX(60deg) rotate(360deg); } }
+@keyframes v3-art-scan { 0%,20%,100% { opacity: 0; transform: translateY(0); } 30% { opacity: .24; } 60% { opacity: .24; transform: translateY(-85px); } 70% { opacity: 0; transform: translateY(-85px); } }
+@keyframes v3-glyph-float { 0%,100% { transform: translateY(2px) rotate(-3deg); } 50% { transform: translateY(-5px) rotate(4deg); } }
+@keyframes v3-trace-flow { to { stroke-dashoffset: var(--trace-offset, -440px); } }
+@keyframes v3-node-breathe { 0%,100% { transform: scale(.85); opacity: .6; } 50% { transform: scale(1.15); opacity: 1; } }
+@keyframes v3-orbit-turn { to { transform: rotate(360deg); } }
+@keyframes v3-stack-float { 0%,100% { transform: translateY(3px) rotate(-4deg); } 50% { transform: translateY(-4px) rotate(4deg); } }
+@keyframes v3-stack-layer { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes v3-report-float { 0%,100% { transform: translateY(3px) rotate(-4deg); } 50% { transform: translateY(-3px) rotate(2deg); } }
+@keyframes v3-caption-flow { 0%,100% { transform: scaleX(.15); opacity: .12; } 50% { transform: scaleX(1); opacity: .27; } }
+@keyframes v3-environment-bars { 0%,100% { transform: scaleY(.32); opacity: .35; } 45% { transform: scaleY(1); opacity: .9; } 70% { transform: scaleY(.61); opacity: .6; } }
+@keyframes v3-panel-in { from { opacity: 0; transform: translateY(21px); } to { opacity: 1; transform: none; } }
+@keyframes v3-row-in { from { opacity: 0; transform: translateX(-11px); } to { opacity: 1; transform: none; } }
+@keyframes v3-index-in { from { opacity: 0; transform: translateX(-20px) rotateY(-35deg); } to { opacity: 1; transform: none; } }
+@keyframes v3-header-marker { 0%,100% { transform: scaleX(.5); opacity: .3; } 50% { transform: scaleX(1.9); opacity: .7; } }
+@keyframes v3-processing-marker { 0%,100% { transform: translateX(0) scaleX(1); opacity: .4; } 50% { transform: translateX(100px) scaleX(2.5); opacity: 1; } }
+@keyframes v3-chart-hover { 0%,100% { transform: translateY(3px); } 50% { transform: translateY(-6px); } }
+@keyframes v3-grid-breathe { 0%,100% { opacity: .5; } 50% { opacity: 1; } }
+@keyframes v3-draw-line { to { stroke-dashoffset: 0; } }
+@keyframes v3-chart-dot { 0%,100% { r: 3px; opacity: 1; } 50% { r: 4.4px; opacity: .55; } }
+@keyframes v3-metric-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes v3-node-frame { 0%,70%,100% { opacity: 0; transform: scale(.95) rotate(0deg); } 30%,45% { opacity: .6; transform: scale(1.1) rotate(45deg); } }
+@keyframes v3-indicator { 0%,100% { opacity: .35; } 50% { opacity: 1; } }
+@keyframes v3-research-step { 0%,100% { box-shadow: 0 0 0 0 rgba(141,174,84,0); transform: translateX(0); } 35% { box-shadow: 0 0 0 6px rgba(141,174,84,.12); transform: translateX(2px); } }
+@keyframes v3-role-in { from { opacity: 0; transform: translateY(18px) rotateX(8deg); } to { opacity: 1; transform: none; } }
+@keyframes v3-role-signal { 0%,30% { transform: translateX(-105%); } 70%,100% { transform: translateX(105%); } }
+@keyframes v3-info-float { 0%,100% { transform: translateY(2px); } 50% { transform: translateY(-3px); } }
+@keyframes v3-click-ring { from { opacity: .65; transform: translate(-50%,-50%) scale(.6); } to { opacity: 0; transform: translate(-50%,-50%) scale(5); } }
+
+@media (max-width: 690px) {
+  .module-card-art::before { width: 71px; height: 71px; right: -15px; top: 19%; }
+  .module-card-art::after { animation-name: v3-art-scan-mobile; }
+  .workspace-caption::after { bottom: -8px; }
+  .is-signed-in .module-card:hover { --lift: 0px; box-shadow: none; }
+  @keyframes v3-art-scan-mobile { 0%,20%,100% { opacity: 0; transform: translateY(0); } 30% { opacity: .2; } 60% { opacity: .2; transform: translateY(-60px); } 70% { opacity: 0; transform: translateY(-60px); } }
+}
+@media (hover: none) { .is-signed-in .module-card, .is-signed-in .module-card:hover, .is-signed-in .role-card { transform: none; } }
+
+/* Off means static, fully visible UI, including mid-animation entry states. */
+body.motion-paused.is-signed-in *, body.motion-paused.is-signed-in *::before, body.motion-paused.is-signed-in *::after,
+body.is-signed-in #main[data-motion-active="false"] *, body.is-signed-in #main[data-motion-active="false"] *::before, body.is-signed-in #main[data-motion-active="false"] *::after {
+  animation: none !important; transition: none !important; scroll-behavior: auto !important;
+}
+body.motion-paused .motion-click-ring { display: none; }
+body.motion-paused .module-card, body.motion-paused .role-card,
+body.is-signed-in #main[data-motion-active="false"] .module-card, body.is-signed-in #main[data-motion-active="false"] .role-card { transform: none !important; }
+body.motion-paused .performance-chart .series-line,
+body.is-signed-in #main[data-motion-active="false"] .performance-chart .series-line { stroke-dashoffset: 0; }
+body.motion-document-hidden.is-signed-in *, body.motion-document-hidden.is-signed-in *::before, body.motion-document-hidden.is-signed-in *::after { animation-play-state: paused !important; }
+@media (prefers-reduced-motion: reduce) {
+  .is-signed-in *, .is-signed-in *::before, .is-signed-in *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  .is-signed-in .module-card, .is-signed-in .role-card { transform: none !important; }
+  .is-signed-in .performance-chart .series-line { stroke-dashoffset: 0; }
+  .motion-click-ring { display: none; }
+}

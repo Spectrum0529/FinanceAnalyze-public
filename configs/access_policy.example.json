@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "partitions": {
+    "public_samples": "samples/public",
+    "authorized_raw": ".local/data/authorized_raw",
+    "development": "data/development",
+    "candidate_holdout": ".local/data/candidate_holdout",
+    "prospective": ".local/prospective",
+    "credentials": ".local/secrets"
+  },
+  "development_allowed": ["public_samples", "development"]
+}

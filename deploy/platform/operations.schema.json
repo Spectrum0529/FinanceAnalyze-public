@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "finance-platform-operations-v1",
+  "title": "FinanceAnalyze local operations configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "bind_host": {"enum": ["127.0.0.1", "::1"], "description": "Native loopback interface; containers publish host loopback only"},
+    "port": {"type": "integer", "minimum": 1024, "maximum": 65535},
+    "database": {"type": "string", "pattern": "^\\.local/platform/[a-zA-Z0-9_-]+\\.sqlite3$", "description": "Independent platform DB; not a research/audit database"},
+    "sending_workers": {"const": 1},
+    "live_enabled": {"const": false},
+    "untrusted_strategies_enabled": {"const": false},
+    "queue_warning": {"type": "integer", "minimum": 1, "maximum": 1000000},
+    "pending_order_warning": {"type": "integer", "minimum": 1, "maximum": 1000000},
+    "worker_stale_seconds": {"type": "integer", "minimum": 10, "maximum": 3600},
+    "notification": {
+      "type": "object", "additionalProperties": false, "required": ["enabled", "endpoint"],
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "endpoint": {"type": ["string", "null"], "description": "Explicit local fake receiver only: http://127.0.0.1:PORT/path; no userinfo, query, redirects, proxies or external destination"}
+      }
+    }
+  }
+}

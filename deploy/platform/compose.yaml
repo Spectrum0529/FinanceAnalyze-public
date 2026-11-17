@@ -1,0 +1,70 @@
+name: finance-platform
+x-common: &common
+  image: finance-platform:0.1.0-pf09
+  build:
+    context: ../..
+    dockerfile: deploy/platform/Dockerfile
+  user: "10001:10001"
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  init: true
+  tmpfs:
+    - /tmp:size=64m,mode=1777,noexec,nosuid
+  pids_limit: 128
+  mem_limit: 1g
+  cpus: 2.0
+  restart: unless-stopped
+  volumes:
+    - platform:/app/.local/platform
+    - audit:/app/.local/audit
+    - development:/app/data/development
+  logging:
+    driver: local
+    options: {max-size: "10m", max-file: "3"}
+services:
+  console:
+    image: finance-platform-console:0.1.0-pf09
+    build: {context: ../.., dockerfile: deploy/platform/Dockerfile.web}
+    user: "101:101"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    tmpfs: [/tmp:size=64m,mode=1777,noexec,nosuid]
+    ports: ["127.0.0.1:8080:8080"]
+    networks: [control]
+    pids_limit: 64
+    mem_limit: 128m
+    restart: unless-stopped
+    depends_on: {api: {condition: service_healthy}}
+  api:
+    <<: *common
+    command: [api, --root, /app, --port, "8000", --container]
+    ports: ["127.0.0.1:8000:8000"]
+    networks: [control]
+    healthcheck:
+      test: [CMD, python, -m, finance_platform.operations.launch, healthcheck, --port, "8000"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+  worker:
+    <<: *common
+    command: [worker, --root, /app]
+    # No network egress for the default offline/development worker.
+    network_mode: none
+    # container_name plus kernel-held shared-volume lock blocks scaling/second sender.
+    container_name: finance-platform-sending-worker
+    depends_on:
+      api: {condition: service_healthy}
+    healthcheck:
+      test: [CMD, python, -m, finance_platform.operations.worker_health]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+volumes:
+  platform:
+  audit:
+  development:
+networks:
+  control: {internal: true}

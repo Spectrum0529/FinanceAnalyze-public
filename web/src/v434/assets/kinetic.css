@@ -1,0 +1,144 @@
+/* The motion layer follows the terminal's ink, ivory, lime and amber palette. */
+.ambient #ribbon { position:absolute; inset:0; width:100%; height:100%; z-index:1; }
+.ambient-grain { z-index:3; pointer-events:none; }
+.kinetic-aura {
+  position:absolute; inset:-15%; z-index:0; opacity:.48;
+  background:radial-gradient(ellipse at 40% 49%,rgba(222,246,169,.32),transparent 29%),radial-gradient(ellipse at 64% 37%,rgba(244,205,159,.18),transparent 27%);
+  animation:aura-drift 19s ease-in-out infinite alternate;
+}
+.kinetic-grid {
+  position:absolute; inset:0; z-index:0; opacity:.035;
+  background-image:linear-gradient(rgba(42,55,32,.65) 1px,transparent 1px),linear-gradient(90deg,rgba(42,55,32,.65) 1px,transparent 1px);
+  background-size:90px 90px;
+  mask-image:radial-gradient(ellipse at 44% 53%,#000,transparent 64%);
+  animation:grid-travel 40s linear infinite;
+}
+.auth-screen .ambient { opacity:1; }
+.sculpture-field {
+  position:absolute; left:42%; top:54%; width:47vw; height:47vw; max-width:760px; max-height:760px;
+  transform:translate(-50%,-50%); perspective:1100px; opacity:.54;
+}
+.sculpture-orbit {
+  position:absolute; inset:12%; border:1px solid rgba(83,100,68,.16); border-radius:50%;
+  transform-style:preserve-3d; will-change:transform;
+}
+.sculpture-orbit::after { content:''; position:absolute; inset:7%; border:1px dashed rgba(83,100,68,.11); border-radius:50%; }
+.sculpture-orbit i { position:absolute; left:50%; top:-3px; width:5px; height:5px; border-radius:50%; background:#7c925b; box-shadow:0 0 0 5px rgba(180,207,130,.12); }
+.orbit-one { animation:orbit-precession 24s linear infinite; }
+.orbit-two { inset:5%; border-color:rgba(143,104,62,.12); animation:orbit-precession-two 31s linear infinite reverse; }
+.orbit-two i { background:#caa36e; width:4px; height:4px; }
+.orbit-three { inset:20%; border-style:dashed; opacity:.7; animation:orbit-precession-three 38s linear infinite; }
+.field-particle { position:absolute; color:#6e785d; font:17px/1 monospace; opacity:.44; animation:particle-drift 8s ease-in-out infinite alternate; }
+.particle-one { left:11%; top:64%; }
+.particle-two { right:9%; top:28%; animation-delay:-3s; font-size:12px; }
+.particle-three,.particle-four { width:3px; height:3px; background:#8e9c71; border-radius:50%; }
+.particle-three { left:39%; top:12%; animation-delay:-6s; }
+.particle-four { right:22%; bottom:8%; animation-delay:-1s; background:#c19460; }
+.auth-screen .session-seal {
+  transform:perspective(900px) translate3d(calc(var(--pointer-x,0)*7px),calc(var(--pointer-y,0)*5px),0) rotateY(calc(var(--pointer-x,0)*-5deg)) rotateX(calc(var(--pointer-y,0)*3deg));
+  box-shadow:0 18px 35px -19px rgba(12,22,12,.55),2px 3px 0 #30392d;
+}
+.auth-screen .session-seal::before { animation-duration:9s; opacity:1; }
+.auth-screen .seal-orbit { inset:6% 15%; border-color:rgba(197,239,153,.18); opacity:.5; animation:seal-orbit-turn 14s linear infinite; }
+.auth-screen .seal-corner { animation:terminal-status-breathe 3.8s ease-in-out infinite; background:#b3d27d; }
+.auth-screen .auth-dossier { box-shadow:0 25px 48px -30px rgba(42,49,30,.5),0 5px 15px rgba(49,55,40,.1),inset 0 0 0 5px rgba(255,255,255,.12); }
+.auth-screen .auth-dossier::after { animation-duration:7s; opacity:.85; }
+.auth-screen .portrait-scan { animation-duration:3.8s; box-shadow:0 -4px 15px 4px rgba(194,230,156,.15); }
+.auth-screen .auth-leader circle { animation:leader-node-breathe 3s ease-in-out infinite; transform-box:fill-box; transform-origin:center; }
+.auth-screen .auth-leader-bottom circle { animation-delay:-1.5s; }
+.auth-screen .terminal-barcode { animation:barcode-drift 8s linear infinite; }
+.auth-screen .terminal-mini-modules b { animation:module-standby 8s ease-in-out infinite; }
+.auth-screen .terminal-mini-modules b:nth-child(2) { animation-delay:2s; }
+.auth-screen .terminal-mini-modules b:nth-child(3) { animation-delay:4s; }
+.auth-screen .terminal-mini-modules b:nth-child(4) { animation-delay:6s; }
+body[data-music-playing=true] .seal-spectrum { opacity:.65; }
+body[data-music-playing=true] .seal-caption { opacity:.58; }
+body[data-music-playing=true][data-beat=a] .seal-corner { animation:beat-dot-a .6s ease-out; }
+body[data-music-playing=true][data-beat=b] .seal-corner { animation:beat-dot-b .6s ease-out; }
+.terminal-screen[data-phase=verifying] .sculpture-orbit { animation-duration:7s; border-color:rgba(126,162,65,.25); }
+.terminal-screen[data-phase=error] .sculpture-orbit { border-color:rgba(230,154,62,.33); }
+.terminal-screen[data-phase=granted] .sculpture-field { opacity:.8; transition:opacity .35s; }
+.terminal-screen[data-phase=exiting] .sculpture-field { opacity:0; transform:translate(-50%,-50%) scale(1.22); transition:opacity .55s,transform .7s; }
+.auth-alarm .kinetic-aura { background:radial-gradient(ellipse at 45% 55%,rgba(202,101,48,.17),transparent 50%); }
+body[data-theme=dark] .kinetic-grid { filter:invert(1); opacity:.055; }
+body[data-theme=dark] .sculpture-orbit { border-color:rgba(203,226,167,.2); }
+body[data-theme=dark] .field-particle { color:#b7c39d; }
+body[data-theme=dark] .kinetic-aura { opacity:.19; }
+.is-signed-in .kinetic-aura { opacity:.18; }
+.is-signed-in .kinetic-grid { opacity:.025; }
+
+@keyframes aura-drift { from { transform:translate3d(-2%,-1%,0) scale(.98); } to { transform:translate3d(3%,2%,0) scale(1.07); } }
+@keyframes grid-travel { to { background-position:90px 90px; } }
+@keyframes orbit-precession { from { transform:rotateZ(-24deg) rotateX(62deg) rotateZ(0); } to { transform:rotateZ(-24deg) rotateX(62deg) rotateZ(360deg); } }
+@keyframes orbit-precession-two { from { transform:rotateZ(33deg) rotateY(65deg) rotateZ(0); } to { transform:rotateZ(33deg) rotateY(65deg) rotateZ(360deg); } }
+@keyframes orbit-precession-three { from { transform:rotateZ(52deg) rotateX(22deg) rotateZ(0); } to { transform:rotateZ(52deg) rotateX(22deg) rotateZ(360deg); } }
+@keyframes particle-drift { from { transform:translate3d(-5px,9px,0); opacity:.2; } to { transform:translate3d(9px,-10px,0); opacity:.6; } }
+@keyframes seal-orbit-turn { from { transform:rotate(-36deg) scale(.9); } to { transform:rotate(324deg) scale(.9); } }
+@keyframes terminal-status-breathe { 0%,100% { opacity:.4; box-shadow:0 0 0 0 rgba(197,239,153,.08); } 50% { opacity:1; box-shadow:0 0 0 6px rgba(197,239,153,.08); } }
+@keyframes leader-node-breathe { 0%,100% { opacity:.4; transform:scale(.8); } 50% { opacity:1; transform:scale(1.3); } }
+@keyframes barcode-drift { to { background-position:72px 0; } }
+@keyframes module-standby { 0%,19%,100% { background:transparent; color:var(--auth-muted); } 5%,14% { background:var(--auth-lime); color:#243317; } }
+@keyframes beat-dot-a { from { transform:scale(1.5); box-shadow:0 0 0 8px rgba(197,239,153,.1); } to { transform:scale(1); box-shadow:0 0 0 0 transparent; } }
+@keyframes beat-dot-b { from { transform:scale(1.5); box-shadow:0 0 0 8px rgba(197,239,153,.1); } to { transform:scale(1); box-shadow:0 0 0 0 transparent; } }
+
+@media (max-width:850px) {
+  .sculpture-field { left:48%; top:220px; width:390px; height:390px; opacity:.4; }
+  .auth-screen .session-seal { transform:none; }
+  .kinetic-grid { background-size:64px 64px; }
+}
+@media (min-width:600px) and (max-width:850px) { .sculpture-field { top:260px; width:500px; height:500px; } }
+@media (max-width:390px) { .sculpture-field { top:208px; width:330px; height:330px; } }
+@media (prefers-reduced-motion:reduce) {
+  .kinetic-aura,.kinetic-grid,.sculpture-field,.sculpture-field *,body .terminal-screen *,body .terminal-screen *::before,body .terminal-screen *::after {
+    animation:none!important; transition:none!important; will-change:auto!important;
+  }
+  .sculpture-field { opacity:.2; }
+  .auth-screen .session-seal { transform:none; }
+}
+body.motion-paused .kinetic-aura,body.motion-paused .kinetic-grid,body.motion-paused .sculpture-field,body.motion-paused .sculpture-field *,
+body.motion-paused .terminal-screen *,body.motion-paused .terminal-screen *::before,body.motion-paused .terminal-screen *::after {
+  animation:none!important; transition:none!important; will-change:auto!important;
+}
+body.motion-paused .session-seal { transform:none; }
+body.page-hidden *,body.page-hidden *::before,body.page-hidden *::after { animation-play-state:paused!important; }
+
+/* Recoil the sculpture with the terminal once; all idle motion resumes after it. */
+body.auth-impact .ambient { animation:auth-terminal-recoil .52s cubic-bezier(.18,.68,.34,1) both; }
+body.auth-alarm .kinetic-aura { opacity:.32; }
+body.auth-alarm .sculpture-orbit { animation-play-state:paused; border-color:rgba(242,163,70,.28); }
+@media(prefers-reduced-motion:reduce) { body.auth-impact .ambient { animation:none!important; transform:none!important; } }
+body.motion-paused.auth-impact .ambient { animation:none!important; transform:none!important; }
+
+/* Contain the brief login recoil so it cannot create scrollbars or change the
+   card layout while the viewport shakes. Sound controls remain outside. */
+body.auth-screen { overflow-x:clip; }
+.auth-screen .app-frame { overflow:clip; }
+
+
+/* An empty-surface click expands from the actual pointer position. */
+.motion-background-ring {
+  position: fixed;
+  width: clamp(170px, 24vw, 330px);
+  aspect-ratio: 1;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  color: var(--ink);
+  pointer-events: none;
+  animation: background-ripple-expand 920ms cubic-bezier(.18,.65,.24,1) both;
+  will-change: transform, opacity;
+}
+.motion-background-ring::after {
+  content: '';
+  position: absolute;
+  inset: 13%;
+  border: 1px solid currentColor;
+  border-radius: inherit;
+  opacity: .42;
+}
+@keyframes background-ripple-expand {
+  0% { opacity: .38; transform: translate(-50%,-50%) scale(.045); }
+  35% { opacity: .30; }
+  100% { opacity: 0; transform: translate(-50%,-50%) scale(1); }
+}
+.motion-paused .motion-background-ring { display: none; animation: none; }
+@media (prefers-reduced-motion: reduce) { .motion-background-ring { display: none; animation: none; } }

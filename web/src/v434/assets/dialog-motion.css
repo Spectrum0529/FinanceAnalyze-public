@@ -1,0 +1,41 @@
+#modal::backdrop {
+  background: rgb(20 27 18 / .49);
+  backdrop-filter: none;
+}
+
+:is(#modal, .help-dialog)[open] {
+  animation: workbench-dialog-enter 220ms var(--fa-local-ease) backwards;
+}
+
+#modal .modal-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  align-items: center;
+  background: var(--work-surface);
+}
+
+@keyframes workbench-dialog-enter {
+  from { opacity: .88; transform: translateY(5px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* The card uses sampled Web Animations keyframes; its backdrop fades in sync. */
+dialog[open][data-dialog-closing="true"] {
+  pointer-events: none;
+}
+dialog[open][data-dialog-closing="true"]::backdrop {
+  animation: dialog-backdrop-exit 190ms cubic-bezier(.4,0,1,1) both;
+}
+@keyframes dialog-backdrop-exit {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+body:is(.motion-paused, .page-hidden) :is(#modal, .help-dialog)[open],
+body:is(.motion-paused, .page-hidden) dialog[data-dialog-closing="true"]::backdrop {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(#modal, .help-dialog)[open],
+  dialog[data-dialog-closing="true"]::backdrop { animation: none; }
+}

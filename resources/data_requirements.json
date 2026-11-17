@@ -1,0 +1,743 @@
+{
+  "schema_version": 1,
+  "contract_version": "core-market-fields-1",
+  "scope": "REQUIRED_FIELDS_NOT_EVIDENCE_OF_COVERAGE",
+  "data_certification": "UNVERIFIED",
+  "formal_research_eligible": false,
+  "groups": [
+    {
+      "id": "identity",
+      "title": "历史证券主表与证券池筛选"
+    },
+    {
+      "id": "auction",
+      "title": "主上市交易所正式开盘竞价"
+    },
+    {
+      "id": "daily",
+      "title": "日线、市场和同业基准"
+    },
+    {
+      "id": "actions",
+      "title": "公司行动与现金权益"
+    },
+    {
+      "id": "terminal",
+      "title": "退市、停牌与终止价值"
+    },
+    {
+      "id": "calendar",
+      "title": "交易日历与时区"
+    },
+    {
+      "id": "industry",
+      "title": "历史产业归属与自定义目标分类"
+    },
+    {
+      "id": "lineage",
+      "title": "每条记录的来源、可得性和许可元数据"
+    }
+  ],
+  "fields": [
+    {
+      "id": "identity.security_id",
+      "group": "identity",
+      "name": "security_id",
+      "unit": "permanent_security_identifier",
+      "required": true
+    },
+    {
+      "id": "identity.issuer_id",
+      "group": "identity",
+      "name": "issuer_id",
+      "unit": "permanent_issuer_identifier",
+      "required": true
+    },
+    {
+      "id": "identity.ticker",
+      "group": "identity",
+      "name": "ticker",
+      "unit": "symbol",
+      "required": true
+    },
+    {
+      "id": "identity.security_name",
+      "group": "identity",
+      "name": "security_name",
+      "unit": "text",
+      "required": true
+    },
+    {
+      "id": "identity.primary_listing_mic",
+      "group": "identity",
+      "name": "primary_listing_mic",
+      "unit": "MIC",
+      "required": true
+    },
+    {
+      "id": "identity.share_class",
+      "group": "identity",
+      "name": "share_class",
+      "unit": "category",
+      "required": true
+    },
+    {
+      "id": "identity.security_type",
+      "group": "identity",
+      "name": "security_type",
+      "unit": "category",
+      "required": true
+    },
+    {
+      "id": "identity.listing_date",
+      "group": "identity",
+      "name": "listing_date",
+      "unit": "session_date",
+      "required": true
+    },
+    {
+      "id": "identity.listing_status",
+      "group": "identity",
+      "name": "listing_status",
+      "unit": "category",
+      "required": true
+    },
+    {
+      "id": "identity.identity_valid_from",
+      "group": "identity",
+      "name": "identity_valid_from",
+      "unit": "date_or_timestamp",
+      "required": true
+    },
+    {
+      "id": "identity.identity_valid_to",
+      "group": "identity",
+      "name": "identity_valid_to",
+      "unit": "date_or_timestamp_or_null",
+      "required": true
+    },
+    {
+      "id": "identity.shares_outstanding_asof",
+      "group": "identity",
+      "name": "shares_outstanding_asof",
+      "unit": "shares",
+      "required": true
+    },
+    {
+      "id": "identity.market_cap_asof",
+      "group": "identity",
+      "name": "market_cap_asof",
+      "unit": "USD",
+      "required": true
+    },
+    {
+      "id": "identity.spac_operating_status",
+      "group": "identity",
+      "name": "spac_operating_status",
+      "unit": "category",
+      "required": true
+    },
+    {
+      "id": "auction.auction_price",
+      "group": "auction",
+      "name": "auction_price",
+      "unit": "USD_per_share",
+      "required": true
+    },
+    {
+      "id": "auction.auction_session",
+      "group": "auction",
+      "name": "auction_session",
+      "unit": "session_date_America_New_York",
+      "required": true
+    },
+    {
+      "id": "auction.auction_venue_mic",
+      "group": "auction",
+      "name": "auction_venue_mic",
+      "unit": "MIC",
+      "required": true
+    },
+    {
+      "id": "auction.auction_type",
+      "group": "auction",
+      "name": "auction_type",
+      "unit": "category",
+      "required": true
+    },
+    {
+      "id": "auction.auction_timestamp",
+      "group": "auction",
+      "name": "auction_timestamp",
+      "unit": "timestamp_with_timezone",
+      "required": true
+    },
+    {
+      "id": "auction.auction_volume",
+      "group": "auction",
+      "name": "auction_volume",
+      "unit": "shares",
+      "required": true
+    },
+    {
+      "id": "auction.auction_match_id",
+      "group": "auction",
+      "name": "auction_match_id",
+      "unit": "source_identifier",
+      "required": true
+    },
+    {
+      "id": "auction.auction_condition",
+      "group": "auction",
+      "name": "auction_condition",
+      "unit": "category",
+      "required": true
+    },
+    {
+      "id": "auction.auction_verified_at",
+      "group": "auction",
+      "name": "auction_verified_at",
+      "unit": "UTC_timestamp",
+      "required": true
+    },
+    {
+      "id": "auction.auction_availability_status",
+      "group": "auction",
+      "name": "auction_availability_status",
+      "unit": "category",
+      "required": true
+    },
+    {
+      "id": "daily.session_date",
+      "group": "daily",
+      "name": "session_date",
+      "unit": "session_date_America_New_York",
+      "required": true
+    },
+    {
+      "id": "daily.raw_open",
+      "group": "daily",
+      "name": "raw_open",
+      "unit": "USD_per_share",
+      "required": true
+    },
+    {
+      "id": "daily.raw_high",
+      "group": "daily",
+      "name": "raw_high",
+      "unit": "USD_per_share",
+      "required": true
+    },
+    {
+      "id": "daily.raw_low",
+      "group": "daily",
+      "name": "raw_low",
+      "unit": "USD_per_share",
+      "required": true
+    },
+    {
+      "id": "daily.raw_close",
+      "group": "daily",
+      "name": "raw_close",
+      "unit": "USD_per_share",
+      "required": true
+    },
+    {
+      "id": "daily.volume",
+      "group": "daily",
+      "name": "volume",
+      "unit": "shares",
+      "required": true
+    },
+    {
+      "id": "daily.dollar_volume",
+      "group": "daily",
+      "name": "dollar_volume",
+      "unit": "USD",
+      "required": true
+    },
+    {
+      "id": "daily.adjustment_basis",
+      "group": "daily",
+      "name": "adjustment_basis",
+      "unit": "category_and_version",
+      "required": true
+    },
+    {
+      "id": "daily.trading_status",
+      "group": "daily",
+      "name": "trading_status",
+      "unit": "category",
+      "required": true
+    },
+    {
+      "id": "daily.correction_status",
+      "group": "daily",
+      "name": "correction_status",
+      "unit": "category_and_version",
+      "required": true
+    },
+    {
+      "id": "daily.benchmark_security_id",
+      "group": "daily",
+      "name": "benchmark_security_id",
+      "unit": "permanent_identifier",
+      "required": true
+    },
+    {
+      "id": "daily.total_return_inputs",
+      "group": "daily",
+      "name": "total_return_inputs",
+      "unit": "price_shares_cash",
+      "required": true
+    },
+    {
+      "id": "actions.action_id",
+      "group": "actions",
+      "name": "action_id",
+      "unit": "source_identifier",
+      "required": true
+    },
+    {
+      "id": "actions.action_type",
+      "group": "actions",
+      "name": "action_type",
+      "unit": "category",
+      "required": true
+    },
+    {
+      "id": "actions.announcement_at",
+      "group": "actions",
+      "name": "announcement_at",
+      "unit": "timestamp_or_date_with_quality",
+      "required": true
+    },
+    {
+      "id": "actions.effective_date",
+      "group": "actions",
+      "name": "effective_date",
+      "unit": "date",
+      "required": true
+    },
+    {
+      "id": "actions.ex_date",
+      "group": "actions",
+      "name": "ex_date",
+      "unit": "date",
+      "required": true
+    },
+    {
+      "id": "actions.record_date",
+      "group": "actions",
+      "name": "record_date",
+      "unit": "date",
+      "required": true
+    },
+    {
+      "id": "actions.payment_date",
+      "group": "actions",
+      "name": "payment_date",
+      "unit": "date_or_null",
+      "required": true
+    },
+    {
+      "id": "actions.split_ratio",
+      "group": "actions",
+      "name": "split_ratio",
+      "unit": "terminal_shares_per_entry_share",
+      "required": true
+    },
+    {
+      "id": "actions.cash_distribution",
+      "group": "actions",
+      "name": "cash_distribution",
+      "unit": "USD_per_entry_equivalent_share",
+      "required": true
+    },
+    {
+      "id": "actions.cash_currency",
+      "group": "actions",
+      "name": "cash_currency",
+      "unit": "ISO_currency",
+      "required": true
+    },
+    {
+      "id": "actions.successor_security_id",
+      "group": "actions",
+      "name": "successor_security_id",
+      "unit": "permanent_identifier_or_null",
+      "required": true
+    },
+    {
+      "id": "actions.stock_exchange_ratio",
+      "group": "actions",
+      "name": "stock_exchange_ratio",
+      "unit": "successor_shares_per_old_share",
+      "required": true
+    },
+    {
+      "id": "actions.cash_entitlement_confirmed_at",
+      "group": "actions",
+      "name": "cash_entitlement_confirmed_at",
+      "unit": "UTC_timestamp",
+      "required": true
+    },
+    {
+      "id": "actions.action_resolution_at",
+      "group": "actions",
+      "name": "action_resolution_at",
+      "unit": "UTC_timestamp",
+      "required": true
+    },
+    {
+      "id": "actions.source_document_reference",
+      "group": "actions",
+      "name": "source_document_reference",
+      "unit": "source_reference_and_hash",
+      "required": true
+    },
+    {
+      "id": "terminal.delisting_date",
+      "group": "terminal",
+      "name": "delisting_date",
+      "unit": "date",
+      "required": true
+    },
+    {
+      "id": "terminal.delisting_reason",
+      "group": "terminal",
+      "name": "delisting_reason",
+      "unit": "category",
+      "required": true
+    },
+    {
+      "id": "terminal.last_trade_date",
+      "group": "terminal",
+      "name": "last_trade_date",
+      "unit": "date",
+      "required": true
+    },
+    {
+      "id": "terminal.terminal_equity_value",
+      "group": "terminal",
+      "name": "terminal_equity_value",
+      "unit": "USD_per_entry_equivalent_share_or_null",
+      "required": true
+    },
+    {
+      "id": "terminal.terminal_cash_settlement",
+      "group": "terminal",
+      "name": "terminal_cash_settlement",
+      "unit": "USD_per_entry_equivalent_share_or_null",
+      "required": true
+    },
+    {
+      "id": "terminal.recovery_status",
+      "group": "terminal",
+      "name": "recovery_status",
+      "unit": "category",
+      "required": true
+    },
+    {
+      "id": "terminal.settlement_resolution_at",
+      "group": "terminal",
+      "name": "settlement_resolution_at",
+      "unit": "UTC_timestamp_or_null",
+      "required": true
+    },
+    {
+      "id": "terminal.halt_start_at",
+      "group": "terminal",
+      "name": "halt_start_at",
+      "unit": "UTC_timestamp",
+      "required": true
+    },
+    {
+      "id": "terminal.halt_end_at",
+      "group": "terminal",
+      "name": "halt_end_at",
+      "unit": "UTC_timestamp_or_null",
+      "required": true
+    },
+    {
+      "id": "calendar.session",
+      "group": "calendar",
+      "name": "session",
+      "unit": "session_date",
+      "required": true
+    },
+    {
+      "id": "calendar.market_open",
+      "group": "calendar",
+      "name": "market_open",
+      "unit": "timestamp_with_timezone",
+      "required": true
+    },
+    {
+      "id": "calendar.market_close",
+      "group": "calendar",
+      "name": "market_close",
+      "unit": "timestamp_with_timezone",
+      "required": true
+    },
+    {
+      "id": "calendar.information_cutoff",
+      "group": "calendar",
+      "name": "information_cutoff",
+      "unit": "America_New_York_08:45_to_UTC",
+      "required": true
+    },
+    {
+      "id": "calendar.publication_target",
+      "group": "calendar",
+      "name": "publication_target",
+      "unit": "America_New_York_09:00_to_UTC",
+      "required": true
+    },
+    {
+      "id": "calendar.calendar_version",
+      "group": "calendar",
+      "name": "calendar_version",
+      "unit": "version_and_hash",
+      "required": true
+    },
+    {
+      "id": "calendar.schedule_source_reference",
+      "group": "calendar",
+      "name": "schedule_source_reference",
+      "unit": "source_reference_and_hash",
+      "required": true
+    },
+    {
+      "id": "industry.industry_code",
+      "group": "industry",
+      "name": "industry_code",
+      "unit": "taxonomy_code",
+      "required": true
+    },
+    {
+      "id": "industry.industry_taxonomy_version",
+      "group": "industry",
+      "name": "industry_taxonomy_version",
+      "unit": "version",
+      "required": true
+    },
+    {
+      "id": "industry.industry_valid_from",
+      "group": "industry",
+      "name": "industry_valid_from",
+      "unit": "date",
+      "required": true
+    },
+    {
+      "id": "industry.industry_valid_to",
+      "group": "industry",
+      "name": "industry_valid_to",
+      "unit": "date_or_null",
+      "required": true
+    },
+    {
+      "id": "industry.business_segment",
+      "group": "industry",
+      "name": "business_segment",
+      "unit": "dated_disclosure_text",
+      "required": true
+    },
+    {
+      "id": "industry.segment_revenue",
+      "group": "industry",
+      "name": "segment_revenue",
+      "unit": "reported_currency_amount",
+      "required": true
+    },
+    {
+      "id": "industry.total_revenue",
+      "group": "industry",
+      "name": "total_revenue",
+      "unit": "same_reported_currency_amount",
+      "required": true
+    },
+    {
+      "id": "industry.target_revenue_share",
+      "group": "industry",
+      "name": "target_revenue_share",
+      "unit": "decimal_fraction",
+      "required": true
+    },
+    {
+      "id": "industry.membership_evidence_reference",
+      "group": "industry",
+      "name": "membership_evidence_reference",
+      "unit": "original_filing_reference_and_hash",
+      "required": true
+    },
+    {
+      "id": "industry.membership_approved_at",
+      "group": "industry",
+      "name": "membership_approved_at",
+      "unit": "UTC_timestamp",
+      "required": true
+    },
+    {
+      "id": "industry.target_taxonomy_version",
+      "group": "industry",
+      "name": "target_taxonomy_version",
+      "unit": "version",
+      "required": true
+    },
+    {
+      "id": "lineage.record_id",
+      "group": "lineage",
+      "name": "record_id",
+      "unit": "identifier",
+      "required": true
+    },
+    {
+      "id": "lineage.security_id",
+      "group": "lineage",
+      "name": "security_id",
+      "unit": "identifier",
+      "required": true
+    },
+    {
+      "id": "lineage.source_id",
+      "group": "lineage",
+      "name": "source_id",
+      "unit": "identifier",
+      "required": true
+    },
+    {
+      "id": "lineage.event_time",
+      "group": "lineage",
+      "name": "event_time",
+      "unit": "timezone_aware_time_or_explicit_quality",
+      "required": true
+    },
+    {
+      "id": "lineage.published_at",
+      "group": "lineage",
+      "name": "published_at",
+      "unit": "timezone_aware_time_or_explicit_quality",
+      "required": true
+    },
+    {
+      "id": "lineage.first_available_at",
+      "group": "lineage",
+      "name": "first_available_at",
+      "unit": "timezone_aware_time_or_explicit_quality",
+      "required": true
+    },
+    {
+      "id": "lineage.ingested_at",
+      "group": "lineage",
+      "name": "ingested_at",
+      "unit": "timezone_aware_time_or_explicit_quality",
+      "required": true
+    },
+    {
+      "id": "lineage.processed_at",
+      "group": "lineage",
+      "name": "processed_at",
+      "unit": "timezone_aware_time_or_explicit_quality",
+      "required": true
+    },
+    {
+      "id": "lineage.revision_time",
+      "group": "lineage",
+      "name": "revision_time",
+      "unit": "timezone_aware_time_or_explicit_quality",
+      "required": true
+    },
+    {
+      "id": "lineage.valid_from",
+      "group": "lineage",
+      "name": "valid_from",
+      "unit": "timezone_aware_time_or_explicit_quality",
+      "required": true
+    },
+    {
+      "id": "lineage.valid_to",
+      "group": "lineage",
+      "name": "valid_to",
+      "unit": "timezone_aware_time_or_explicit_quality",
+      "required": true
+    },
+    {
+      "id": "lineage.version",
+      "group": "lineage",
+      "name": "version",
+      "unit": "positive_version",
+      "required": true
+    },
+    {
+      "id": "lineage.content_hash",
+      "group": "lineage",
+      "name": "content_hash",
+      "unit": "SHA256",
+      "required": true
+    },
+    {
+      "id": "lineage.license_id",
+      "group": "lineage",
+      "name": "license_id",
+      "unit": "identifier",
+      "required": true
+    },
+    {
+      "id": "lineage.timestamp_quality",
+      "group": "lineage",
+      "name": "timestamp_quality",
+      "unit": "contract_enum_or_mapping",
+      "required": true
+    },
+    {
+      "id": "lineage.availability_basis",
+      "group": "lineage",
+      "name": "availability_basis",
+      "unit": "contract_enum_or_mapping",
+      "required": true
+    },
+    {
+      "id": "lineage.request_parameters",
+      "group": "lineage",
+      "name": "request_parameters",
+      "unit": "credential_free_request",
+      "required": true
+    },
+    {
+      "id": "lineage.raw_response_hash",
+      "group": "lineage",
+      "name": "raw_response_hash",
+      "unit": "SHA256",
+      "required": true
+    },
+    {
+      "id": "lineage.response_received_at",
+      "group": "lineage",
+      "name": "response_received_at",
+      "unit": "UTC_timestamp",
+      "required": true
+    },
+    {
+      "id": "lineage.source_schema_version",
+      "group": "lineage",
+      "name": "source_schema_version",
+      "unit": "version",
+      "required": true
+    },
+    {
+      "id": "lineage.license_evidence_reference",
+      "group": "lineage",
+      "name": "license_evidence_reference",
+      "unit": "contract_reference_and_hash",
+      "required": true
+    },
+    {
+      "id": "lineage.availability_evidence",
+      "group": "lineage",
+      "name": "availability_evidence",
+      "unit": "reference_or_declared_latency",
+      "required": true
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+/* The workbench and research content are readable from the first frame. */
+body.is-signed-in #main > .page,
+body.is-signed-in #main > .page > *,
+body.is-signed-in #main .workspace-intro > *,
+body.is-signed-in #main .module-card {
+  animation: none !important;
+}
+body.is-signed-in .masthead,
+body.is-signed-in .rail-button.active,
+body.is-signed-in .rail-button.active::after,
+body.is-signed-in .masthead::after {
+  animation: none;
+}
+
+/* One staggered workspace arrival, without a second parent-page entrance. */
+body.is-signed-in #main.fa-enter-workspace .workspace-intro > * {
+  animation: fa-workspace-arrive 440ms var(--ease) both !important;
+}
+body.is-signed-in #main.fa-enter-workspace .module-card {
+  animation: fa-card-reveal 420ms calc(35ms + var(--motion-index, 0) * 44ms) var(--ease) backwards !important;
+}
+body.is-signed-in #main.fa-enter-workspace .module-card-art {
+  animation: fa-card-art 480ms calc(35ms + var(--motion-index, 0) * 44ms) var(--ease) backwards;
+}
+
+@keyframes fa-workspace-arrive {
+  from { opacity: .86; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes fa-card-reveal {
+  from { opacity: .88; }
+  to { opacity: 1; }
+}
+@keyframes fa-card-art {
+  from { translate: 0 8px; }
+  to { translate: 0; }
+}
+
+/* Leave the business area readable during lazy loads and movement. */
+body.is-signed-in #main.fa-enter-detail > .detail-page > .view-heading {
+  animation: fa-workspace-arrive 360ms var(--ease) both !important;
+}
+#main.fa-enter-detail > .detail-page::before {
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  inset: 0 0 auto;
+  height: 2px;
+  background: linear-gradient(90deg, var(--orange), var(--lime), transparent);
+  transform-origin: left;
+  animation: fa-detail-scan 490ms var(--ease) both;
+}
+
+@keyframes fa-detail-scan {
+  from { opacity: .52; transform: scaleX(.16); }
+  to { opacity: 0; transform: scaleX(1); }
+}
+/* Viewing a report: the native modal itself enters once, then its content
+   follows gently. It never re-animates the module D page behind the modal. */
+#modal[data-modal-kind='result'][open] .modal-header {
+  animation:fa-report-heading 380ms cubic-bezier(.16,.7,.2,1) both;
+}
+#modal[data-modal-kind='result'][open] .modal-content > * {
+  animation:fa-report-item 500ms cubic-bezier(.17,.78,.22,1) both;
+}
+#modal[data-modal-kind='result'][open] .modal-content > :nth-child(1) {animation-delay:85ms}
+#modal[data-modal-kind='result'][open] .modal-content > :nth-child(2) {animation-delay:135ms}
+#modal[data-modal-kind='result'][open] .modal-content > :nth-child(3) {animation-delay:185ms}
+#modal[data-modal-kind='result'][open] .modal-content > :nth-child(4) {animation-delay:220ms}
+#modal[data-modal-kind='result'][open] .modal-content > :nth-child(n+5) {animation-delay:260ms}
+@keyframes fa-report-heading {
+  from {opacity:.82;transform:translate3d(0,5px,0)}
+  to {opacity:1;transform:none}
+}
+@keyframes fa-report-item {
+  from {opacity:.82;transform:translate3d(0,8px,0)}
+  to {opacity:1;transform:none}
+}
+/* The destructive confirmation remains measured; the actual row exit and
+   remaining-row FLIP are controlled by JavaScript and never remount the shell. */
+#modal[data-modal-kind='delete'][open] .modal-content {border-left:1px solid color-mix(in srgb,var(--orange) 68%,transparent)}
+@media (prefers-reduced-motion: reduce) {
+  body.is-signed-in #main.fa-enter-workspace .module-card,
+  body.is-signed-in #main.fa-enter-workspace .module-card-art,
+  body.is-signed-in #main.fa-enter-workspace .workspace-intro > *,
+  body.is-signed-in #main.fa-enter-detail > .detail-page > .view-heading,
+  #main.fa-enter-detail > .detail-page::before,
+  #modal[data-modal-kind='result'][open] .modal-header,
+  #modal[data-modal-kind='result'][open] .modal-content > * {
+    animation: none !important;
+  }
+}
+
+body:is(.motion-paused, .page-hidden).is-signed-in #main.fa-enter-workspace .module-card,
+body:is(.motion-paused, .page-hidden).is-signed-in #main.fa-enter-workspace .module-card-art,
+body:is(.motion-paused, .page-hidden).is-signed-in #main.fa-enter-workspace .workspace-intro > *,
+body:is(.motion-paused, .page-hidden).is-signed-in #main.fa-enter-detail > .detail-page > .view-heading,
+body:is(.motion-paused, .page-hidden) #main.fa-enter-detail > .detail-page::before,
+body.motion-paused #modal[data-modal-kind='result'][open] :is(.modal-header, .modal-content > *) {
+  animation: none !important;
+}

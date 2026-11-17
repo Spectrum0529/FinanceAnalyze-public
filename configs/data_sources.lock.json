@@ -1,0 +1,993 @@
+{
+  "schema_version": 1,
+  "contract_revision": "formal-research-unverified-1",
+  "scope": "FORMAL_RESEARCH_CERTIFICATION_ONLY",
+  "lock_kind": "REQUIREMENTS_WITHOUT_APPROVED_MARKET_EVIDENCE",
+  "data_certification": "UNVERIFIED",
+  "package_approved": false,
+  "formal_research_generation_enabled": false,
+  "approved_market_sources": [],
+  "approved_history": null,
+  "input_bindings": {
+    "requirements": {
+      "path": "resources/data_requirements.json",
+      "sha256": "2628442ba27ab1c326962b8a8f8e2129912c8f1adc0423f68339102a8872a858"
+    },
+    "calendar": {
+      "path": "configs/calendar.lock.json",
+      "sha256": "d9b52f39061bee35cdea4011faf9f5f2bee5f2564d175bd3b328a45bb56be0ac"
+    },
+    "synthetic_fixture": {
+      "path": "samples/public/synthetic_market/events.json",
+      "sha256": "6856912bd4edc8bf5806d026cd44e7a5a5f09409d9d776ffe76332f46e66908c"
+    }
+  },
+  "required_field_contract": [
+    {
+      "id": "identity.security_id",
+      "group": "identity",
+      "name": "security_id",
+      "unit": "permanent_security_identifier",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "identity.issuer_id",
+      "group": "identity",
+      "name": "issuer_id",
+      "unit": "permanent_issuer_identifier",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "identity.ticker",
+      "group": "identity",
+      "name": "ticker",
+      "unit": "symbol",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "identity.security_name",
+      "group": "identity",
+      "name": "security_name",
+      "unit": "text",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "identity.primary_listing_mic",
+      "group": "identity",
+      "name": "primary_listing_mic",
+      "unit": "MIC",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "identity.share_class",
+      "group": "identity",
+      "name": "share_class",
+      "unit": "category",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "identity.security_type",
+      "group": "identity",
+      "name": "security_type",
+      "unit": "category",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "identity.listing_date",
+      "group": "identity",
+      "name": "listing_date",
+      "unit": "session_date",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "identity.listing_status",
+      "group": "identity",
+      "name": "listing_status",
+      "unit": "category",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "identity.identity_valid_from",
+      "group": "identity",
+      "name": "identity_valid_from",
+      "unit": "date_or_timestamp",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "identity.identity_valid_to",
+      "group": "identity",
+      "name": "identity_valid_to",
+      "unit": "date_or_timestamp_or_null",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "identity.shares_outstanding_asof",
+      "group": "identity",
+      "name": "shares_outstanding_asof",
+      "unit": "shares",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "identity.market_cap_asof",
+      "group": "identity",
+      "name": "market_cap_asof",
+      "unit": "USD",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "identity.spac_operating_status",
+      "group": "identity",
+      "name": "spac_operating_status",
+      "unit": "category",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "auction.auction_price",
+      "group": "auction",
+      "name": "auction_price",
+      "unit": "USD_per_share",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "auction.auction_session",
+      "group": "auction",
+      "name": "auction_session",
+      "unit": "session_date_America_New_York",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "auction.auction_venue_mic",
+      "group": "auction",
+      "name": "auction_venue_mic",
+      "unit": "MIC",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "auction.auction_type",
+      "group": "auction",
+      "name": "auction_type",
+      "unit": "category",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "auction.auction_timestamp",
+      "group": "auction",
+      "name": "auction_timestamp",
+      "unit": "timestamp_with_timezone",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "auction.auction_volume",
+      "group": "auction",
+      "name": "auction_volume",
+      "unit": "shares",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "auction.auction_match_id",
+      "group": "auction",
+      "name": "auction_match_id",
+      "unit": "source_identifier",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "auction.auction_condition",
+      "group": "auction",
+      "name": "auction_condition",
+      "unit": "category",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "auction.auction_verified_at",
+      "group": "auction",
+      "name": "auction_verified_at",
+      "unit": "UTC_timestamp",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "auction.auction_availability_status",
+      "group": "auction",
+      "name": "auction_availability_status",
+      "unit": "category",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "daily.session_date",
+      "group": "daily",
+      "name": "session_date",
+      "unit": "session_date_America_New_York",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "daily.raw_open",
+      "group": "daily",
+      "name": "raw_open",
+      "unit": "USD_per_share",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "daily.raw_high",
+      "group": "daily",
+      "name": "raw_high",
+      "unit": "USD_per_share",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "daily.raw_low",
+      "group": "daily",
+      "name": "raw_low",
+      "unit": "USD_per_share",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "daily.raw_close",
+      "group": "daily",
+      "name": "raw_close",
+      "unit": "USD_per_share",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "daily.volume",
+      "group": "daily",
+      "name": "volume",
+      "unit": "shares",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "daily.dollar_volume",
+      "group": "daily",
+      "name": "dollar_volume",
+      "unit": "USD",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "daily.adjustment_basis",
+      "group": "daily",
+      "name": "adjustment_basis",
+      "unit": "category_and_version",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "daily.trading_status",
+      "group": "daily",
+      "name": "trading_status",
+      "unit": "category",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "daily.correction_status",
+      "group": "daily",
+      "name": "correction_status",
+      "unit": "category_and_version",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "daily.benchmark_security_id",
+      "group": "daily",
+      "name": "benchmark_security_id",
+      "unit": "permanent_identifier",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "daily.total_return_inputs",
+      "group": "daily",
+      "name": "total_return_inputs",
+      "unit": "price_shares_cash",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "actions.action_id",
+      "group": "actions",
+      "name": "action_id",
+      "unit": "source_identifier",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "actions.action_type",
+      "group": "actions",
+      "name": "action_type",
+      "unit": "category",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "actions.announcement_at",
+      "group": "actions",
+      "name": "announcement_at",
+      "unit": "timestamp_or_date_with_quality",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "actions.effective_date",
+      "group": "actions",
+      "name": "effective_date",
+      "unit": "date",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "actions.ex_date",
+      "group": "actions",
+      "name": "ex_date",
+      "unit": "date",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "actions.record_date",
+      "group": "actions",
+      "name": "record_date",
+      "unit": "date",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "actions.payment_date",
+      "group": "actions",
+      "name": "payment_date",
+      "unit": "date_or_null",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "actions.split_ratio",
+      "group": "actions",
+      "name": "split_ratio",
+      "unit": "terminal_shares_per_entry_share",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "actions.cash_distribution",
+      "group": "actions",
+      "name": "cash_distribution",
+      "unit": "USD_per_entry_equivalent_share",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "actions.cash_currency",
+      "group": "actions",
+      "name": "cash_currency",
+      "unit": "ISO_currency",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "actions.successor_security_id",
+      "group": "actions",
+      "name": "successor_security_id",
+      "unit": "permanent_identifier_or_null",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "actions.stock_exchange_ratio",
+      "group": "actions",
+      "name": "stock_exchange_ratio",
+      "unit": "successor_shares_per_old_share",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "actions.cash_entitlement_confirmed_at",
+      "group": "actions",
+      "name": "cash_entitlement_confirmed_at",
+      "unit": "UTC_timestamp",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "actions.action_resolution_at",
+      "group": "actions",
+      "name": "action_resolution_at",
+      "unit": "UTC_timestamp",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "actions.source_document_reference",
+      "group": "actions",
+      "name": "source_document_reference",
+      "unit": "source_reference_and_hash",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "terminal.delisting_date",
+      "group": "terminal",
+      "name": "delisting_date",
+      "unit": "date",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "terminal.delisting_reason",
+      "group": "terminal",
+      "name": "delisting_reason",
+      "unit": "category",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "terminal.last_trade_date",
+      "group": "terminal",
+      "name": "last_trade_date",
+      "unit": "date",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "terminal.terminal_equity_value",
+      "group": "terminal",
+      "name": "terminal_equity_value",
+      "unit": "USD_per_entry_equivalent_share_or_null",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "terminal.terminal_cash_settlement",
+      "group": "terminal",
+      "name": "terminal_cash_settlement",
+      "unit": "USD_per_entry_equivalent_share_or_null",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "terminal.recovery_status",
+      "group": "terminal",
+      "name": "recovery_status",
+      "unit": "category",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "terminal.settlement_resolution_at",
+      "group": "terminal",
+      "name": "settlement_resolution_at",
+      "unit": "UTC_timestamp_or_null",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "terminal.halt_start_at",
+      "group": "terminal",
+      "name": "halt_start_at",
+      "unit": "UTC_timestamp",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "terminal.halt_end_at",
+      "group": "terminal",
+      "name": "halt_end_at",
+      "unit": "UTC_timestamp_or_null",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "calendar.session",
+      "group": "calendar",
+      "name": "session",
+      "unit": "session_date",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "CONTROL_ONLY"
+    },
+    {
+      "id": "calendar.market_open",
+      "group": "calendar",
+      "name": "market_open",
+      "unit": "timestamp_with_timezone",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "CONTROL_ONLY"
+    },
+    {
+      "id": "calendar.market_close",
+      "group": "calendar",
+      "name": "market_close",
+      "unit": "timestamp_with_timezone",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "CONTROL_ONLY"
+    },
+    {
+      "id": "calendar.information_cutoff",
+      "group": "calendar",
+      "name": "information_cutoff",
+      "unit": "America_New_York_08:45_to_UTC",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "CONTROL_ONLY"
+    },
+    {
+      "id": "calendar.publication_target",
+      "group": "calendar",
+      "name": "publication_target",
+      "unit": "America_New_York_09:00_to_UTC",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "CONTROL_ONLY"
+    },
+    {
+      "id": "calendar.calendar_version",
+      "group": "calendar",
+      "name": "calendar_version",
+      "unit": "version_and_hash",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "CONTROL_ONLY"
+    },
+    {
+      "id": "calendar.schedule_source_reference",
+      "group": "calendar",
+      "name": "schedule_source_reference",
+      "unit": "source_reference_and_hash",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "CONTROL_ONLY"
+    },
+    {
+      "id": "industry.industry_code",
+      "group": "industry",
+      "name": "industry_code",
+      "unit": "taxonomy_code",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "industry.industry_taxonomy_version",
+      "group": "industry",
+      "name": "industry_taxonomy_version",
+      "unit": "version",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "industry.industry_valid_from",
+      "group": "industry",
+      "name": "industry_valid_from",
+      "unit": "date",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "industry.industry_valid_to",
+      "group": "industry",
+      "name": "industry_valid_to",
+      "unit": "date_or_null",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "industry.business_segment",
+      "group": "industry",
+      "name": "business_segment",
+      "unit": "dated_disclosure_text",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "industry.segment_revenue",
+      "group": "industry",
+      "name": "segment_revenue",
+      "unit": "reported_currency_amount",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "industry.total_revenue",
+      "group": "industry",
+      "name": "total_revenue",
+      "unit": "same_reported_currency_amount",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "industry.target_revenue_share",
+      "group": "industry",
+      "name": "target_revenue_share",
+      "unit": "decimal_fraction",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "industry.membership_evidence_reference",
+      "group": "industry",
+      "name": "membership_evidence_reference",
+      "unit": "original_filing_reference_and_hash",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "industry.membership_approved_at",
+      "group": "industry",
+      "name": "membership_approved_at",
+      "unit": "UTC_timestamp",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "industry.target_taxonomy_version",
+      "group": "industry",
+      "name": "target_taxonomy_version",
+      "unit": "version",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "lineage.record_id",
+      "group": "lineage",
+      "name": "record_id",
+      "unit": "identifier",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "lineage.security_id",
+      "group": "lineage",
+      "name": "security_id",
+      "unit": "identifier",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "lineage.source_id",
+      "group": "lineage",
+      "name": "source_id",
+      "unit": "identifier",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "lineage.event_time",
+      "group": "lineage",
+      "name": "event_time",
+      "unit": "timezone_aware_time_or_explicit_quality",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "lineage.published_at",
+      "group": "lineage",
+      "name": "published_at",
+      "unit": "timezone_aware_time_or_explicit_quality",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "lineage.first_available_at",
+      "group": "lineage",
+      "name": "first_available_at",
+      "unit": "timezone_aware_time_or_explicit_quality",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "lineage.ingested_at",
+      "group": "lineage",
+      "name": "ingested_at",
+      "unit": "timezone_aware_time_or_explicit_quality",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "lineage.processed_at",
+      "group": "lineage",
+      "name": "processed_at",
+      "unit": "timezone_aware_time_or_explicit_quality",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "lineage.revision_time",
+      "group": "lineage",
+      "name": "revision_time",
+      "unit": "timezone_aware_time_or_explicit_quality",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "lineage.valid_from",
+      "group": "lineage",
+      "name": "valid_from",
+      "unit": "timezone_aware_time_or_explicit_quality",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "lineage.valid_to",
+      "group": "lineage",
+      "name": "valid_to",
+      "unit": "timezone_aware_time_or_explicit_quality",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "lineage.version",
+      "group": "lineage",
+      "name": "version",
+      "unit": "positive_version",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "lineage.content_hash",
+      "group": "lineage",
+      "name": "content_hash",
+      "unit": "SHA256",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "lineage.license_id",
+      "group": "lineage",
+      "name": "license_id",
+      "unit": "identifier",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "lineage.timestamp_quality",
+      "group": "lineage",
+      "name": "timestamp_quality",
+      "unit": "contract_enum_or_mapping",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "lineage.availability_basis",
+      "group": "lineage",
+      "name": "availability_basis",
+      "unit": "contract_enum_or_mapping",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "lineage.request_parameters",
+      "group": "lineage",
+      "name": "request_parameters",
+      "unit": "credential_free_request",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "lineage.raw_response_hash",
+      "group": "lineage",
+      "name": "raw_response_hash",
+      "unit": "SHA256",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "lineage.response_received_at",
+      "group": "lineage",
+      "name": "response_received_at",
+      "unit": "UTC_timestamp",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "lineage.source_schema_version",
+      "group": "lineage",
+      "name": "source_schema_version",
+      "unit": "version",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "lineage.license_evidence_reference",
+      "group": "lineage",
+      "name": "license_evidence_reference",
+      "unit": "contract_reference_and_hash",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    },
+    {
+      "id": "lineage.availability_evidence",
+      "group": "lineage",
+      "name": "availability_evidence",
+      "unit": "reference_or_declared_latency",
+      "required": true,
+      "certified_for_market_research": false,
+      "disposition": "BLOCK_FORMAL_USE"
+    }
+  ],
+  "provider_use_matrix": [],
+  "existing_development_samples": [],
+  "market_uses": {
+    "internal_research": {
+      "allowed": false,
+      "status": "EVIDENCE_NOT_CONFIGURED"
+    },
+    "raw_storage": {
+      "allowed": false,
+      "status": "EVIDENCE_NOT_CONFIGURED"
+    },
+    "post_expiry_retention": {
+      "allowed": false,
+      "status": "EVIDENCE_NOT_CONFIGURED"
+    },
+    "model_input": {
+      "allowed": false,
+      "status": "EVIDENCE_NOT_CONFIGURED"
+    },
+    "model_output": {
+      "allowed": false,
+      "status": "EVIDENCE_NOT_CONFIGURED"
+    },
+    "redistribution": {
+      "allowed": false,
+      "status": "EVIDENCE_NOT_CONFIGURED"
+    }
+  },
+  "allowed_nonmarket_work": {
+    "synthetic_engineering": {
+      "allowed": true,
+      "source": {
+        "path": "samples/public/synthetic_market/events.json",
+        "sha256": "6856912bd4edc8bf5806d026cd44e7a5a5f09409d9d776ffe76332f46e66908c"
+      },
+      "market_substitution_allowed": false
+    },
+    "calendar_clock_control": {
+      "allowed": true,
+      "calendar": {
+        "path": "configs/calendar.lock.json",
+        "sha256": "d9b52f39061bee35cdea4011faf9f5f2bee5f2564d175bd3b328a45bb56be0ac"
+      },
+      "market_data_license_granted": false
+    }
+  },
+  "availability_assumptions": {
+    "historical_first_available_at": null,
+    "historical_latency_seconds": null,
+    "publication_timestamp_inferred": false,
+    "receipt_time_backdated": false,
+    "date_only_treated_as_exact": false
+  },
+  "quality_disposition": {
+    "no_price_fill": true,
+    "no_unknown_recovery_zero": true,
+    "no_daily_open_auction_substitution": true,
+    "no_cross_date_identity_or_industry_backfill": true
+  },
+  "approval_process": {
+    "positive_approval_supported_in_this_revision": false,
+    "new_evidence_requires_new_revision_and_run": true,
+    "user_continue_is_not_license_evidence": true,
+    "holdout_access_enabled": false,
+    "procurement_or_contract_acceptance_authorized": false
+  }
+}

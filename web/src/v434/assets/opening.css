@@ -1,0 +1,85 @@
+/* The opening inherits the actual page palette and uses only its research mark. */
+body[data-opening="pending"]::before {
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:9998;
+  background:var(--auth-paper,var(--paper));
+  pointer-events:none;
+}
+body[data-opening="pending"] > :is(.app-frame,.ambient,.audio-dock),
+body[data-opening="drawing"] > :is(.app-frame,.ambient,.audio-dock) {
+  opacity:0;
+}
+body[data-opening="docking"] > :is(.app-frame,.ambient,.audio-dock) {
+  opacity:1;
+  transition:opacity 250ms cubic-bezier(.3,0,.3,1);
+}
+body[data-opening] [data-opening-target] { opacity:0!important; }
+.opening-screen {
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  isolation:isolate;
+  color:var(--auth-ink,var(--ink));
+  outline:0;
+  touch-action:none;
+  overscroll-behavior:contain;
+}
+.opening-backdrop {
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  background:var(--auth-paper,var(--paper));
+}
+.opening-mark {
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:clamp(132px,20vmin,196px);
+  aspect-ratio:1;
+  transform:translate(-50%,-50%);
+  transform-origin:center;
+}
+.opening-mark > svg {
+  display:block;
+  width:100%;
+  height:100%;
+  overflow:visible;
+}
+.opening-mark [data-logo-stroke] {
+  stroke-dasharray:1;
+  stroke-dashoffset:1;
+}
+.opening-mark [data-logo-dot] {
+  opacity:0;
+  transform-box:fill-box;
+  transform-origin:center;
+}
+.opening-skip {
+  position:absolute;
+  right:max(28px,env(safe-area-inset-right));
+  bottom:max(26px,env(safe-area-inset-bottom));
+  min-height:40px;
+  padding:8px 0 8px 16px;
+  color:var(--auth-muted,var(--muted));
+  font:10px var(--font);
+  letter-spacing:.6px;
+  transition:color .18s ease;
+}
+.opening-skip::after {
+  content:"↗";
+  margin-left:13px;
+  color:var(--auth-ink,var(--ink));
+  font-size:13px;
+}
+.opening-skip:hover { color:var(--auth-ink,var(--ink)); }
+.opening-skip:focus-visible { outline:1px solid var(--brand-accent,var(--orange)); outline-offset:5px; }
+@media (max-width:600px) {
+  .opening-mark { width:144px; }
+  .opening-skip { right:24px; bottom:max(22px,env(safe-area-inset-bottom)); }
+}
+@media (prefers-reduced-motion:reduce) {
+  body[data-opening] > :is(.app-frame,.ambient,.audio-dock) { transition:none; }
+  .opening-skip { transition:none; }
+}

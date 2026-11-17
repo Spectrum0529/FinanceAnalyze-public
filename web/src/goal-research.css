@@ -1,0 +1,43 @@
+.goal-research,
+.goal-research .panel {
+  min-width: 0;
+}
+
+.goal-research .panel-heading {
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
+.goal-research .panel-heading .area-help {
+  margin: 0;
+}
+
+.goal-research textarea {
+  resize: vertical;
+}
+
+.goal-research .form-actions .primary:not(:disabled) {
+  background: var(--lime, #cdebaa);
+  color: #172019;
+}
+
+.goal-research-task,
+.goal-provider-settings {
+  overflow-wrap: anywhere;
+}
+
+.goal-detail-list {
+  padding-inline-start: 1.5rem;
+}
+
+.goal-detail-list > li {
+  margin-block: 0.65rem;
+}
+
+.goal-detail-list p {
+  margin-block: 0.25rem;
+}
+
+.goal-budget dd {
+  margin-inline-start: 0;
+}

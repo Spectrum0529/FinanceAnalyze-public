@@ -1,0 +1,20 @@
+"""Public messages for the goal workflow's stable product codes."""
+MESSAGES_ZH = {
+    "GOAL_MODEL_REQUIRED": "请选择已保存的模型，或选择已设定默认模型的团队。制定计划的模型支持 OpenAI 和 DeepSeek。",
+    "GOAL_CREDENTIAL_REQUIRED": "所选模型还没有可用的密钥。请到模型设置选择对应的本机密钥。",
+    "GOAL_SOURCE_REQUIRED": "请选择数据来源，并确认市场、行情频率、币种和价格调整方式符合研究要求。",
+    "GOAL_BUDGET_REQUIRED": "请选择一组研究用量上限。",
+    "GOAL_NEEDS_CLARIFICATION": "请补充想研究哪些证券、哪段日期，以及希望使用哪种数据，再提交。",
+    "GOAL_PLAN_CAPABILITY_UNSUPPORTED": "目前无法确认这个目标要求的市场或数据类型。请检查目标中的市场和价格调整方式。",
+    "GOAL_DATA_RUNTIME_UNAVAILABLE": "这台电脑还不能从所选来源下载。请检查该来源的设置。",
+    "GOAL_DATA_BUDGET_EXCEEDED": "补齐数据需要的下载次数、行情行数或下载的数据大小超出这次任务的上限。",
+    "GOAL_DATA_CALENDAR_UNAVAILABLE": "无法确认所选交易所在这段日期里的哪些天开市。",
+    "GOAL_DATA_IDENTITY_UNVERIFIED": "无法确认这个代码在所选日期里对应哪只证券。",
+    "GOAL_DATA_OUTSIDE_DEVELOPMENT_WINDOW": "计划日期超出这次允许用来研究方案的范围。请明确可以使用哪些日期。",
+    "GOAL_EFFECT_UNCERTAIN": "上一次发往外部服务的请求结果还没确认，系统仍为这次请求保留用量额度。",
+    "GOAL_DEADLINE_EXCEEDED": "研究已达到开始时设定的截止时间。",
+    "GOAL_ROUND_BUDGET_INSUFFICIENT": "剩余时间或用量不足，无法开始新一轮研究。",
+    "GOAL_ROUND_PREFIX_LIMIT_EXCEEDED": "选中的数据行数超过一轮研究能使用的上限。",
+    "GOAL_ROUND_CAPABILITY_UNAVAILABLE": "这台电脑还不能按这组用量上限开始研究。请选择另一组上限。",
+    "GOAL_ROUND_INPUT_UNSUPPORTED": "这组用量上限需要选择一份已保存并可用于研究方案的数据。",
+}

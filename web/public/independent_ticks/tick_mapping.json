@@ -1,0 +1,21 @@
+{
+  "record_kind": "tick",
+  "event_type": "TRADE",
+  "fields": {
+    "event_id": "event_id",
+    "ticker": "ticker",
+    "instrument_id": "instrument_id",
+    "event_at": "event_at",
+    "available_at": "available_at",
+    "price": "price",
+    "volume": "volume",
+    "trading_status": "trading_status"
+  },
+  "price_unit": "USD_per_share",
+  "volume_unit": "shares",
+  "timezone": "UTC",
+  "availability": {
+    "basis": "SYNTHETIC_FIXTURE_CLOCK",
+    "reference": "public-synthetic-upload-prints-v1"
+  }
+}

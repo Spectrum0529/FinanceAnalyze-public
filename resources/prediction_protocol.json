@@ -1,0 +1,742 @@
+{
+  "protocol_id": "financeanalyze-research-default-v1",
+  "version": "1.0.0-public-template-1",
+  "status": "DRAFT_BLOCKED_FOR_MARKET_VALIDATION",
+  "evidence_status": "UNVERIFIED_ON_MARKET",
+  "market_experiments_executed": 0,
+  "live_trading_authorized": false,
+  "live_trading_enabled": false,
+  "research_mode": "current_methods_historical_simulation_not_historical_deployment",
+  "objectives": {
+    "primary": "5_session_absolute_total_return_binary_up_accuracy_date_equal_weighted_at_full_valid_coverage",
+    "binary_definition": "1 if R>0 else 0; zero is NOT down",
+    "direction_auxiliary": "multiclass down flat up",
+    "co_gates": [
+      "Brier skill versus causal prior",
+      "probability calibration",
+      "coverage and label availability",
+      "paired baseline superiority with uncertainty"
+    ],
+    "secondary": [
+      "balanced_accuracy",
+      "log_loss",
+      "MAE_mean",
+      "RMSE_mean",
+      "pinball",
+      "rank_IC",
+      "net_account_value_and_risk"
+    ]
+  },
+  "clock": {
+    "storage_timezone": "UTC",
+    "exchange_timezone": "America/New_York",
+    "display_timezone": "Asia/Hong_Kong",
+    "information_cutoff_local": "08:45:00",
+    "publish_deadline_local": "09:00:00",
+    "order_submit_target_local": "09:20:00",
+    "calendar_provider": null,
+    "calendar_hash": null,
+    "order_deadline_rule": "min(broker_deadline,venue_deadline)-verified_latency_buffer",
+    "late_data_policy": "next_scheduled_forecast_only",
+    "late_risk_event_policy": "append_invalidation_or_risk_action_no_rewrite"
+  },
+  "universe": {
+    "security_id": "internal_permanent_security_id; PERMNO_if_licensed; issuer_id_separate",
+    "base_assets": [
+      "US_exchange_listed_common_equity"
+    ],
+    "excluded_initially": [
+      "OTC",
+      "preferred",
+      "funds_as_prediction_targets",
+      "SPAC_before_operating_business",
+      "ADR_without_approved_action_mapping"
+    ],
+    "funds_role": "features_and_benchmarks",
+    "price_min_usd": 5,
+    "market_cap_min_usd": 1000000000,
+    "median_dollar_volume_60d_min_usd": 10000000,
+    "listing_age_min_sessions": 252,
+    "refresh": "monthly using previous_session_available_information",
+    "historical_reconstitution_required": true,
+    "current_tickers_not_backfilled": true,
+    "target_taxonomy": [
+      "AI_software",
+      "optical_networking",
+      "memory_storage",
+      "chip_design",
+      "foundry",
+      "semiconductor_equipment",
+      "materials",
+      "advanced_packaging",
+      "cloud",
+      "data_center",
+      "power_infrastructure",
+      "robotics"
+    ],
+    "membership_evidence": "as_of_business_segment_taxonomy plus revenue>=10% or contemporaneous primary disclosures establishing ongoing commercial product; uncertain excluded with reason",
+    "taxonomy_version": "1.0_draft",
+    "effective_from": "next_month_first_session_after_evidence_approval",
+    "censoring": "never remove prior forecasts when constituent exits",
+    "broad_training_pool": "same_quality_filters_all_sectors; target_only_challenger"
+  },
+  "targets": {
+    "primary_horizon_sessions": 5,
+    "secondary_horizons_sessions": [
+      1,
+      20
+    ],
+    "entry_reference": "official_primary_listing_opening_auction_session_t",
+    "exit_reference": "official_primary_listing_opening_auction_session_t_plus_h",
+    "return_definition": "R=(split_equivalent_terminal_equity_value+cash_distributions_entitled_at_h-P_entry)/P_entry; no_dividend_reinvestment",
+    "returns_units": "decimal",
+    "price_target_definition": "Z=split_equivalent_terminal_stock_price/P_previous_close-1; separate_head; USD_price=P_previous_close*(1+Q_Z)",
+    "thresholds_decimal": [
+      -0.1,
+      -0.05,
+      -0.02,
+      0.0,
+      0.02,
+      0.05,
+      0.1
+    ],
+    "quantiles": [
+      0.05,
+      0.1,
+      0.25,
+      0.5,
+      0.75,
+      0.9,
+      0.95
+    ],
+    "label_mature_at": "max(exit_auction_verified_at,corporate_action_resolution_at,required_cash_entitlement_confirmation_at)",
+    "halt": "label_censored_at_due_time; retain_forecast; later_resolution_appended",
+    "delisting": "retain terminal_equity_and_cash_settlement; missing_recovery_unresolved_not_zero",
+    "no_auction": "reference_unavailable; count_unscorable_and_order_unfilled; no_automatic_open_bar_substitution"
+  },
+  "data_contract": {
+    "required_fields": [
+      "record_id",
+      "security_id",
+      "source_id",
+      "event_time",
+      "published_at",
+      "first_available_at",
+      "ingested_at",
+      "processed_at",
+      "revision_time",
+      "valid_from",
+      "valid_to",
+      "version",
+      "content_hash",
+      "license_id",
+      "timestamp_quality",
+      "availability_basis"
+    ],
+    "live_available_at": "max(published_at,first_available_at,ingested_at,processed_at)",
+    "historical_available_at": "max(proven_publication,proven_vendor_availability_or_declared_latency_assumption); never pretend historical_ingestion",
+    "asof_join": "select version where available_at<=cutoff and valid_from<=event_reference and valid_to>event_reference; latest admissible revision",
+    "null_critical_time_policy": "quarantine",
+    "timestamp_date_only_policy": "available next_exchange_session unless official_time_proven",
+    "no_global_fit": true,
+    "feature_groups": [
+      {
+        "id": "F01",
+        "name": "趋势与反转",
+        "economic_hypothesis": "缓慢信息吸收和短期流动性反转可能并存",
+        "formula": "mom_k=prod(1+r_TR[d-j], j=0..k-1)-1; mom_12_1=TR[d-21]/TR[d-252]-1",
+        "unit": "小数收益",
+        "window": "k=1,5,21,63；长动量252跳过21日",
+        "availability": "仅已结束交易日，经截止前质量检查的as-of价格/分红",
+        "historical_coverage": "本轮未取得；逐字段供应商验收后填写起止日期和有效比例",
+        "missing_policy": "窗口不足缺失并加mask；核心5和21日缺失则停发该股票",
+        "incremental_test": "相同特征下分别与固定向上、5日反转、63日趋势比较",
+        "stage": "core"
+      },
+      {
+        "id": "F02",
+        "name": "波动与下行风险",
+        "economic_hypothesis": "风险水平改变信号可交易性和尾部",
+        "formula": "rv_k=sqrt(mean(r_d^2)); downside_k=sqrt(mean(min(r_d,0)^2)); vol_ratio=rv_21/rv_63",
+        "unit": "日收益标准尺度，不年化",
+        "window": "21,63日",
+        "availability": "昨日及以前已发布日收益",
+        "historical_coverage": "本轮未取得；逐字段供应商验收后填写起止日期和有效比例",
+        "missing_policy": "分母为0置缺失；不以全样本填补",
+        "incremental_test": "方向与区间宽度分别消融；不能因预测波动好就称方向好",
+        "stage": "core"
+      },
+      {
+        "id": "F03",
+        "name": "成交量与流动性",
+        "economic_hypothesis": "交易拥挤和价格冲击可能影响延续/反转",
+        "formula": "log(DV_d/median(DV[d-21:d-1])); illiq=mean(abs(r)/DV)*1e6",
+        "unit": "对数倍数；每百万美元对应收益",
+        "window": "21日；ADV用60日",
+        "availability": "完成日的价格乘有效成交股数，统一拆股口径",
+        "historical_coverage": "本轮未取得；逐字段供应商验收后填写起止日期和有效比例",
+        "missing_policy": "零量区分停牌与漏数；漏数不当作0",
+        "incremental_test": "删除该组并比较同ADV分层；固定成本模型不变",
+        "stage": "core"
+      },
+      {
+        "id": "F04",
+        "name": "市场行业相对强弱",
+        "economic_hypothesis": "共同冲击与个体反应不同",
+        "formula": "rel_k=mom_i,k-mom_peer_ex_i,k; beta=cov(r_i,r_m)/var(r_m)",
+        "unit": "小数收益；beta无量纲",
+        "window": "k=5,21,63；beta252日",
+        "availability": "同行池与权重均为当时版本，剔除本股票",
+        "historical_coverage": "本轮未取得；逐字段供应商验收后填写起止日期和有效比例",
+        "missing_policy": "同业少于5只转父行业；beta不足回退收缩行业beta",
+        "incremental_test": "直接模型与残差模型同数据比较；排除自包含造成的机械效果",
+        "stage": "core"
+      },
+      {
+        "id": "F05",
+        "name": "规模估值与财务质量",
+        "economic_hypothesis": "盈利质量和预期定价影响未来超额收益",
+        "formula": "log(market_cap_USD); B/P; CFO_TTM/assets; gross_profit_TTM/revenue_TTM",
+        "unit": "log美元、比例",
+        "window": "最近已公开4季度，资产用同口径期间末",
+        "availability": "公告accepted/公开、供应商首次可得、处理完成取最大值",
+        "historical_coverage": "本轮未取得；逐字段供应商验收后填写起止日期和有效比例",
+        "missing_policy": "不明确XBRL单位/期间则缺失；负账面价值单列；超过550日不沿用",
+        "incremental_test": "在相同覆盖股票日期上先加数据再换算法",
+        "stage": "phase2"
+      },
+      {
+        "id": "F06",
+        "name": "增长资本开支与库存",
+        "economic_hypothesis": "AI需求、供给和营运资本错配可能先于盈利变化",
+        "formula": "revenue_yoy=rev_q/rev_q_minus4-1; capex/revenue_TTM; inventory/revenue_TTM",
+        "unit": "比例",
+        "window": "季度/TTM",
+        "availability": "逐accession、逐版本；不使用后来重述数回写",
+        "historical_coverage": "本轮未取得；逐字段供应商验收后填写起止日期和有效比例",
+        "missing_policy": "零/负基数增长改缺失加标记；缺季度不拼凑TTM",
+        "incremental_test": "分产业链检验并对市值、动量条件化",
+        "stage": "phase2"
+      },
+      {
+        "id": "F07",
+        "name": "财报惊喜与预期修订",
+        "economic_hypothesis": "价格响应实际结果相对于原预期的差异",
+        "formula": "SUE=(EPS_actual-EPS_consensus_pre_release)/sd(past_8_surprises); revision=(consensus_now-consensus_21d_ago)/P_prev",
+        "unit": "标准差单位；收益尺度",
+        "window": "8个已成熟季度及21日预期版本",
+        "availability": "实际发布后才能得到surprise；共识必须有发布前快照和口径",
+        "historical_coverage": "本轮未取得；逐字段供应商验收后填写起止日期和有效比例",
+        "missing_policy": "无共识时停用SUE；实际同比增长不得冒充surprise",
+        "incremental_test": "只在同样财报事件上比较actual-only与actual+expectations",
+        "stage": "phase2"
+      },
+      {
+        "id": "F08",
+        "name": "事件日历与已知风险",
+        "economic_hypothesis": "财报/政策事件改变方差及可交易范围",
+        "formula": "sessions_to_next_confirmed_event; is_earnings_within_h; age_since_release",
+        "unit": "交易日、布尔",
+        "window": "预测h内及过去5日",
+        "availability": "日历本身也保存版本；未确认日期带estimated标记",
+        "historical_coverage": "本轮未取得；逐字段供应商验收后填写起止日期和有效比例",
+        "missing_policy": "无日历不写无事件，改unknown",
+        "incremental_test": "按事前已知财报窗口分层评价；不用实际日期重写过去",
+        "stage": "phase2"
+      },
+      {
+        "id": "F09",
+        "name": "文本事件与新颖度",
+        "economic_hypothesis": "新增经营信息比重复报道更可能影响预期",
+        "formula": "score=sum(source_weight*event_polarity*novelty*exp(-age_hours/24)); novelty=1-max_cosine_to_past_cluster",
+        "unit": "有界分数与小时",
+        "window": "过去1及5交易日；去重参考30日",
+        "availability": "原文发布时间、首次采集、抽取完成均不晚于cutoff；原文哈希",
+        "historical_coverage": "本轮未取得；逐字段供应商验收后填写起止日期和有效比例",
+        "missing_policy": "抽取失败保留unknown；未报道不是中性；原始句可追溯",
+        "incremental_test": "同样新闻下词典、线性文本、固定LLM抽取比较；prompt尝试入账",
+        "stage": "phase2"
+      },
+      {
+        "id": "F10",
+        "name": "宏观与利率",
+        "economic_hypothesis": "贴现率和增长冲击对产业暴露不同",
+        "formula": "dy10=y10_now-y10_5d_ago; slope=y10-y2; macro_surprise=(release-consensus_pre)/sd_past_releases",
+        "unit": "百分点或标准差",
+        "window": "5日变动；至少24次历史发布估尺度",
+        "availability": "ALFRED vintage加原机构时区发布时刻；未来实际值禁作known covariate",
+        "historical_coverage": "本轮未取得；逐字段供应商验收后填写起止日期和有效比例",
+        "missing_policy": "无共识只留已公开水平/变化；陈旧时长作为输入",
+        "incremental_test": "与单纯市场趋势比较；宏观时间冲击按日期整块检验",
+        "stage": "phase2"
+      },
+      {
+        "id": "F11",
+        "name": "全球及跨资产",
+        "economic_hypothesis": "海外供应链、美元与能源冲击传导到美股",
+        "formula": "last_available_return(local_index); delta_FX_1d; commodity_return_5d",
+        "unit": "收益、小时",
+        "window": "1,5日及quote_age_hours",
+        "availability": "UTC比较实际bar结束和接收时刻；不按同一日历日期合并",
+        "historical_coverage": "本轮未取得；逐字段供应商验收后填写起止日期和有效比例",
+        "missing_policy": "市场休市保留陈旧标志；不得前向填成新0收益",
+        "incremental_test": "分别消融海外信息与汇率；比较是否只是美股前日信息",
+        "stage": "phase2"
+      },
+      {
+        "id": "F12",
+        "name": "市场状态",
+        "economic_hypothesis": "风险溢价与信号强度随环境变化",
+        "formula": "state=(trailing_vol_quantile, drawdown_63, rate_change); optional filtered HMM p(z_t|x_<=t)",
+        "unit": "概率、分位、收益",
+        "window": "63,252日；HMM训练窗",
+        "availability": "阈值/状态参数只由训练拟合；仅filter不用smoother",
+        "historical_coverage": "本轮未取得；逐字段供应商验收后填写起止日期和有效比例",
+        "missing_policy": "状态不确定时回退全局模型",
+        "incremental_test": "固定交互对照HMM/MoE；检查专家有效样本",
+        "stage": "challenger"
+      },
+      {
+        "id": "F13",
+        "name": "产业关系",
+        "economic_hypothesis": "客户资本支出与供应商收入有滞后联系",
+        "formula": "exposure=sum_j known_weight_ij*event_score_j; peer_return_ex_i",
+        "unit": "加权分数/收益",
+        "window": "关系有效期；事件1,5日",
+        "availability": "关系公开/采购首次可得与valid_from分离",
+        "historical_coverage": "本轮未取得；逐字段供应商验收后填写起止日期和有效比例",
+        "missing_policy": "未知权重不捏造收入比例；等权方案明确另版本",
+        "incremental_test": "固定邻居均值对照GNN，随机边负对照",
+        "stage": "challenger"
+      },
+      {
+        "id": "F14",
+        "name": "期权信息",
+        "economic_hypothesis": "隐含风险定价可能含增量，但不是物理概率",
+        "formula": "ATM_IV_30d; put25_IV-call25_IV; IV_30-IV_90",
+        "unit": "年化波动率百分点",
+        "window": "30及90日恒定期限插值",
+        "availability": "当时有效双边报价、利率/分红假设、公司行动齐备",
+        "historical_coverage": "本轮未取得；逐字段供应商验收后填写起止日期和有效比例",
+        "missing_policy": "陈旧/单边/违反边界报价剔除并报覆盖",
+        "incremental_test": "相同股票日期对照历史波动；验证风险中性与真实概率映射",
+        "stage": "challenger"
+      },
+      {
+        "id": "F15",
+        "name": "卖空与持仓披露",
+        "economic_hypothesis": "拥挤与约束可能影响后续收益",
+        "formula": "short_interest/float_asof; disclosed_holding_change/float_asof",
+        "unit": "比例",
+        "window": "各自实际披露频率",
+        "availability": "严格按披露可得日，不用报告期末",
+        "historical_coverage": "本轮未取得；逐字段供应商验收后填写起止日期和有效比例",
+        "missing_policy": "未披露不当0；不将short volume代替short interest",
+        "incremental_test": "增量与流动性条件化；保留报告滞后",
+        "stage": "challenger"
+      },
+      {
+        "id": "F16",
+        "name": "社区与替代数据",
+        "economic_hypothesis": "注意力变化或实体活动可能先于信息扩散",
+        "formula": "log(1+unique_posts_24h)-log(1+median_past_30d); normalized_activity_change",
+        "unit": "对数计数/比例",
+        "window": "24小时/30日",
+        "availability": "需首次采集快照、删帖政策、平台及采样版本",
+        "historical_coverage": "本轮未取得；逐字段供应商验收后填写起止日期和有效比例",
+        "missing_policy": "覆盖变化形成新数据版本；缺历史只能前瞻",
+        "incremental_test": "用户去重/机器人过滤各自消融；不得用当前热榜回填",
+        "stage": "deferred"
+      },
+      {
+        "id": "F17",
+        "name": "数据质量与适用性",
+        "economic_hypothesis": "陈旧、缺失及分布外样本改变输出可信度",
+        "formula": "age=asof-last_available; missing_fraction; train_support_distance",
+        "unit": "秒、比例、标准化距离",
+        "window": "单条/当日及训练参考窗",
+        "availability": "质量字段自身也只用cutoff前状态",
+        "historical_coverage": "本轮未取得；逐字段供应商验收后填写起止日期和有效比例",
+        "missing_policy": "关键来源故障硬停发；非核心缺失转预训练的缩减模型",
+        "incremental_test": "覆盖-误差曲线；相同拒绝掩码基准；禁止用结果决定拒绝",
+        "stage": "core"
+      }
+    ]
+  },
+  "models": {
+    "adopt_for_first_comparison": [
+      "causal_baselines",
+      "pooled_elastic_net_logit_and_mean",
+      "pooled_lightgbm_raw_targets",
+      "random_feature_ridge"
+    ],
+    "conditional_adopt": [
+      "simplex_shrunk_ensemble_selected_on_held_out_predictions"
+    ],
+    "challengers": [
+      "hierarchical_bayesian",
+      "CatBoost",
+      "XGBoost",
+      "TCN",
+      "LSTM",
+      "small_Transformer",
+      "TabICLv2",
+      "Chronos2",
+      "TimesFM_2_5"
+    ],
+    "defer": [
+      "GNN",
+      "HMM_MoE",
+      "TimeGPT_closed_service",
+      "new_noncommercial_weights_without_license",
+      "decision_focused_learning",
+      "RL"
+    ],
+    "pretraining_audit_required": true,
+    "model_revision_hashes": null,
+    "class_reweighting": false,
+    "date_weight": "each_date_equal_weight; each_target_stock_equal_within_date",
+    "transform_fit": "training_only; point_in_time_cross_sectional_rank allowed_without_labels"
+  },
+  "selection": {
+    "search_configurations_per_family": 24,
+    "seed_repeats_for_stochastic_finalists": 3,
+    "search_budget_note": "equal_number_of_configurations plus measured compute_budget; budget failures logged; no reward for extra dataset access",
+    "ensemble": "nonnegative_simplex_weights shrunk_to_equal using dedicated E window",
+    "calibration": "one slope_and_intercept sigmoid per_horizon; multiclass temperature; isotonic challenger only if enough_calibration_data",
+    "decision_threshold": 0.5,
+    "selective_prediction": "secondary only; fixed confidence_quantile thresholds selected before final_test; report 100/90/75/50 percent target_coverage curves",
+    "rejection": "data_invalid is separate from model_low_confidence",
+    "search_spaces": {
+      "elastic_net": {
+        "l1_ratio": [
+          0,
+          0.25,
+          0.75,
+          1
+        ],
+        "regularization_lambda": [
+          0.001,
+          0.01,
+          0.1,
+          1,
+          10,
+          100
+        ]
+      },
+      "lightgbm": {
+        "num_leaves": [
+          7,
+          15,
+          31
+        ],
+        "learning_rate": [
+          0.02,
+          0.05
+        ],
+        "min_data_in_leaf": [
+          200,
+          1000
+        ],
+        "feature_fraction": [
+          0.7,
+          1.0
+        ],
+        "max_rounds": 2000,
+        "early_stopping": "development validation only; 100 rounds"
+      },
+      "random_feature_ridge": {
+        "width": [
+          256,
+          1024,
+          4096
+        ],
+        "bandwidth_scale": [
+          0.5,
+          1,
+          2
+        ],
+        "ridge_lambda": [
+          0.1,
+          1,
+          10,
+          100
+        ],
+        "map_seed": 20261008
+      },
+      "small_sequence": {
+        "lookback": [
+          63,
+          252
+        ],
+        "hidden_width": [
+          32,
+          64
+        ],
+        "depth": [
+          1,
+          2
+        ],
+        "dropout": [
+          0.1,
+          0.3
+        ],
+        "learning_rate": [
+          0.0001,
+          0.001
+        ],
+        "max_epochs": 100,
+        "early_stopping": "development validation only"
+      },
+      "candidate_sampling": "if Cartesian product exceeds 24, draw 24 without replacement with seed 20261008 before performance access",
+      "resource_limits": "must set after development_sample_timing and before final_test; no hidden extra trials"
+    }
+  },
+  "time_splits": {
+    "illustrative_only": true,
+    "training_initial": [
+      "2007-01-01",
+      "2017-12-31"
+    ],
+    "hyperparameter_rolling_validation": [
+      "2018-01-01",
+      "2021-12-31"
+    ],
+    "ensemble_E": [
+      "2022-01-01",
+      "2022-12-31"
+    ],
+    "calibration_C": [
+      "2023-01-01",
+      "2023-12-31"
+    ],
+    "policy_and_integration_D": [
+      "2024-01-01",
+      "2024-12-31"
+    ],
+    "historical_holdout_H": [
+      "2025-01-01",
+      "2026-09-30"
+    ],
+    "historical_H_status": "candidate_not_certified_untouched; no_market_data_loaded_in_this_turn",
+    "split_unit": "all_stocks_on_same_prediction_date",
+    "purge": "exclude training_labels whose closed_information_interval overlaps heldout interval; use actual maturity for unresolved labels",
+    "embargo": "forward_only no_future_training; choose_extra_gap_from_development_dependency_analysis then freeze; no universal_day_count",
+    "prospective": {
+      "start_session": null,
+      "start_rule": "first_full_NY_session_after_release_lock_and_all_gates",
+      "length_sessions": 252,
+      "primary_arm": "frozen_parameters_online_asof_features",
+      "secondary_arm": "predeclared_prequential_monthly_updates",
+      "labels_after_window_end": "wait_until_all_horizons_mature_or_report_censoring"
+    },
+    "OOF_generation": "E C D may use predeclared rolling base-model recipe; each scored label unseen at prediction; ensemble only E and calibration only C; final model never uses in-sample fitted scores as calibration examples"
+  },
+  "updates": {
+    "frozen_primary": {
+      "model": false,
+      "transforms": false,
+      "ensemble": false,
+      "calibration": false,
+      "policy": false,
+      "public_asof_features": true,
+      "test_label_feedback_to_training": false
+    },
+    "prequential_secondary": {
+      "model": "monthly_first_session_before_cutoff",
+      "training_labels": "only_mature_before_fit_started_at",
+      "hyperparameters": "frozen",
+      "ensemble_weights": "frozen",
+      "calibration": "monthly_last_252_sessions_of_prequential_mature_predictions",
+      "allowed_use_of_test_mature_labels": true,
+      "human_adaptation": false,
+      "must_score_separately": true
+    }
+  },
+  "evaluation": {
+    "primary_date_metric": "mean_date(mean_security(correct_binary_up))",
+    "raw_counts_required": true,
+    "zero_returns_separately_reported": true,
+    "coverage_denominators": [
+      "universe_eligible",
+      "data_valid",
+      "forecast_published",
+      "label_mature",
+      "scorable",
+      "selected_for_trade",
+      "orders_sent",
+      "filled"
+    ],
+    "pairing": "same_date_security_horizon_reference_information_costs",
+    "uncertainty": "paired_date_block_bootstrap_keep_full_cross_section; length_from_development_dependence",
+    "bootstrap_replicates": 2000,
+    "multiple_testing": "development max_statistic_or_Holm; one_locked_primary_final_comparison",
+    "effective_n": "estimate_on_date_aggregated_paired_loss; no_N_stocks_times_T_independence",
+    "selective_accuracy": "accuracy_and_coverage_and_baseline_on_identical_mask",
+    "gate_alpha": 0.05,
+    "gate_rules": [
+      "lower_confidence_bound_delta_accuracy>0 versus strongest_frozen_causal_baseline",
+      "Brier improvement with valid calibration and no predeclared material subgroup harm",
+      "economic_gate separately requires net_utility_lower_bound_above_passive_and_cost_uncertainty",
+      "operational_and_licensing_gates_all_pass"
+    ],
+    "risk_tolerance_inputs_pending": [
+      "max_drawdown",
+      "daily_loss_limit",
+      "single_name_limit",
+      "sector_limit",
+      "model_error_noninferiority_margin"
+    ],
+    "sample_size": "choose using development long_run_variance and material effect; 252 dates not assurance of sufficient_power"
+  },
+  "account": {
+    "scenario_only": true,
+    "equity_usd": 10000,
+    "gross_value_limit_usd": 30000,
+    "borrow_apr": 0.048,
+    "borrow_day_count_assumption": 365,
+    "production_initial_gross_to_equity_limit": 1.0,
+    "leverage_comparison": [
+      1.0,
+      3.0
+    ],
+    "shorting_initially_enabled": false,
+    "integer_shares": true,
+    "fee_schedule": {
+      "commission_per_share": null,
+      "commission_min": null,
+      "commission_cap": null,
+      "platform_per_share": null,
+      "platform_min": null,
+      "clearing_per_share": null,
+      "sell_regulatory_rate": null,
+      "sell_regulatory_min": null,
+      "activity_fee": null,
+      "borrow_fee": null
+    },
+    "cost_components": [
+      "commission",
+      "platform",
+      "clearing",
+      "sell_regulatory",
+      "spread_if_continuous_execution",
+      "impact",
+      "latency",
+      "nonfill",
+      "funding",
+      "short_borrow_when_enabled"
+    ],
+    "missing_fee_behavior": "block_net_profit_claims_and_live_orders"
+  },
+  "portfolio": {
+    "initial_policy": "weekly_nonoverlap_5_session_rebalance_long_only_cash; daily_predictions_for_scoring",
+    "horizon_overlap": "do_not_sum_1_5_20_day_expected_returns; same_security_one_net_account_position",
+    "risk_model": "shrunk_market_industry_factor_covariance_with_shared_residual_scenarios",
+    "expected_return_shrinkage": "toward_0_or_pooled_prior using development_only",
+    "objective": "expected_return_minus_risk_minus_trading_and_holding_cost_minus_estimation_uncertainty",
+    "integer_and_minimum_fee_solver": "small_candidate_set_integer_search_or_MIP; convex_relaxation_is_not_final_answer",
+    "fallback": "hold_when_valid_risk_and_no_improvement; risk_reduce_only_if_hard_limits_breached"
+  },
+  "execution": {
+    "broker": null,
+    "broker_api_version": null,
+    "auction_access_verified": false,
+    "execution_benchmark": "auction_is_reference_not_fill_guarantee",
+    "order_states": [
+      "CREATED",
+      "RISK_REJECTED",
+      "SENT",
+      "ACKNOWLEDGED",
+      "PARTIALLY_FILLED",
+      "FILLED",
+      "CANCEL_PENDING",
+      "CANCELLED",
+      "REJECTED",
+      "UNKNOWN_RECONCILING"
+    ],
+    "idempotency_key": "account+decision_id+security_id+side+revision",
+    "timeout_policy": "query_orders_and_executions_before_any_resubmit",
+    "reconciliation": "cash_positions_fills_fees_daily_and_after_reconnect",
+    "independent_risk_controls": [
+      "no_new_risk",
+      "cancel_confirmed_open_orders",
+      "reduce_positions_by_separate_rule"
+    ],
+    "flatten_is_not_default": true
+  },
+  "forecast_record_required": [
+    "forecast_id",
+    "security_id",
+    "asof",
+    "published_at",
+    "entry_session",
+    "exit_session",
+    "horizon",
+    "reference_price_definition",
+    "p_down",
+    "p_flat",
+    "p_up",
+    "mean_return",
+    "quantiles",
+    "threshold_probabilities",
+    "price_anchor",
+    "price_quantiles",
+    "data_snapshot_hash",
+    "feature_hash",
+    "model_hash",
+    "calibrator_hash",
+    "protocol_hash",
+    "evidence_ids",
+    "applicability_status",
+    "invalidation_events"
+  ],
+  "forecast_statuses": [
+    "RESEARCH_ONLY",
+    "VALID",
+    "LOW_CONFIDENCE",
+    "STALE",
+    "OUT_OF_DOMAIN",
+    "INVALID_DATA",
+    "MODEL_ERROR",
+    "RETRACTED_AFTER_PUBLICATION"
+  ],
+  "research_ledger_required": [
+    "experiment_id",
+    "hypothesis",
+    "data_hash",
+    "code_hash",
+    "configuration",
+    "seed",
+    "search_parent",
+    "information_cutoff",
+    "train_label_maturity_max",
+    "all_metrics",
+    "compute_time",
+    "failure",
+    "decision_before_test",
+    "prompt_hash_if_any"
+  ],
+  "pending_release_blockers": [
+    "PIT_security_master_and_corporate_actions",
+    "verified_history_of_industry_membership",
+    "actual_data_sample_QA",
+    "broker_fee_and_auction_contract",
+    "risk_limits_and_service_jurisdictions",
+    "frozen_code_data_model_license_hashes",
+    "prospective_release_timestamp_and_calendar",
+    "independent_market_validation"
+  ],
+  "claim_policy": {
+    "accuracy": null,
+    "net_return": null,
+    "sharpe": null,
+    "market_validation": "NOT_RUN",
+    "synthetic_checks": "Synthetic checks do not certify market accuracy or investment returns."
+  },
+  "monitoring": {
+    "performance_review": "predeclared checkpoints; no manual model changes during final window",
+    "stop_on": "data/contract/risk faults allowed; all stopped dates remain logged",
+    "append_only_reasons": true,
+    "external_timestamp_or_WORM_required_for_real_ante_claim": true
+  }
+}

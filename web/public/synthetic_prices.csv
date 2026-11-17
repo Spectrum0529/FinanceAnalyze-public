@@ -1,0 +1,5 @@
+ticker,instrument_id,effective_at,available_at,open,high,low,close,volume
+SYNTH,synthetic-equity,2026-09-01T00:00:00+00:00,2026-09-02T00:00:00Z,100,102,99,101,10000
+SYNTH,synthetic-equity,2026-09-02T00:00:00+00:00,2026-09-03T00:00:00Z,101,104,100,103,12000
+SYNTH,synthetic-equity,2026-09-03T00:00:00+00:00,2026-09-04T00:00:00Z,103,104,101,102,11000
+SYNTH,synthetic-equity,2026-09-04T00:00:00+00:00,2026-09-05T00:00:00Z,102,105,101,104,13000

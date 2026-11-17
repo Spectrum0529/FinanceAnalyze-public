@@ -1,0 +1,4 @@
+{
+  "schema": "financeanalyze-executor-paths-1",
+  "linux_root": "/home/example/.local/share/financeanalyze-executor"
+}

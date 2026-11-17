@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "scope": "development_sample_diagnostic_only",
+  "price_jump_fraction": "0.50",
+  "price_jump_basis": "same_native_symbol_cusip_listing_across_adjacent_sessions_positive_volume_no_permanent_identity_claim",
+  "suspect_volume_threshold": 10000000000,
+  "forward_fill": false,
+  "infer_halt_from_zero_volume": false,
+  "infer_supplier_missing_from_row_count_change": false,
+  "join_industry_across_snapshot_dates": false,
+  "unit_policy": "retain_source_literals_no_divisor_applied",
+  "terminal_candidate_types": [
+    "Merger",
+    "Liquidation"
+  ],
+  "master_industry_fields": {
+    "nyse_industry": 93,
+    "icb_industry": 98,
+    "icb_supersector": 99,
+    "icb_sector": 100,
+    "icb_subsector": 101
+  },
+  "master_status_fields": {
+    "financial_status": 115,
+    "halt_condition": 120,
+    "halt_reason": 121
+  },
+  "layout_note": "Column numbers are one-based. Verify this mapping against the authorized source layout before use. Classification and status describe a single snapshot; taxonomy version and history remain unverified.",
+  "formal_research_eligible": false
+}

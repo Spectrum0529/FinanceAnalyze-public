@@ -1,0 +1,14 @@
+**
+!web/
+!web/package.json
+!web/pnpm-lock.yaml
+!web/index.html
+!web/tsconfig.json
+!web/vite.config.ts
+!web/src/
+!web/src/**
+!web/public/
+!web/public/**
+!deploy/
+!deploy/platform/
+!deploy/platform/nginx.conf

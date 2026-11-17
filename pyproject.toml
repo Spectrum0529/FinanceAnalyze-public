@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools==80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "finance-predictor"
+version = "0.1.0"
+description = "Engineering shell for the FinanceAnalyze research project"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "argon2-cffi==25.1.0",
+    "cryptography==50.0.2",
+    "pyotp==2.10.0",
+    "tradingagents==0.7.0",
+    "exchange-calendars==4.13.2",
+    "fastapi==0.135.1",
+    "httpx==0.28.1",
+    "numpy==2.5.3",
+    "pyarrow==21.0.0",
+    "tzdata==2026.5",
+    "uvicorn==0.41.0",
+    "websockets==15.0.1",
+    "yfinance==1.8.0",
+    "curl-cffi==0.17.0",
+    "certifi==2026.10.23",
+    "akshare==1.19.3+guard1",
+    "mcp==2.3.0",
+    "massive==2.9.1",
+    "tushare==1.4.29",
+    "anthropic==1.17.0",
+    "google-genai==2.33.0",
+    "langchain-anthropic==1.7.6",
+    "langchain-core==1.7.0",
+    "langchain-google-genai==4.4.2",
+    "langchain-openai==1.7.2",
+    "langgraph==1.2.18",
+    "langsmith==0.14.12",
+    "openai==3.39.0",
+    "packaging==26.3",
+    "pandas==3.0.6",
+    "psycopg[binary]==3.3.9; sys_platform == 'win32'",
+    "langchain-ollama==1.1.0",
+]
+
+[project.scripts]
+predictor = "predictor.cli:main"
+finance-platform = "finance_platform.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.uv]
+# Match the established project build backend for the legacy jsonpath source build.
+build-constraint-dependencies = ["setuptools==80.9.0"]
+
+[tool.uv.sources]
+akshare = { path = "vendor/wheels/akshare-1.19.3+guard1-py3-none-any.whl" }
+
+tradingagents = { path = "workers/tradingagents/vendor/wheels/tradingagents-0.7.0-py3-none-any.whl" }

@@ -1,0 +1,202 @@
+{
+  "scope": "synthetic_only",
+  "uses_market_data": false,
+  "entry_session": "2026-03-06",
+  "horizon": 5,
+  "records": [
+    {
+      "metadata": {
+        "record_id": "synthetic-SPLIT:feature",
+        "security_id": "synthetic-SPLIT",
+        "source_id": "synthetic-hand-authored",
+        "event_time": "2026-03-05",
+        "published_at": "2026-03-06T13:00:00Z",
+        "first_available_at": "2026-03-06T13:01:00Z",
+        "ingested_at": "2026-03-06T13:02:00Z",
+        "processed_at": "2026-03-06T13:03:00Z",
+        "revision_time": null,
+        "valid_from": "2026-03-05",
+        "valid_to": null,
+        "version": 1,
+        "content_hash": "eb5678fe6e7cadbb7ffd4c0b16707f1969b055c05c7963bb7025a7c6ce7e420c",
+        "license_id": "synthetic-license-no-market-data",
+        "availability_basis": "live_observed",
+        "timestamp_quality": {
+          "event_time": "date_only",
+          "published_at": "exact",
+          "first_available_at": "exact",
+          "ingested_at": "exact",
+          "processed_at": "exact",
+          "revision_time": "not_revised",
+          "valid_from": "date_only",
+          "valid_to": "open_end"
+        },
+        "availability_evidence": {
+          "publication_reference": null,
+          "vendor_reference": null,
+          "latency_assumption": null,
+          "official_time_references": {}
+        }
+      },
+      "payload": {
+        "kind": "synthetic_feature",
+        "value": 100
+      }
+    },
+    {
+      "metadata": {
+        "record_id": "synthetic-HALT:feature",
+        "security_id": "synthetic-HALT",
+        "source_id": "synthetic-hand-authored",
+        "event_time": "2026-03-05",
+        "published_at": "2026-03-06T13:00:00Z",
+        "first_available_at": "2026-03-06T13:01:00Z",
+        "ingested_at": "2026-03-06T13:02:00Z",
+        "processed_at": "2026-03-06T13:03:00Z",
+        "revision_time": null,
+        "valid_from": "2026-03-05",
+        "valid_to": null,
+        "version": 1,
+        "content_hash": "90fc065655d1b46a1998be14ee98d48ba73fefba07cd18de5e45007c286b4ec6",
+        "license_id": "synthetic-license-no-market-data",
+        "availability_basis": "live_observed",
+        "timestamp_quality": {
+          "event_time": "date_only",
+          "published_at": "exact",
+          "first_available_at": "exact",
+          "ingested_at": "exact",
+          "processed_at": "exact",
+          "revision_time": "not_revised",
+          "valid_from": "date_only",
+          "valid_to": "open_end"
+        },
+        "availability_evidence": {
+          "publication_reference": null,
+          "vendor_reference": null,
+          "latency_assumption": null,
+          "official_time_references": {}
+        }
+      },
+      "payload": {
+        "kind": "synthetic_feature",
+        "value": 50
+      }
+    },
+    {
+      "metadata": {
+        "record_id": "synthetic-ZERO:feature",
+        "security_id": "synthetic-ZERO",
+        "source_id": "synthetic-hand-authored",
+        "event_time": "2026-03-05",
+        "published_at": "2026-03-06T13:00:00Z",
+        "first_available_at": "2026-03-06T13:01:00Z",
+        "ingested_at": "2026-03-06T13:02:00Z",
+        "processed_at": "2026-03-06T13:03:00Z",
+        "revision_time": null,
+        "valid_from": "2026-03-05",
+        "valid_to": null,
+        "version": 1,
+        "content_hash": "8b16bc69c75a2c3f9e98b15e6c01426573013fb55d4e64f03e0ab92c6db80269",
+        "license_id": "synthetic-license-no-market-data",
+        "availability_basis": "live_observed",
+        "timestamp_quality": {
+          "event_time": "date_only",
+          "published_at": "exact",
+          "first_available_at": "exact",
+          "ingested_at": "exact",
+          "processed_at": "exact",
+          "revision_time": "not_revised",
+          "valid_from": "date_only",
+          "valid_to": "open_end"
+        },
+        "availability_evidence": {
+          "publication_reference": null,
+          "vendor_reference": null,
+          "latency_assumption": null,
+          "official_time_references": {}
+        }
+      },
+      "payload": {
+        "kind": "synthetic_feature",
+        "value": 80
+      }
+    },
+    {
+      "metadata": {
+        "record_id": "synthetic-SPLIT:feature",
+        "security_id": "synthetic-SPLIT",
+        "source_id": "synthetic-hand-authored",
+        "event_time": "2026-03-05",
+        "published_at": "2026-03-09T12:30:00Z",
+        "first_available_at": "2026-03-09T12:31:00Z",
+        "ingested_at": "2026-03-09T12:32:00Z",
+        "processed_at": "2026-03-09T12:33:00Z",
+        "revision_time": "2026-03-09T12:30:00Z",
+        "valid_from": "2026-03-05",
+        "valid_to": null,
+        "version": 2,
+        "content_hash": "3617e65081bfbbd22cac3cdf94aeabf836c588719445fce24d594d8028d76610",
+        "license_id": "synthetic-license-no-market-data",
+        "availability_basis": "live_observed",
+        "timestamp_quality": {
+          "event_time": "date_only",
+          "published_at": "exact",
+          "first_available_at": "exact",
+          "ingested_at": "exact",
+          "processed_at": "exact",
+          "revision_time": "exact",
+          "valid_from": "date_only",
+          "valid_to": "open_end"
+        },
+        "availability_evidence": {
+          "publication_reference": null,
+          "vendor_reference": null,
+          "latency_assumption": null,
+          "official_time_references": {}
+        }
+      },
+      "payload": {
+        "kind": "synthetic_feature",
+        "value": 999
+      }
+    }
+  ],
+  "outcomes": [
+    {
+      "security_id": "synthetic-SPLIT",
+      "status": "MATURE",
+      "entry_usd": 100,
+      "exit_usd": 55,
+      "terminal_shares": 2,
+      "cash_usd": 2,
+      "exit_verified_at": "2026-03-13T13:31:00Z",
+      "action_resolved_at": "2026-03-13T16:00:00Z",
+      "cash_confirmed_at": "2026-03-16T13:00:00Z",
+      "recorded_at": "2026-03-16T13:01:00Z"
+    },
+    {
+      "security_id": "synthetic-HALT",
+      "status": "CENSORED",
+      "entry_usd": 50,
+      "exit_usd": null,
+      "terminal_shares": null,
+      "cash_usd": null,
+      "exit_verified_at": null,
+      "action_resolved_at": null,
+      "cash_confirmed_at": null,
+      "recorded_at": "2026-03-16T13:01:00Z"
+    },
+    {
+      "security_id": "synthetic-ZERO",
+      "status": "MATURE",
+      "entry_usd": 80,
+      "exit_usd": 80,
+      "terminal_shares": 1,
+      "cash_usd": 0,
+      "exit_verified_at": "2026-03-13T13:31:00Z",
+      "action_resolved_at": "2026-03-13T16:00:00Z",
+      "cash_confirmed_at": "2026-03-16T13:00:00Z",
+      "recorded_at": "2026-03-16T13:01:00Z"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "bind_host": "127.0.0.1",
+  "port": 8000,
+  "database": ".local/platform/platform.sqlite3",
+  "sending_workers": 1,
+  "live_enabled": false,
+  "untrusted_strategies_enabled": false,
+  "queue_warning": 100,
+  "pending_order_warning": 20,
+  "worker_stale_seconds": 60,
+  "notification": {"enabled": false, "endpoint": null}
+}

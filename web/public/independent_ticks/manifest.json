@@ -1,0 +1,186 @@
+{
+  "schema_version": "public-synthetic-bar-tick-fixtures-1",
+  "scope": "SYNTHETIC",
+  "formal_research_approved": false,
+  "source": {
+    "source_id": "synthetic-independent-prints-v1",
+    "name": "公开合成 bar + 独立成交打印示例",
+    "provider": "synthetic",
+    "capabilities": [
+      "bars",
+      "ticks",
+      "PIT"
+    ],
+    "assets": [
+      "US_EQUITY"
+    ],
+    "frequencies": [
+      "1Day",
+      "1Min",
+      "tick"
+    ],
+    "fields": [
+      "ticker",
+      "instrument_id",
+      "effective_at",
+      "available_at",
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume",
+      "event_id",
+      "ticker",
+      "instrument_id",
+      "event_at",
+      "available_at",
+      "price",
+      "volume",
+      "trading_status"
+    ],
+    "declared_history": "SYNTHETIC_ONLY",
+    "verified_coverage": [],
+    "license": {
+      "license_id": "synthetic-upload-v1",
+      "evidence": "Locally generated public synthetic upload fixtures; no provider or private data",
+      "use_allowed": [
+        "development",
+        "export"
+      ],
+      "rights_verified": true
+    },
+    "connection": {
+      "endpoint": null,
+      "key_env": null,
+      "secret_env": null,
+      "user_agent_env": null,
+      "feed": null
+    }
+  },
+  "identities": [
+    {
+      "instrument_id": "synthetic:alpha",
+      "ticker": "FAKE",
+      "asset_class": "US_EQUITY",
+      "mic": "XNYS",
+      "currency": "USD",
+      "tick_size": "0.01",
+      "lot_size": "1",
+      "fractional": false,
+      "calendar_id": "XNYS",
+      "settlement": "T+1",
+      "ticker_valid_from": "2020-01-01T00:00:00Z",
+      "ticker_valid_to": null,
+      "tradable": true
+    }
+  ],
+  "fixture_files": [
+    {
+      "path": "daily_bar_mapping.json",
+      "sha256": "89ad1bbaf0725d6f6832e0d38aaa38824d90e104e07cb052949f028e6adbe443",
+      "bytes": 402
+    },
+    {
+      "path": "daily_bars.csv",
+      "sha256": "5ca3939191253d6a19a04a571edf7cd5b5bf28c98c9e32888f5e4ae186220b51",
+      "bytes": 715
+    },
+    {
+      "path": "daily_bars.parquet",
+      "sha256": "f2f5978742e3bb10907fc7605c6c4fac555f82890b36fb57f4dd678fdb4f399b",
+      "bytes": 2702
+    },
+    {
+      "path": "daily_ticks.csv",
+      "sha256": "6af6942c0b9ecbd7fbdc179fe96baaf9df8389e05ac0a01acdb7a16ec97e66c9",
+      "bytes": 1597
+    },
+    {
+      "path": "daily_ticks.parquet",
+      "sha256": "d6027dec7cf6add0b89955f01c9c686c5d1d8addae623dda9316a41218fd86dc",
+      "bytes": 2712
+    },
+    {
+      "path": "identities.json",
+      "sha256": "fc95274d7008872552edd3d5b55c9c85447a985a26f54cd4082ac38591bb2038",
+      "bytes": 385
+    },
+    {
+      "path": "minute_bar_mapping.json",
+      "sha256": "97047f77835b63646357cdeedeb5ea9da0f8cfaea96c86e670199ab3681e64ff",
+      "bytes": 402
+    },
+    {
+      "path": "minute_bars.csv",
+      "sha256": "3eb26a3e8e82e8f7666e810b3d0efe6644c1103e4d4516eeed6ade80a3c9cd0b",
+      "bytes": 715
+    },
+    {
+      "path": "minute_bars.parquet",
+      "sha256": "e2221b2b39c8a9ca1fae96289ef81c8aab220c16a55d7c496d1a97ebc4768dd6",
+      "bytes": 2693
+    },
+    {
+      "path": "minute_ticks.csv",
+      "sha256": "b8c81aaa3417685fd711499b668e4f0b3a6e494419a6848d15732c3a5d10a5bb",
+      "bytes": 1597
+    },
+    {
+      "path": "minute_ticks.parquet",
+      "sha256": "cb9956324c0b80fd1135111af5ce27b53b51efdb0d2f058c5ca0a3add663be97",
+      "bytes": 2694
+    },
+    {
+      "path": "source.json",
+      "sha256": "6ce185c3d21dea06f3cc8442476c2d965607d0a187c6a36918f472ddbbac52ab",
+      "bytes": 1089
+    },
+    {
+      "path": "tick_mapping.json",
+      "sha256": "427c74ed5d6f8031abf1c5b126195b259b25225fd91b375c9f5b0ced72a9e9fc",
+      "bytes": 529
+    }
+  ],
+  "scenarios": {
+    "daily": {
+      "bar_mapping": "daily_bar_mapping.json",
+      "tick_mapping": "tick_mapping.json",
+      "bar_csv": "daily_bars.csv",
+      "tick_csv": "daily_ticks.csv",
+      "bar_parquet": "daily_bars.parquet",
+      "tick_parquet": "daily_ticks.parquet",
+      "bar_count": 8,
+      "tick_count": 16,
+      "snapshot": {
+        "as_of": "2026-10-13T00:00:00Z",
+        "instrument_ids": [
+          "synthetic:alpha"
+        ],
+        "required_kinds": [
+          "bar",
+          "tick"
+        ]
+      }
+    },
+    "minute": {
+      "bar_mapping": "minute_bar_mapping.json",
+      "tick_mapping": "tick_mapping.json",
+      "bar_csv": "minute_bars.csv",
+      "tick_csv": "minute_ticks.csv",
+      "bar_parquet": "minute_bars.parquet",
+      "tick_parquet": "minute_ticks.parquet",
+      "bar_count": 8,
+      "tick_count": 16,
+      "snapshot": {
+        "as_of": "2026-10-13T00:00:00Z",
+        "instrument_ids": [
+          "synthetic:alpha"
+        ],
+        "required_kinds": [
+          "bar",
+          "tick"
+        ]
+      }
+    }
+  }
+}

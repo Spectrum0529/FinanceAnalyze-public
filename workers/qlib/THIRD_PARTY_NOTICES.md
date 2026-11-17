@@ -1,0 +1,1 @@
+Qlib0.9.8 is an unchanged-source Windows cp312 x64 build from official commit54355232463878d2eebb91fe0ee5fa7fa1f5976c. The wheel was locally built; it is not described as an official prebuilt release wheel. Full original MIT license is retained. Other installed dependencies keep their packaged notices. No FinanceAnalyze license grant or distribution authorization.

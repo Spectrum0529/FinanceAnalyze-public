@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#e9e9e1">
+  <meta name="description" content="Finance Analyze 金融研究工作台。下载行情、用历史数据试算策略，并查看保存的研究结果。">
+  <title>Finance Analyze · 金融研究工作台</title>
+  <link rel="icon" href="/src/v434/assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/src/v434/assets/style.css">
+  <link rel="stylesheet" href="/src/v434/assets/auth.css">
+  <link rel="stylesheet" href="/src/v434/assets/workspace-motion.css">
+  <link rel="stylesheet" href="/src/v434/assets/kinetic.css">
+  <link rel="stylesheet" href="/src/v434/assets/audio.css">
+  <link rel="stylesheet" href="/src/v434/assets/date-picker.css">
+  <link rel="stylesheet" href="/src/v434/assets/dialog-motion.css">
+  <link rel="stylesheet" href="/src/v434/assets/brand.css">
+  <link rel="stylesheet" href="/src/v434/assets/opening.css">
+  <link rel="stylesheet" href="/src/v434/assets/ui-polish.css">
+  <link rel="stylesheet" href="/src/v434/assets/navigation-results.css">
+  <link rel="stylesheet" href="/src/v434/assets/ribbon-performance.css">
+<link rel="stylesheet" href="/src/v434/integration.css">
+</head>
+<body class="auth-screen" data-opening="pending">
+  <script type="module" src="/src/v434/opening-fallback.js"></script>
+  <a class="skip-link" href="#main">跳至主要内容</a>
+  <div class="ambient" aria-hidden="true"><div class="kinetic-aura"></div><div class="kinetic-grid"></div><canvas id="ribbon"></canvas><div class="ambient-grain"></div></div>
+  <div class="app-frame">
+    <header class="masthead">
+      <button class="brand" data-action="home" aria-label="Finance Analyze 首页">
+        <span class="brand-symbol" data-brand-slot="" aria-hidden="true"></span>
+        <span>FINANCE<br>ANALYZE<span class="brand-dot">.</span></span>
+      </button>
+      <div class="masthead-descriptor"><span>金融研究工作台</span></div>
+      <div class="header-status"><span class="status-dot"></span><span>研究工作台</span></div>
+      <button id="command-trigger" class="command-trigger" data-action="command" aria-label="导航与显示设置">导航 <kbd>⌘ / Ctrl K</kbd></button>
+      <div class="clock-block"><time id="clock">00:00<span>00</span></time><span id="clock-date">香港时间（UTC+8）</span></div>
+    </header>
+    <aside id="rail" class="rail" aria-label="主导航"></aside>
+    <main id="main" tabindex="-1"></main>
+    <footer class="system-footer"><span class="footer-system"><span class="footer-brand-mark" data-brand-slot="" aria-hidden="true"></span> FINANCE ANALYZE</span><span id="footer-center">研究工作台</span><span class="footer-right">实盘交易未开放</span></footer>
+  </div>
+  <div class="transition-sweep" aria-hidden="true"></div>
+  <dialog id="modal" aria-labelledby="modal-title"></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <aside class="audio-dock" data-audio-status="off" aria-label="声音控制">
+    <div class="audio-dock-main">
+      <button class="audio-toggle" data-audio-toggle aria-pressed="false" aria-label="开启背景音乐">
+        <span class="audio-equalizer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+        <span class="audio-copy"><b data-audio-title>音乐已关闭</b><small data-audio-label>点击开启音乐</small></span>
+      </button>
+      <button class="audio-skip" data-audio-next aria-label="下一首" title="下一首"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 4 8 6-8 6ZM15 4v12"/></svg></button>
+      <div class="audio-settings"><button type="button" class="audio-settings-trigger" data-audio-settings aria-label="打开播放列表和音量" aria-haspopup="dialog" aria-expanded="false" aria-controls="audio-panel"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 5h12M4 10h12M4 15h8"/></svg></button>
+        <section id="audio-panel" class="audio-volume-panel" popover="manual" role="dialog" aria-label="播放列表和音量" tabindex="-1" hidden data-state="closed">
+          <div class="audio-panel-heading"><span>播放列表和音量</span><b data-audio-number>01 / 08</b><button type="button" data-audio-close aria-label="关闭音乐设置">×</button></div>
+          <div class="audio-now-playing"><h2 data-audio-track-name>请选择一首音乐</h2><p data-audio-track-description></p></div>
+          <div class="audio-progress" role="progressbar" aria-label="当前曲目播放进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i data-audio-progress></i></div>
+          <div class="audio-time"><span data-audio-elapsed>0:00</span><span data-audio-section>等待播放</span><span data-audio-duration>0:00</span></div>
+          <div class="audio-transport"><button type="button" data-audio-previous aria-label="上一首"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m15 4-8 6 8 6ZM5 4v12"/></svg></button><button type="button" data-audio-play aria-label="播放音乐">播放音乐</button><button type="button" data-audio-next aria-label="播放下一首"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 4 8 6-8 6ZM15 4v12"/></svg></button><div class="audio-mode">
+            <button type="button" class="audio-mode-trigger" data-audio-mode-toggle aria-label="播放方式：随机播放" aria-haspopup="menu" aria-expanded="false" aria-controls="audio-mode-menu"><span data-audio-mode-icon aria-hidden="true">↝</span><span data-audio-mode-label>随机播放</span><span class="audio-mode-chevron" aria-hidden="true">⌄</span></button>
+            <div id="audio-mode-menu" class="audio-mode-menu" role="menu" aria-label="播放方式" hidden data-state="closed">
+              <button type="button" role="menuitemradio" data-audio-mode="sequence" aria-checked="false" tabindex="-1"><span aria-hidden="true">→</span><span>顺序播放</span><i aria-hidden="true">✓</i></button>
+              <button type="button" role="menuitemradio" data-audio-mode="repeat-one" aria-checked="false" tabindex="-1" title="循环当前曲目"><span aria-hidden="true">↻</span><span>循环播放</span><i aria-hidden="true">✓</i></button>
+              <button type="button" role="menuitemradio" data-audio-mode="shuffle" aria-checked="true" tabindex="0"><span aria-hidden="true">↝</span><span>随机播放</span><i aria-hidden="true">✓</i></button>
+            </div>
+          </div></div>
+          <div class="audio-playlist" data-audio-playlist role="group" aria-label="八首原创音乐"></div>
+          <label class="audio-volume-label"><span>音量</span><input data-audio-volume type="range" min="0" max="100" value="35" aria-label="声音音量"><output data-audio-volume-label>35%</output></label>
+          <small class="audio-panel-foot">原创电子音乐 · 音效随声音开关</small>
+        </section>
+      </div>
+    </div>
+    <div class="audio-mini-progress" aria-hidden="true"><i data-audio-mini-progress></i></div>
+  </aside>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+/* The mark follows the surrounding surface, including fixed dark ID badges. */
+:root{--brand-accent:#a9843d}
+body[data-theme=dark]{--brand-accent:#ddbb70}
+.research-mark{display:block;width:100%;height:auto;aspect-ratio:1;overflow:visible;flex:none;color:inherit}
+.brand-symbol[data-brand-slot]{display:block;width:40px;height:40px;flex:none;color:var(--ink)}
+.brand-symbol .research-mark{width:40px;height:40px}
+.terminal-brand-heading{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.terminal-brand-heading [data-brand-anchor]{width:40px;height:40px;flex:none;color:var(--auth-ink);--brand-accent:#ad893f}
+.terminal-brand .terminal-brand-heading h1{font-size:clamp(20px,1.85vw,29px);line-height:1.02;margin:0;letter-spacing:-1.15px}
+.auth-screen[data-theme=dark] .terminal-brand-heading [data-brand-anchor]{--brand-accent:#ddbb70}
+.session-mini-mark{--brand-accent:#d9b86e}
+.session-mini-mark .research-mark{width:29px;height:29px}
+.portrait-insignia{width:18px;height:18px;--brand-accent:#d9b86e}
+.portrait-insignia .research-mark{width:15px;height:15px}
+.operator-session>b.operator-brand-mark{position:static;flex:none;width:19px;height:19px;margin-left:auto;color:var(--auth-ink);--brand-accent:var(--auth-orange)}
+.footer-brand-mark{display:block;width:17px;height:17px;flex:none;color:var(--ink)}
+.footer-brand-mark .research-mark{width:17px;height:17px}
+body.auth-alarm .terminal-brand-heading [data-brand-anchor]{color:var(--auth-ink);--brand-accent:var(--auth-orange)}
+@media(min-width:1650px){.terminal-brand-heading [data-brand-anchor]{width:44px;height:44px}.terminal-brand .terminal-brand-heading h1{font-size:32px}}
+@media(max-width:1180px) and (min-width:851px){.terminal-brand-heading{gap:7px}.terminal-brand-heading [data-brand-anchor]{width:30px;height:30px}.terminal-brand .terminal-brand-heading h1{font-size:21px;letter-spacing:-1px}}
+@media(max-width:850px){.terminal-brand-heading{gap:7px;margin-bottom:5px}.terminal-brand-heading [data-brand-anchor]{width:28px;height:28px}.terminal-brand .terminal-brand-heading h1{font-size:24px;letter-spacing:-.9px}.session-mini-mark .research-mark{width:25px;height:25px}}
+@media(min-width:600px) and (max-width:850px){.terminal-brand-heading [data-brand-anchor]{width:36px;height:36px}.terminal-brand .terminal-brand-heading h1{font-size:30px}}
+@media(max-width:390px){.terminal-brand-heading{gap:6px}.terminal-brand-heading [data-brand-anchor]{width:25px;height:25px}.terminal-brand .terminal-brand-heading h1{font-size:21px}.session-mini-mark .research-mark{width:22px;height:22px}}

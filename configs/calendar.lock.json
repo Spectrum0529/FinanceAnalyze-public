@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "adapter_version": "xnys-forecast-clock-1",
+  "exchange": "XNYS",
+  "provider": "exchange_calendars:4.13.2:XNYS",
+  "coverage_start": "2007-01-01",
+  "coverage_end": "2028-12-31",
+  "backend_source_sha256": "9fcab7d5b2fd55bb4cf20efb865eaade09b89d6ebc406ed41117b17c8c52455f",
+  "tzdata_version": "2026.5",
+  "iana_version": "2026e",
+  "timezone_sha256": {
+    "America/New_York": "d7f2206b3a45989fc9ad63d558922532fa7352280d5f87176bf1db79cb1d1fa9",
+    "Asia/Hong_Kong": "f4068f73246db97417f73467453564c57d6646ce4909b9fa2536923efcd7eb4f",
+    "UTC": "fddce1e648a1732ac29afd9a16151b2973cdf082e7ec0c690f7e42be6b598b93"
+  },
+  "sessions_count": 5533,
+  "schedule_sha256": "5a79483d2629633ff14f6807f7ef94dfe5460291d331096e6347fb3a8b54ac80",
+  "calendar_hash": "d38aae0e862e2688e6acdb4721f7a61220799f0d7ef43f10eda84cfe99e6b0fd"
+}

@@ -1,0 +1,17 @@
+[
+  {
+    "instrument_id": "synthetic:alpha",
+    "ticker": "FAKE",
+    "asset_class": "US_EQUITY",
+    "mic": "XNYS",
+    "currency": "USD",
+    "tick_size": "0.01",
+    "lot_size": "1",
+    "fractional": false,
+    "calendar_id": "XNYS",
+    "settlement": "T+1",
+    "ticker_valid_from": "2020-01-01T00:00:00Z",
+    "ticker_valid_to": null,
+    "tradable": true
+  }
+]
