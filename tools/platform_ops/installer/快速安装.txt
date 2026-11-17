@@ -2,7 +2,7 @@ FinanceAnalyze Windows x64
 
 1. 从发行页面下载完整的 Windows 安装 ZIP，再用 Windows 解压到一个目录。如果下载中断，从下载器继续或重新获取同一发行包。
 2. 在解压目录双击 FinanceAnalyze-Setup.exe。保留同目录的 FinanceAnalyze.payload.zip，安装器会先核对它的完整性。
-3. 点击“安装或继续”。默认安装到 %LOCALAPPDATA%\FinanceAnalyze，也可选择另一个新目录。准备应用、Python 和已锁定的依赖需要一些时间。
+3. 点击“安装或继续”。可用默认目录，也可在任意可写的本机固定磁盘上选择空文件夹。安装目录沿用 Windows 的权限设置。准备应用和依赖需要一些时间。
 4. 安装完成后点击“打开软件”，以后可打开本机开始菜单的 FinanceAnalyze，或双击安装目录里的 FinanceAnalyze.exe。若系统已存在同名开始菜单入口，安装器保留它。按启动器和网页提示创建本机账号。
 
 安装阶段无需 Git、Python、uv、Node、命令行或网络。

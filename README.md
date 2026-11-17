@@ -1,73 +1,57 @@
-# FinanceAnalyze
+<p align="center">
+  <img src="web/src/v434/assets/logo-light.svg" alt="" width="72">
+</p>
 
-Download market data, test investment strategies with virtual funds, and review saved reports in a local Windows workbench.
+<h1 align="center">FinanceAnalyze</h1>
 
-[简体中文](README.zh-CN.md) · [Get started](docs/GETTING_STARTED.md) · [User guide](docs/USER_GUIDE.md) · [Connect an AI assistant](docs/platform/MCP_CONNECTION.md)
+<p align="center"><strong>Get market data, test a strategy, and see how it would have performed.</strong></p>
 
-## What it does
+<p align="center">
+  <a href="https://github.com/Spectrum0529/FinanceAnalyze-public/releases/latest"><strong>Download for Windows</strong></a>
+  · <a href="#try-your-first-backtest">Try an example</a>
+  · <a href="README.zh-CN.md">简体中文</a>
+</p>
 
-- Downloads market data or imports CSV files, then saves datasets for reuse.
-- Runs built-in and supported custom strategies with the starting balance and trading costs you choose.
-- Compares a strategy with investing the same starting balance in SPY, QQQ, and ASHR. Each comparison has its own chart color and visibility control.
-- Opens result previews without losing your place in the list. Saved datasets and reports support management, including moving eligible items to the trash and restoring them.
-- Lets local Codex, DeepSeek Harness, and compatible MCP clients use authorized workbench tools. Permissions can be revoked per client.
+FinanceAnalyze is an open-source Windows app for exploring investment ideas with historical prices and virtual money. Use it to answer questions like “How would this strategy have done after trading fees?” or “What if I had put the same money into SPY on day one?”
 
-Calculations run on your computer. The first example needs an internet connection, but no AI API key or model balance. The current interface is primarily Chinese; the steps below include the labels you will see.
+The app runs on your computer and opens in your browser. The interface is currently in Chinese. English translations of the main buttons are included below.
 
 ## Install
 
-The installer targets **Windows x64** and includes Python and the required application dependencies.
+1. Download **`FinanceAnalyze-Windows-x64.zip`** under **Assets** on the [latest release page](https://github.com/Spectrum0529/FinanceAnalyze-public/releases/latest).
+2. Extract the ZIP and run **`FinanceAnalyze-Setup.exe`**. Keep `FinanceAnalyze.payload.zip` beside Setup while installing.
+3. Click **安装或继续** (Install or continue). Use the default location or choose an empty folder you can write to on a local drive. Click **打开软件** (Open the app) when Setup finishes.
+4. In the launcher, click **获取首次设置码** (Get setup code). Enter the code in the local page to create your account.
 
-1. Open the [latest Windows release](https://github.com/Spectrum0529/FinanceAnalyze-public/releases/latest). Download `FinanceAnalyze-Windows-x64.zip` and the companion `.sha256` file for the same release.
-2. Extract the entire ZIP. Keep `FinanceAnalyze.payload.zip` next to `FinanceAnalyze-Setup.exe`.
-3. Open Setup, select **安装或继续** (Install or continue), and choose an installation folder. When finished, select **打开软件** (Open the app).
-4. For the first account, select **获取首次设置码** (Get the initial setup code) in the launcher. Enter that code on the local page and create your administrator account. On later visits, sign in with your own password.
+Python and the required dependencies come with the installer. For subsequent visits, open `FinanceAnalyze.exe` and sign in. [Installation help and repair](docs/OPERATIONS.md)
 
-To check the downloaded ZIP, open PowerShell in its folder and compare the result with the companion checksum:
+## Try your first backtest
 
-```powershell
-Get-FileHash -Algorithm SHA256 -LiteralPath '.\FinanceAnalyze-Windows-x64.zip'
-```
+1. Sign in and click **先跑一个例子** (Run an example).
+2. Click **确认并开始示例** (Confirm and start). FinanceAnalyze downloads AAPL prices from Yahoo and simulates buying and holding the stock with **$10,000 in virtual funds**.
+3. Click **查看结果** (View result) to see the preview, or **打开完整报告** (Open full report) for more detail. Find the saved report again in **D · 研究结果** (Results).
 
-The **Code → Download ZIP** archive is source code, not the ready-to-use installer. Use the Release attachment for the steps above. [Startup, repair, and backups](docs/OPERATIONS.md)
+The example needs an internet connection to fetch prices. You can run it without an AI API key or paid model account. [Step-by-step guide](docs/GETTING_STARTED.md)
 
-## Run your first backtest
+## Explore the workbench
 
-1. Sign in and choose **先跑一个例子** (Run an example).
-2. Review AAPL, January 2–March 31, 2025, USD 10,000 in virtual funds, and the displayed fees. Select **确认并开始示例** (Confirm and start).
-3. The app downloads real Yahoo daily prices, saves the dataset, and simulates buying and holding AAPL.
-4. Select **查看结果** (View result). Close the preview to return to your place, or choose **打开完整报告** (Open full report). Reopen it later in **D · 研究结果** (Results).
-
-If a request appears unfinished, use **核对并继续** (Check and continue). After a failed step, inspect the reason before selecting **重试这一步** (Retry this step). [Step-by-step guide](docs/GETTING_STARTED.md)
-
-## Data and AI connections
-
-Data integrations include Yahoo through yfinance, AKShare, Tushare Pro, Massive, WRDS, and optional OpenBB sources. These are different connectors, not promises that every dataset or market supports every feature. Provider accounts, subscriptions, source availability, and optional components determine what you can use. CSV import is also available. [Data sources and limits](docs/USER_GUIDE.md#数据来源)
-
-There are two separate ways to use AI:
-
-| You want to… | Start here |
+| Area | What you can do |
 | --- | --- |
-| Let Codex or DeepSeek operate the local workbench | [Connect an AI assistant](docs/platform/MCP_CONNECTION.md) |
-| Let FinanceAnalyze send research requests to a model provider | [Model and API key setup](docs/AI_SETUP_GUIDE.md) |
+| **A · Strategies and backtests** | Pick a built-in or supported custom strategy, set starting cash and trading fees, and compare it with investing the same amount in SPY, QQQ or ASHR. Toggle each comparison line on the chart. |
+| **B · AI research** | Configure a model for research or connect Codex, DeepSeek Harness or another compatible local MCP client. Choose what each assistant can do and revoke access per client. |
+| **C · Market data** | Download prices or import a CSV, reuse datasets across backtests, and merge compatible date ranges. |
+| **D · Results** | Open a report preview from the list, revisit saved results, and move eligible reports to the trash or restore them. |
 
-## Security and privacy
+Data connectors include **Yahoo via yfinance, AKShare, Tushare Pro, Massive, WRDS**, and optional **OpenBB** sources. Coverage and feature support vary by source, and some require an account or subscription. [Data source guide](docs/USER_GUIDE.md#数据来源)
 
-Keep the workbench local to your computer. This release is not a ready-to-expose public website or remote MCP service. Accounts, keys, private datasets, reports, and backups do not belong in GitHub issues or source uploads. Data downloads contact the selected provider; approved model research can send the selected information to that model provider and may incur charges.
+Use [the MCP guide](docs/platform/MCP_CONNECTION.md) to let a local assistant operate the app. Use [the model setup guide](docs/AI_SETUP_GUIDE.md) to run AI research inside FinanceAnalyze. Online model requests may send selected research inputs to the provider and incur charges.
 
-Backtests use virtual funds and are simulations, not promises of future returns. Live trading is disabled. WRDS and other restricted data remain subject to their provider's terms and the app's sharing restrictions. [Account, backup, and connection help](docs/OPERATIONS.md)
+## Build from source
 
-## Project layout
+The repository contains a Python backend, a React interface, and the Windows launcher and installer. See the [build guide](docs/BUILDING.md) for the required tools and reproducible build steps. Issues with a version number, steps to reproduce, and the error message are welcome. [Report an issue](https://github.com/Spectrum0529/FinanceAnalyze-public/issues)
 
-| Folder | Contents |
-| --- | --- |
-| `src/` | Application services and calculation code |
-| `web/` | Workbench interface |
-| `workers/` | Optional research and data components |
-| `configs/`, `resources/` | Generic configuration examples and application resources |
-| `tools/` | Build, installation, and local operation tools |
-| `docs/`, `licenses/` | User instructions and license notices |
+## License and scope
 
-## License
+FinanceAnalyze's original code is available under the [MIT License](LICENSE). Bundled dependencies retain their own licenses, and market data is governed by provider terms. [Third-party notices](THIRD_PARTY_NOTICES.md)
 
-FinanceAnalyze's original source code is licensed under the [MIT License](LICENSE). Third-party components retain their own licenses; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). The MIT license does not grant rights to a provider's market data, paid subscriptions, or user-supplied strategy packages.
+This release is designed for local use. Backtests use historical data and simulated trades. Live trading is disabled.

@@ -30,7 +30,7 @@ namespace FinanceAnalyzeSetup {
             AutoScaleDimensions = new SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
             Font = new Font("Microsoft YaHei UI", 10);
-            var hint = new Label { Text = "选择安装目录。已有同版安装可检查并修复。", AutoSize = true, Dock = DockStyle.Fill };
+            var hint = new Label { Text = "输入安装路径，或浏览并选择上一级文件夹。", AutoSize = true, Dock = DockStyle.Fill };
             folder.Dock = DockStyle.Fill;
             folder.Text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 "FinanceAnalyze");
@@ -96,8 +96,6 @@ namespace FinanceAnalyzeSetup {
                 case "INSTALL_ALREADY_COMPLETE": return "此目录已完成安装。请点“检查并修复”，或直接打开已安装的软件。";
                 case "INSTALL_ROOT_NOT_EMPTY": return "此目录已有文件。首次安装请选择新的本机目录。";
                 case "INVALID_INSTALL_ROOT": return "请选择本机固定磁盘中的专用目录，且安装包放在该目录之外。";
-                case "INSTALL_PARENT_SHARED_WRITE": return "所选位置允许其他用户改动安装目录。请选择你的个人目录或受保护的本机目录。";
-                case "INSTALL_ACL_UNSAFE": return "此目录无法验证为你的私有安装目录。请在个人目录中选择一个新位置。";
                 case "REPARSE_PATH": return "文件路径包含链接或重定向。请移到普通本机目录后重试。";
                 case "REPAIR_WORKBENCH_OPEN":
                 case "REPAIR_NATIVE_OPERATION_BUSY":
@@ -108,10 +106,6 @@ namespace FinanceAnalyzeSetup {
                 case "SDK_BINDING_UNRECOGNIZED": return "现有数据连接绑定与安装记录不符。请保留文件并检查原安装记录，或选择新目录安装。";
                 case "SDK_BINDING_GENERATION_FAILED": return "本机数据连接绑定未通过验证。请查看诊断并用同一发行包重试。";
                 case "PREPARE_TIMEOUT": return "准备依赖超时。请检查可用磁盘空间后，用同一发行包继续。";
-                case "SOURCE_BINDING_MISMATCH":
-                case "PYTHON_VERSION_MISMATCH":
-                case "UV_VERSION_MISMATCH":
-                case "ENVIRONMENT_VERSION_MISMATCH": return "程序或运行环境与发行包版本不一致。请重新下载该发行包。";
                 default: return "准备运行环境失败。请检查剩余磁盘空间，打开诊断后再用同一发行包重试。";
             }
         }
@@ -138,7 +132,7 @@ namespace FinanceAnalyzeSetup {
                     status.Text = message;
                 }));
                 await Task.Run(() => PackageInstaller.Install(root, package, SetupPins.Package,
-                    (target, binding, token) => SetupRuntime.Prepare(target, binding, SetupPins.Source, SetupPins.Lock, token, phase),
+                    (target, binding, token) => SetupRuntime.Prepare(target, binding, token, phase),
                     operation.Token, (done, total) => {
                         if (done != total && done % 25 != 0) return;
                         BeginInvoke((Action)(() => {

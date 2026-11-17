@@ -1,63 +1,55 @@
-# FinanceAnalyze
+<p align="center">
+  <img src="web/src/v434/assets/logo-light.svg" alt="" width="72">
+</p>
 
-在自己的 Windows 电脑上下载行情、用虚拟本金测试投资策略，并查看和管理报告。
+<h1 align="center">FinanceAnalyze</h1>
 
-[English](README.md) · [第一次使用](docs/GETTING_STARTED.md) · [使用指南](docs/USER_GUIDE.md) · [连接 AI 助手](docs/platform/MCP_CONNECTION.md)
+<p align="center"><strong>下载行情，用虚拟本金测试策略，看看它在过去的表现。</strong></p>
 
-## 可以做什么
+<p align="center">
+  <a href="https://github.com/Spectrum0529/FinanceAnalyze-public/releases/latest"><strong>下载 Windows 安装包</strong></a>
+  · <a href="#跑出第一份报告">试跑示例</a>
+  · <a href="README.md">English</a>
+</p>
 
-- 下载行情或导入 CSV，保存后反复用于回测。
-- 使用内置策略或受支持的自建策略，设置本金和交易费用。
-- 与“同一天一次性投入相同本金，买入并持有 SPY、QQQ、ASHR”分别比较，选择显示哪些曲线。
-- 点击结果打开预览，关闭后回到原位置；管理数据和报告，回收后可以恢复。
-- 让同一台电脑上的 Codex、DeepSeek Harness 或兼容 MCP 的助手操作已授权功能，并分别撤销权限。
-
-计算在本机完成。第一次示例需要联网下载行情，**不需要 AI 密钥或模型余额**。
+FinanceAnalyze 是一款开源的 Windows 投资研究工具。你可以用历史价格回答“扣掉交易费后，这个策略过去表现怎么样？”或者“如果第一天把同样的钱都买成 SPY，会怎样？”软件在你的电脑上运行，操作界面在浏览器里打开。
 
 ## 安装
 
-适用于 **Windows x64**。安装器已包含 Python 和应用所需依赖。
+1. 到[最新发行版](https://github.com/Spectrum0529/FinanceAnalyze-public/releases/latest)的 **Assets** 下载 **`FinanceAnalyze-Windows-x64.zip`**。
+2. 完整解压，双击 **`FinanceAnalyze-Setup.exe`**。安装时让 `FinanceAnalyze.payload.zip` 和它留在同一个文件夹。
+3. 点 **安装或继续**。可以使用默认位置，也可以选择一个可写的本机空文件夹。装好后点 **打开软件**。
+4. 在启动器点 **获取首次设置码**，到自动打开的本机页面创建账号。
 
-1. 在[最新 Windows 发行版](https://github.com/Spectrum0529/FinanceAnalyze-public/releases/latest)中下载同一版本的 `FinanceAnalyze-Windows-x64.zip` 和 `.sha256` 校验文件。
-2. 完整解压 ZIP。不要把 `FinanceAnalyze.payload.zip` 与 `FinanceAnalyze-Setup.exe` 分开。
-3. 打开 Setup，选择 **安装或继续**，选定安装文件夹。完成后点 **打开软件**。
-4. 第一次使用，在启动器点 **获取首次设置码**，到本机网页输入设置码并创建管理员账号。以后使用自己的密码登录。
-
-如需核对下载文件，在下载文件夹打开 PowerShell，运行下列命令，将显示的 SHA256 与校验文件比较：
-
-```powershell
-Get-FileHash -Algorithm SHA256 -LiteralPath '.\FinanceAnalyze-Windows-x64.zip'
-```
-
-**Code → Download ZIP** 下载的是源码，不是安装包。首次使用请按上面的 Releases 安装步骤操作。[启动、修复和备份](docs/OPERATIONS.md)
+安装包自带 Python 和运行所需组件。以后双击 `FinanceAnalyze.exe`，直接用自己的账号密码登录。[启动与修复说明](docs/OPERATIONS.md)
 
 ## 跑出第一份报告
 
 1. 登录后点 **先跑一个例子**。
-2. 核对 AAPL、2025 年 1 月 2 日至 3 月 31 日、10,000 美元虚拟本金和页面上的费用，点 **确认并开始示例**。
-3. 软件会从 Yahoo 下载真实日线，保存数据，然后模拟买入并持有。
-4. 完成后点 **查看结果**。关闭预览回到原处，或点 **打开完整报告**。以后在 **D · 研究结果** 重新打开。
+2. 点 **确认并开始示例**。软件会从 Yahoo 下载苹果公司（AAPL）的历史行情，用 **10,000 美元虚拟本金**模拟买入并持有。
+3. 点 **查看结果**打开预览，或点 **打开完整报告**查看明细。以后可在 **D · 研究结果** 找到这份报告。
 
-如果提交后没有明确结果，先点 **核对并继续**；步骤失败时看清原因，再点 **重试这一步**。[详细步骤](docs/GETTING_STARTED.md)
+示例需要联网下载行情，可以直接运行，无需配置 AI 密钥。[第一次使用指南](docs/GETTING_STARTED.md)
 
-## 接下来怎么用
+## 可以做什么
 
-| 想做的事 | 说明 |
+| 页面 | 用途 |
 | --- | --- |
-| 下载、复用、回收、恢复或合并行情 | [数据管理](docs/USER_GUIDE.md#下载和管理行情) |
-| 制作策略、回测、比较指数与查看结果 | [回测和结果](docs/USER_GUIDE.md#回测和结果) |
-| 让外部 AI 帮忙操作 | [连接 AI 助手](docs/platform/MCP_CONNECTION.md) |
-| 在软件内使用模型做研究 | [模型和密钥设置](docs/AI_SETUP_GUIDE.md) |
-| 修复安装、备份或换电脑 | [日常维护](docs/OPERATIONS.md) |
+| **A · 策略与回测** | 选内置策略或受支持的自建策略，设置本金和交易费。也可以对比同一笔钱一次性买入并持有 SPY、QQQ 或 ASHR 的表现，分别显示或隐藏曲线。 |
+| **B · AI 研究** | 配置模型做研究，或授权同一台电脑上的 Codex、DeepSeek Harness 等兼容 MCP 的助手操作。每个助手的权限可单独撤销。 |
+| **C · 数据管理** | 下载行情或导入 CSV。保存的数据可以重复用于回测，符合条件的日期区间也可以合并。 |
+| **D · 研究结果** | 点报告即可预览。已保存的报告可以重新查看，符合条件的结果可移入回收站并恢复。 |
 
-已提供 yfinance、AKShare、Tushare Pro、Massive、WRDS，以及需额外准备组件的 OpenBB 来源连接，也可导入 CSV。每种来源支持的市场、下载范围和回测能力不同，账号权限和订阅也会影响可用数据。[来源说明](docs/USER_GUIDE.md#数据来源)
+可连接 **Yahoo（yfinance）、AKShare、Tushare Pro、Massive、WRDS** 和选配的 **OpenBB** 数据来源。各来源支持的市场、功能和所需订阅不同。[数据来源说明](docs/USER_GUIDE.md#数据来源)
 
-## 使用范围与隐私
+如果想让外部助手操作软件，参照[连接 AI 助手](docs/platform/MCP_CONNECTION.md)。如果想在软件内使用在线模型，参照[模型和密钥设置](docs/AI_SETUP_GUIDE.md)。在线请求可能把选定的研究内容发给模型提供方，并产生费用。
 
-本版供本机使用，尚不是可直接暴露到公网的网站或远程 MCP 服务。行情下载会连接所选供应商；同意使用模型后，指定的研究内容可能发送给模型提供方并产生费用。账号、密钥、私人行情、报告和备份请留在自己的私有存储，不要上传到公开仓库或问题反馈中。
+## 源码构建与反馈
 
-回测是虚拟资金模拟，不能保证未来收益；真实交易保持关闭。WRDS 等数据及相关报告仍遵守来源许可和软件里的分享限制。
+仓库包含 Python 后端、React 界面，以及 Windows 启动器和安装器。构建工具与步骤见[源码构建指南](docs/BUILDING.md)。欢迎反馈问题，附上软件版本、复现步骤和报错文字。[提交问题](https://github.com/Spectrum0529/FinanceAnalyze-public/issues)
 
-## 许可证
+## 许可证与使用范围
 
-FinanceAnalyze 的原创代码采用 [MIT 许可证](LICENSE)。第三方组件继续遵守各自许可证，见 [第三方说明](THIRD_PARTY_NOTICES.md)。MIT 不包含行情供应商的数据授权、收费订阅或用户自行提供的策略包授权。
+原创代码采用 [MIT 许可证](LICENSE)。第三方组件沿用各自的许可证，行情数据按供应商条款使用。[第三方许可说明](THIRD_PARTY_NOTICES.md)
+
+本版供本机使用。回测基于历史行情和虚拟成交，实盘交易处于关闭状态。

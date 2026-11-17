@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Security.AccessControl;
 using System.Security.Cryptography;
 using System.Security.Principal;
 using System.Text;
@@ -24,58 +23,6 @@ namespace FinanceAnalyzeSetup {
             ".python-version", "README.md", "README.zh-CN.md", "LICENSE", "THIRD_PARTY_NOTICES.md", "runtime/uv.exe",
             "resources/prediction_protocol.json", "resources/data_requirements.json",
             "samples/public/synthetic_market/events.json" };
-        // NT SERVICE\TrustedInstaller owns some stock Windows ancestors, including the OS volume.
-        static readonly SecurityIdentifier WindowsServicing = new SecurityIdentifier(
-            "S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464");
-
-        static SecurityIdentifier[] PrivateAccounts() {
-            return new[] { WindowsIdentity.GetCurrent().User, new SecurityIdentifier("S-1-5-18"),
-                new SecurityIdentifier("S-1-5-32-544") };
-        }
-
-        static DirectorySecurity PrivateDirectory() {
-            var security = new DirectorySecurity();
-            security.SetAccessRuleProtection(true, false);
-            foreach (var account in PrivateAccounts())
-                security.AddAccessRule(new FileSystemAccessRule(account, FileSystemRights.FullControl,
-                    InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit,
-                    PropagationFlags.None, AccessControlType.Allow));
-            return security;
-        }
-
-        static void CheckParentProtection(string root) {
-            var trusted = PrivateAccounts();
-            // DELETE on the ancestor itself can allow it to be renamed as a whole.
-            var danger = FileSystemRights.Delete | FileSystemRights.DeleteSubdirectoriesAndFiles
-                | FileSystemRights.ChangePermissions | FileSystemRights.TakeOwnership;
-            for (var parent = Directory.GetParent(root); parent != null; parent = parent.Parent) {
-                if (!parent.Exists) continue;
-                var acl = parent.GetAccessControl(AccessControlSections.Access | AccessControlSections.Owner);
-                var owner = (SecurityIdentifier)acl.GetOwner(typeof(SecurityIdentifier));
-                if (!trusted.Contains(owner) && !WindowsServicing.Equals(owner))
-                    throw new InvalidOperationException("INSTALL_PARENT_SHARED_WRITE");
-                foreach (FileSystemAccessRule rule in acl.GetAccessRules(true, true, typeof(SecurityIdentifier))) {
-                    var account = (SecurityIdentifier)rule.IdentityReference;
-                    if (rule.AccessControlType == AccessControlType.Allow
-                        && (rule.PropagationFlags & PropagationFlags.InheritOnly) == 0
-                        && (rule.FileSystemRights & danger) != 0
-                        && !trusted.Contains(account) && !WindowsServicing.Equals(account))
-                        throw new InvalidOperationException("INSTALL_PARENT_SHARED_WRITE");
-                }
-            }
-        }
-
-        static void CheckPrivateRoot(string root) {
-            var acl = Directory.GetAccessControl(root);
-            var trusted = PrivateAccounts();
-            if (!acl.AreAccessRulesProtected || !acl.GetOwner(typeof(SecurityIdentifier)).Equals(trusted[0]))
-                throw new InvalidOperationException("INSTALL_ACL_UNSAFE");
-            foreach (FileSystemAccessRule rule in acl.GetAccessRules(true, true, typeof(SecurityIdentifier)))
-                if (rule.AccessControlType == AccessControlType.Allow
-                    && !trusted.Contains((SecurityIdentifier)rule.IdentityReference))
-                    throw new InvalidOperationException("INSTALL_ACL_UNSAFE");
-        }
-
         static string Hex(byte[] value) {
             return BitConverter.ToString(value).Replace("-", "").ToLowerInvariant();
         }
@@ -297,15 +244,13 @@ namespace FinanceAnalyzeSetup {
                     if (launcher == null) throw new InvalidOperationException("LAUNCHER_MISSING");
                     cancel.ThrowIfCancellationRequested();
                     if (repair && !Directory.Exists(root)) throw new InvalidOperationException("REPAIR_PACKAGE_OR_ROOT_MISMATCH");
-                    CheckParentProtection(root);
-                    if (!Directory.Exists(root)) Directory.CreateDirectory(root, PrivateDirectory());
+                    Directory.CreateDirectory(root);
                     string pending = Path.Combine(root, Pending);
                     string complete = Path.Combine(root, Complete);
                     CheckPath(pending);
                     CheckPath(complete);
                     string identity = LocalIdentity(root, packageHash);
                     if (repair) {
-                        CheckPrivateRoot(root);
                         Repair(root, complete, identity, archive, launcher, prepare, cancel, progress);
                         return;
                     }
@@ -313,18 +258,12 @@ namespace FinanceAnalyzeSetup {
                     if (!File.Exists(pending)) {
                         if (Directory.EnumerateFileSystemEntries(root).Any())
                             throw new InvalidOperationException("INSTALL_ROOT_NOT_EMPTY");
-                        if (!Directory.GetAccessControl(root).GetOwner(typeof(SecurityIdentifier))
-                            .Equals(WindowsIdentity.GetCurrent().User))
-                            throw new InvalidOperationException("INSTALL_ACL_UNSAFE");
-                        Directory.SetAccessControl(root, PrivateDirectory());
-                        CheckPrivateRoot(root);
                         using (var state = new FileStream(pending, FileMode.CreateNew, FileAccess.Write, FileShare.None))
                         using (var writer = new StreamWriter(state))
                             writer.Write(identity);
                     }
                     using (var state = new FileStream(pending, FileMode.Open, FileAccess.Read, FileShare.Delete))
                     using (var reader = new StreamReader(state)) {
-                        CheckPrivateRoot(root);
                         if (reader.ReadToEnd() != identity) throw new InvalidOperationException("INSTALL_IDENTITY_MISMATCH");
                         if (File.Exists(complete)) throw new InvalidOperationException("INSTALL_ALREADY_COMPLETE");
                         CheckBindingOwnership(root, identity, cancel);
